@@ -25,6 +25,45 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 .rules-dialog h2{margin-top:18px;color:var(--navy)}.rules-dialog h3{margin-top:13px;color:#34445b}
 .rules-dialog p,.rules-dialog li{line-height:1.65;font-size:14px}.rules-close{position:sticky;top:0;float:right;background:var(--navy)}
 .rules-table{width:100%;border-collapse:collapse;font-size:13px}.rules-table th,.rules-table td{padding:8px;border-bottom:1px solid var(--line);text-align:center}.rules-table th{background:#f2f4f7}
+
+/* Avalon visual refresh */
+:root{--blue-deep:#102f55;--blue-glow:#5bb8ff;--red-deep:#571e2a;--red-glow:#ff7777;--gold-light:#f3d58b}
+body{background:radial-gradient(ellipse at 8% 0%,#dcecff 0,transparent 34%),radial-gradient(ellipse at 92% 4%,#f8dddd 0,transparent 32%),var(--paper)}
+header{position:relative;overflow:hidden;padding:27px 16px 22px;background:linear-gradient(110deg,#102d50 0%,#183957 48%,#512832 100%);box-shadow:0 8px 24px #14243a28}
+header:before,header:after{content:"";position:absolute;width:190px;height:190px;border:1px solid #ffffff20;border-radius:50%;top:-115px}
+header:before{left:8%}header:after{right:8%}
+header h1{position:relative;font-size:clamp(25px,5vw,34px);letter-spacing:2px;text-shadow:0 3px 16px #0008}
+header p{position:relative;font-size:14px;letter-spacing:.4px}
+header #openRules{position:relative;border:1px solid #f3d58b88;background:linear-gradient(135deg,#a87917,#d0a64c);box-shadow:0 4px 14px #0003}
+.panel{border-radius:18px;box-shadow:0 8px 24px #1720330c;border-color:#e2e5ea}
+#teamPanel{border-top:4px solid var(--blue)}#votePanel{border-top:4px solid var(--gold)}#missionPanel{border-top:4px solid var(--red)}
+#teamPanel h2:before{content:"🛡️ "}#votePanel h2:before{content:"⚖️ "}#missionPanel h2:before{content:"⚔️ "}
+.vote{background:linear-gradient(145deg,#fff,#f7f9fc);border-color:#dfe5ed;transition:transform .18s,border-color .18s,box-shadow .18s}
+.vote:has(input:checked){border-color:var(--blue);box-shadow:0 0 0 2px #2878c722;transform:translateY(-2px)}
+button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter:brightness(1.07);box-shadow:0 4px 12px #17203320}button:active{transform:scale(.98)}
+#status{font-weight:650;background:linear-gradient(100deg,#e7f2ff,#fff0f0);border-color:#e0e6ef}
+.track{gap:8px;position:relative}.mission{position:relative;overflow:hidden;border:1px solid #e1e5eb;min-height:66px;display:flex;flex-direction:column;justify-content:center;gap:2px;transition:background .35s,transform .35s,box-shadow .35s}
+.mission b{font-size:20px}.mission.current{outline:2px solid var(--gold);outline-offset:1px;animation:missionPulse 1.8s ease-in-out infinite}
+.mission.win{background:linear-gradient(145deg,#d9edff,#b9dcff);border-color:#9bcaff}.mission.fail{background:linear-gradient(145deg,#ffe4e4,#ffcaca);border-color:#f1aaaa}
+.mission.win:after,.mission.fail:after{content:"";position:absolute;inset:0;opacity:.18;animation:revealGlow .7s ease-out}
+.mission.win:after{background:linear-gradient(110deg,transparent,#fff,transparent)}.mission.fail:after{background:linear-gradient(110deg,transparent,#fff,transparent)}
+.secret{border:1px solid #dbe3ed;box-shadow:inset 0 0 30px #fff8;animation:cardEnter .42s cubic-bezier(.2,.8,.2,1)}
+.secret.faction-good{background:radial-gradient(circle at 50% 0%,#d8edff,#f8fbff 70%);border-color:#8fc7f5;color:#123e69}
+.secret.faction-evil{background:radial-gradient(circle at 50% 0%,#ffdede,#fff8f8 70%);border-color:#efaaaa;color:#702532}
+.character-art{width:112px;height:112px;margin:0 auto 12px;display:block;filter:drop-shadow(0 8px 9px #17203324);animation:portraitFloat 3s ease-in-out infinite}
+.character-name{font-size:25px;font-weight:850;letter-spacing:2px}
+.faction-tag{display:inline-block;padding:5px 12px;border-radius:99px;font-size:12px;font-weight:800;margin-top:8px}
+.faction-good .faction-tag{background:#d6ebff;color:#155b96}.faction-evil .faction-tag{background:#ffe0e0;color:#a32f3c}
+.progress-summary{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin:10px 2px 5px}
+.progress-rail{height:7px;background:#e8ebf0;border-radius:99px;overflow:hidden;margin-bottom:12px}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#348bd4,#d5a642,#d65a5a);border-radius:99px;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+@keyframes missionPulse{0%,100%{box-shadow:0 0 0 0 #d5a64200}50%{box-shadow:0 0 0 5px #d5a64226}}
+@keyframes revealGlow{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes cardEnter{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes portraitFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+@media(max-width:520px){header{padding:22px 12px 18px}.character-art{width:96px;height:96px}.mission{min-height:58px;font-size:11px}}
+
 </style></head>
 <body>
 <header><h1>⚔️ 阿瓦隆 Avalon</h1><p>5–10 人｜同一台裝置輪流查看身份、組隊、投票與執行任務</p><button type="button" class="gold" id="openRules" style="margin-top:12px">📖 遊戲規則說明</button></header>
@@ -82,7 +121,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 </section>
 <section id="game" class="hidden">
 <div class="panel"><div class="row"><div><h2 id="roundTitle">第1次任務</h2><p class="muted" id="leader"></p></div><div style="text-align:right"><span class="pill" id="voteFails">連續否決：0/5</span></div></div>
-<div class="track" id="track"></div><div class="notice" id="status"></div>
+<div class="progress-summary"><span>任務進度</span><span id="progressLabel">0 / 3 次成功</span></div><div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div><div class="track" id="track"></div><div class="notice" id="status"></div>
 </div>
 <div class="panel" id="teamPanel"><h2>③ 領袖選擇出征隊伍</h2><p class="muted" id="teamNeed"></p><div id="teamChoices" class="votegrid"></div><div class="actions"><button class="blue" id="submitTeam">確認出征名單</button></div></div>
 <div class="panel hidden" id="votePanel"><h2>④ 全員投票：贊成或反對</h2><p class="muted">所有玩家都要投票。平票視為未過半，隊伍遭否決。</p><div id="votes" class="votegrid"></div><div class="actions"><button class="blue" id="submitVotes">公布投票結果</button></div></div>
@@ -130,10 +169,17 @@ if(evilRoles.includes(r)&&r!=='奧伯倫'){let known=evil.filter(x=>x.role!=='�
 if(r==='奧伯倫')seen='你是孤狼：你不知道其他邪惡玩家是誰，其他邪惡玩家也不知道你是誰。';
 return seen}
 function showReveal(){let p=players[revealIndex];$('revealText').textContent=`請交給 ${p.name}。確認只有本人能看到螢幕後，再按下方按鈕。`;$('secret').classList.add('hidden');$('show').classList.remove('hidden');$('hide').classList.add('hidden');$('show').textContent='查看我的身份';}
-$('show').onclick=()=>{let p=players[revealIndex];$('secret').innerHTML=`${p.role}<div style="font-size:14px;font-weight:500;margin-top:10px">${goodRoles.includes(p.role)?'正義陣營｜藍方':'邪惡陣營｜紅方'}</div><div style="font-size:14px;font-weight:500;margin-top:10px">${info(p)}</div>`;$('secret').classList.remove('hidden');$('show').classList.add('hidden');$('hide').classList.remove('hidden');};
+function rolePortrait(role,good){
+ const emblems={'梅林':'✦','派西維爾':'◇','忠臣':'盾','刺客':'†','莫甘娜':'☾','莫德雷德':'♜','奧伯倫':'♧','爪牙':'⚔'};
+ const emblem=emblems[role]||'✦',bg=good?'#2d83c8':'#bd4652',dark=good?'#123e69':'#642735',cape=good?'#5db5ee':'#e66c75';
+ return '<svg class="character-art" viewBox="0 0 120 120" role="img" aria-label="'+role+'角色插畫"><defs><linearGradient id="artBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+bg+'"/><stop offset="1" stop-color="'+dark+'"/></linearGradient></defs><circle cx="60" cy="60" r="56" fill="url(#artBg)"/><circle cx="60" cy="60" r="48" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.5"/><path d="M23 105 Q28 76 48 73 L72 73 Q92 76 97 105Z" fill="'+cape+'" stroke="#fff" stroke-opacity=".55" stroke-width="2"/><path d="M39 51 Q35 18 60 17 Q85 18 81 51 L75 70 Q60 83 45 70Z" fill="'+dark+'" stroke="#fff" stroke-opacity=".7" stroke-width="2"/><ellipse cx="60" cy="49" rx="17" ry="21" fill="#f0d2b4"/><path d="M43 43 Q43 21 61 22 Q78 22 78 43 Q65 34 43 43" fill="'+dark+'"/><path d="M51 51h5 M64 51h5" stroke="'+dark+'" stroke-width="2.5" stroke-linecap="round"/><path d="M55 61 Q60 65 65 61" fill="none" stroke="#a96c64" stroke-width="1.8" stroke-linecap="round"/><circle cx="88" cy="28" r="16" fill="#f7df9a" stroke="#fff" stroke-width="2"/><text x="88" y="34" text-anchor="middle" font-size="19" font-weight="800" fill="'+dark+'">'+emblem+'</text></svg>';
+}
+$('show').onclick=()=>{let p=players[revealIndex],good=goodRoles.includes(p.role);$('secret').className='secret '+(good?'faction-good':'faction-evil');$('secret').innerHTML=rolePortrait(p.role,good)+'<div class="character-name">'+p.role+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div><div style="font-size:14px;font-weight:500;margin-top:12px;line-height:1.7">'+info(p)+'</div>';$('secret').classList.remove('hidden');$('show').classList.add('hidden');$('hide').classList.remove('hidden');};
 $('hide').onclick=()=>{revealIndex++;if(revealIndex<players.length)showReveal();else{$('reveal').classList.add('hidden');beginRound()}};
 function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent=`本輪領袖：${players[leader].name}`;$('voteFails').textContent=`連續否決：${consecutive}/5`;$('teamNeed').textContent=`請選出 ${teamSizes[count()][round]} 位出征玩家。`;
-$('teamChoices').innerHTML=players.map((p,i)=>`<label class="vote"><input type="checkbox" value="${i}" style="width:auto"> ${p.name}</label>`).join('');$('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>`<div class="mission ${i<success?'win':i<success+fail?'fail':''}"><b>${i+1}</b>${i<success?'成功':i<success+fail?'失敗':'待執行'}</div>`).join('');}
+$('teamChoices').innerHTML=players.map((p,i)=>`<label class="vote"><input type="checkbox" value="${i}" style="width:auto"> ${p.name}</label>`).join('');$('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
+$('progressLabel').textContent=success+' / 3 次成功';
+$('progressFill').style.width=Math.min(100,success/3*100)+'%';}
 $('submitTeam').onclick=()=>{team=[...document.querySelectorAll('#teamChoices input:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()};
 function renderVote(){let p=players[voteIndex];$('votes').innerHTML=`<div class="vote" style="grid-column:1/-1"><b>${p.name}</b>，請秘密選擇</div><button class="blue" onclick="castVote(true)">贊成</button><button class="red" onclick="castVote(false)">反對</button>`}
 window.castVote=v=>{voteValues[voteIndex]=v;voteIndex++;if(voteIndex<players.length)renderVote();else{$('votes').innerHTML=`<div class="notice" style="grid-column:1/-1">全員已投票，按下公布結果。</div>`;$('submitVotes').disabled=false}};
