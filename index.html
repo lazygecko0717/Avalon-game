@@ -34,7 +34,7 @@ header:before,header:after{content:"";position:absolute;width:190px;height:190px
 header:before{left:8%}header:after{right:8%}
 header h1{position:relative;font-size:clamp(25px,5vw,34px);letter-spacing:2px;text-shadow:0 3px 16px #0008}
 header p{position:relative;font-size:14px;letter-spacing:.4px}
-header #openRules{position:relative;border:1px solid #f3d58b88;background:linear-gradient(135deg,#a87917,#d0a64c);box-shadow:0 4px 14px #0003}
+#openRules{border:1px solid #f3d58b88;background:linear-gradient(135deg,#a87917,#d0a64c);box-shadow:0 4px 14px #0003;margin:0 0 12px}
 .panel{border-radius:18px;box-shadow:0 8px 24px #1720330c;border-color:#e2e5ea}
 #teamPanel{border-top:4px solid var(--blue)}#votePanel{border-top:4px solid var(--gold)}#missionPanel{border-top:4px solid var(--red)}
 #teamPanel h2:before{content:"🛡️ "}#votePanel h2:before{content:"⚖️ "}#missionPanel h2:before{content:"⚔️ "}
@@ -109,9 +109,18 @@ button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter
 .vote-reveal-summary .yes{background:#e3f5eb;color:#17633f}
 .vote-reveal-summary .no{background:#ffebeb;color:#a52e35}
 @media(max-width:380px){.vote-seat{width:72px;min-height:58px;padding:5px 3px}.vote-seat .seat-name{font-size:11px}.vote-seat .seat-choice{font-size:12px}.vote-reveal-center{width:32%;padding:7px 3px}}
+
+/* Immersive game view after setup */
+html,body{min-height:100%}
+body.app-fullscreen{min-height:100vh;min-height:100dvh}
+body.app-fullscreen header,body.app-fullscreen footer{display:none}
+body.app-fullscreen main{width:100%;max-width:none;min-height:100vh;min-height:100dvh;padding: max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+body.app-fullscreen #game{width:100%;max-width:1100px;margin:0 auto}
+body.app-fullscreen #game .panel{margin:8px 0}
+@media(max-width:520px){body.app-fullscreen main{padding: max(6px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}}
 </style></head>
 <body>
-<header><h1>⚔️ 阿瓦隆 Avalon</h1><p>5–10 人｜同一台裝置輪流查看身份、組隊、投票與執行任務</p><button type="button" class="gold" id="openRules" style="margin-top:12px">📖 遊戲規則說明</button></header>
+<header><h1>⚔️ 阿瓦隆 Avalon</h1><p>5–10 人｜同一台裝置輪流查看身份、組隊、投票與執行任務</p></header>
 <main>
 <div id="rulesOverlay" class="rules-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
  <div class="rules-dialog">
@@ -152,6 +161,7 @@ button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter
  </div>
 </div>
 <section id="setup" class="panel">
+<button type="button" class="gold" id="openRules">📖 遊戲規則說明</button>
 <h2>① 建立遊戲</h2>
 <div class="row"><div><label>玩家人數</label><select id="count"><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div><div><label>任務規則</label><select id="rule"><option value="standard">標準規則（7人以上第4任務需2張失敗）</option><option value="one">所有任務1張失敗即失敗</option></select></div></div>
 <p class="muted" id="ratio"></p><div id="names" class="players"></div>
@@ -199,8 +209,16 @@ $('rulesOverlay').onclick=e=>{if(e.target===$('rulesOverlay'))$('rulesOverlay').
 document.addEventListener('keydown',e=>{if(e.key==='Escape')$('rulesOverlay').classList.add('hidden')});
 function chosen(id){return [...document.querySelectorAll(`#${id} input:checked`)].map(x=>x.value)}
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function enterGameFullscreen(){
+ document.body.classList.add('app-fullscreen');
+ const root=document.documentElement;
+ if(root.requestFullscreen){
+  try{const result=root.requestFullscreen();if(result&&typeof result.catch==='function')result.catch(()=>{});}catch(_){}
+ }
+}
 function start(){let n=count(),[g,e]=ratios[n],gs=chosen('goodChecks'),es=chosen('evilChecks');
 if(gs.length>g||es.length>e||gs.length===0||!gs.includes('梅林')){alert('請確認特殊角色數量沒有超過陣營人數，且保留梅林。');return}
+enterGameFullscreen();
 let gr=[...gs,...Array(g-gs.length).fill('忠臣')],er=[...es,...Array(e-es.length).fill('爪牙')];
 if(!er.includes('刺客')){if(es.length===e){alert('邪惡角色名額已滿，請選擇刺客。');return}er[er.length-1]='刺客'}
 players=Array.from({length:n},(_,i)=>({name:$('p'+i).value.trim()||`玩家${i+1}`,role:null}));
