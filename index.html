@@ -137,8 +137,8 @@ button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter
 </div>
 <section id="setup" class="panel">
 <h2>① 建立遊戲</h2>
-<div class="row"><div><label>玩家人數</label><select id="count"><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div><div><label>任務規則</label><select id="rule"><option value="standard">標準規則（7人以上第4任務需2張失敗）</option><option value="one">所有任務1張失敗即失敗</option></select></div></div>
-<p class="muted" id="ratio"></p><div id="names" class="players"></div>
+<div class="row"><div><label>遊戲模式</label><select id="gameMode"><option value="pass">同一支手機輪流傳閱</option><option value="computer">單人對戰電腦玩家</option></select></div><div><label>總玩家人數（含電腦）</label><select id="count"><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div><div><label>任務規則</label><select id="rule"><option value="standard">標準規則（7人以上第4任務需2張失敗）</option><option value="one">所有任務1張失敗即失敗</option></select></div></div>
+<p class="muted" id="ratio"></p><p class="muted" id="modeHint"></p><div id="names" class="players"></div>
 <hr><h3>角色配置</h3><p class="muted">預設含梅林、派西維爾、刺客；可依喜好調整特殊角色。陣營人數會固定符合玩家人數。</p>
 <div id="roles"></div>
 <div class="actions"><button class="blue" id="start">洗牌並開始分配身份</button></div>
@@ -159,7 +159,7 @@ button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter
 <div class="panel hidden" id="assassinPanel"><h2>⑥ 刺客最後指認</h2><p>好人已完成三次任務成功。請由刺客選擇一位玩家，嘗試找出梅林。</p><div id="assassinChoices" class="votegrid"></div><div class="actions"><button class="red" id="assassinate">確認刺殺目標</button></div></div>
 <div class="panel hidden" id="endPanel"><h2 id="endTitle">遊戲結束</h2><div id="endText" class="notice"></div><div class="actions"><button id="restart">重新開局</button></div></div>
 </section>
-<section class="panel"><h2>玩法提醒</h2><p class="muted">每輪由領袖選隊，全員投票；組隊通過後，隊員秘密出任務牌。連續5次隊伍遭否決，邪惡陣營獲勝。三次任務失敗則邪惡獲勝；三次成功後進入刺客指認梅林階段。</p><p class="muted">本程式是單機同裝置主持版，秘密資訊由玩家自行輪流查看；請確保旁人沒有看到螢幕。</p></section>
+<section class="panel"><h2>玩法提醒</h2><p class="muted">每輪由領袖選隊，全員投票；組隊通過後，隊員秘密出任務牌。連續5次隊伍遭否決，邪惡陣營獲勝。三次任務失敗則邪惡獲勝；三次成功後進入刺客指認梅林階段。</p><p class="muted">可選擇同一支手機輪流傳閱，或由一位玩家與電腦玩家對戰。電腦會自動完成組隊、投票及任務行動。</p></section>
 </main><footer>阿瓦隆派對桌遊｜本機遊戲，不會上傳玩家資料</footer>
 <script>
 const $=id=>document.getElementById(id);
@@ -231,4 +231,118 @@ $('next').onclick=()=>{if(fail>=3){end('邪惡陣營獲勝','邪惡陣營累積 
 $('assassinate').onclick=()=>{let t=document.querySelector('input[name=target]:checked');if(!t){alert('請選擇刺殺目標。');return}let p=players[+t.value];if(p.role==='梅林')end('邪惡陣營獲勝','刺客成功指認梅林！');else end('正義陣營獲勝',`刺客指認了 ${p.name}，但他不是梅林。`);};
 function end(title,msg){$('teamPanel').classList.add('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('endPanel').classList.remove('hidden');$('endTitle').textContent=title;$('endText').textContent=msg+` 最終戰績：正義任務成功 ${success} 次、失敗 ${fail} 次。`;$('roundTitle').textContent='遊戲結束';}
 $('restart').onclick=()=>location.reload();
+
+/* Single-player vs computer mode */
+var aiMode=false;
+function renderSetup(){
+ const n=count(),computer=$('gameMode').value==='computer';
+ $('ratio').textContent=ratios[n][0]+' 位正義（藍方）／'+ratios[n][1]+' 位邪惡（紅方）';
+ $('modeHint').textContent=computer?'你將扮演玩家 1，其餘 '+(n-1)+' 位由電腦控制；電腦會自動組隊、投票及執行任務。':'所有玩家使用同一支手機輪流查看身份。';
+ $('names').innerHTML=computer?'<div class="player"><label>你的玩家名稱</label><input id="p0" value="玩家1" maxlength="12"></div><div class="player"><small>其餘 '+(n-1)+' 位玩家將由電腦控制並自動命名。</small></div>':Array.from({length:n},(_,i)=>'<div class="player"><label>玩家 '+(i+1)+' 名稱</label><input id="p'+i+'" value="玩家'+(i+1)+'" maxlength="12"></div>').join('');
+ const sp=defaultSpecial[n],good=sp.filter(x=>goodRoles.includes(x)),evil=sp.filter(x=>evilRoles.includes(x));
+ $('roles').innerHTML='<div class="row"><div><label>正義特殊角色</label><div id="goodChecks">'+['梅林','派西維爾'].map(x=>'<label><input type="checkbox" value="'+x+'" '+(good.includes(x)?'checked':'')+' style="width:auto"> '+x+'</label>').join('')+'</div></div><div><label>邪惡特殊角色</label><div id="evilChecks">'+['刺客','莫甘娜','莫德雷德','奧伯倫'].map(x=>'<label><input type="checkbox" value="'+x+'" '+(evil.includes(x)?'checked':'')+' style="width:auto"> '+x+'</label>').join('')+'</div></div></div><p class="muted">未選滿的陣營名額會自動以「忠臣」或「爪牙」補足。刺客建議保留。</p>';
+}
+$('count').onchange=renderSetup;$('gameMode').onchange=renderSetup;renderSetup();
+
+function start(){
+ const n=count(),g=ratios[n][0],e=ratios[n][1],gs=chosen('goodChecks'),es=chosen('evilChecks');
+ aiMode=$('gameMode').value==='computer';
+ if(gs.length>g||es.length>e||gs.length===0||!gs.includes('梅林')){alert('請確認特殊角色數量沒有超過陣營人數，且保留梅林。');return}
+ const gr=[...gs,...Array(g-gs.length).fill('忠臣')],er=[...es,...Array(e-es.length).fill('爪牙')];
+ if(!er.includes('刺客')){if(es.length===e){alert('邪惡角色名額已滿，請選擇刺客。');return}er[er.length-1]='刺客'}
+ const computerNames=['亞瑟','桂妮薇兒','蘭斯洛特','高文','崔斯坦','伊索德','帕西法爾','貝德維爾','凱','加雷斯'];
+ players=Array.from({length:n},(_,i)=>({name:aiMode?(i===0?($('p0').value.trim()||'玩家1'):computerNames[(i-1)%computerNames.length]+'（電腦）'):($('p'+i).value.trim()||'玩家'+(i+1)),role:null,human:!aiMode||i===0}));
+ roles=shuffle([...gr,...er]);players.forEach((p,i)=>p.role=roles[i]);
+ round=0;leader=0;consecutive=0;success=0;fail=0;phase='reveal';revealIndex=0;
+ $('setup').classList.add('hidden');$('game').classList.remove('hidden');$('reveal').classList.remove('hidden');$('teamPanel').classList.add('hidden');
+ showReveal();
+}
+$('start').onclick=start;
+
+function showReveal(){
+ const p=players[revealIndex];
+ $('revealText').textContent=aiMode?'你是玩家 1。請確認只有自己能看到螢幕，再查看身份。':'請交給 '+p.name+'。確認只有本人能看到螢幕後，再按下方按鈕。';
+ $('secret').classList.add('hidden');$('show').classList.remove('hidden');$('hide').classList.add('hidden');$('show').textContent='查看我的身份';
+}
+$('show').onclick=()=>{
+ const p=players[revealIndex],good=goodRoles.includes(p.role),slug={'梅林':'merlin','派西維爾':'percival','忠臣':'servant','刺客':'assassin','莫甘娜':'morgana','莫德雷德':'mordred','奧伯倫':'oberon','爪牙':'minion'}[p.role]||'servant';
+ $('secret').className='secret '+(good?'faction-good':'faction-evil');
+ $('secret').innerHTML='<div class="role-card role-card-'+slug+'"><div class="role-card-inner"><div class="role-card-back"><div class="seal">⚔</div><small>AVALON</small><div style="font-size:14px;margin-top:10px">命運之牌・正在揭示</div></div><div class="role-card-front">'+rolePortrait(p.role,good)+'<div class="character-name">'+escapeHTML(p.role)+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div>'+intelMarkup(p)+'</div></div></div>';
+ $('secret').classList.remove('hidden');$('show').classList.add('hidden');$('hide').classList.remove('hidden');
+};
+$('hide').onclick=()=>{if(!aiMode&&++revealIndex<players.length)showReveal();else{$('reveal').classList.add('hidden');beginRound()}};
+
+function aiIsEvil(p){return evilRoles.includes(p.role)}
+function aiChooseTeam(){
+ const need=teamSizes[count()][round];let best=null,bestScore=-999;
+ for(let k=0;k<90;k++){
+  const pick=shuffle(players.map((p,i)=>i)).slice(0,need);let score=Math.random()*2;
+  pick.forEach(i=>{const p=players[i];if(aiIsEvil(p))score+=(aiIsEvil(players[leader])?1.1:-1.1);if(players[leader].role==='梅林'&&aiIsEvil(p)&&p.role!=='莫德雷德')score-=4});
+  if(score>bestScore){bestScore=score;best=pick}
+ }
+ return best;
+}
+function updateTrack(){
+ $('status').textContent='任務成功 '+success+' 次｜任務失敗 '+fail+' 次';
+ $('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
+ $('progressLabel').textContent=success+' / 3 次成功';$('progressFill').style.width=Math.min(100,success/3*100)+'%';
+}
+function beginRound(){
+ phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');
+ $('roundTitle').textContent='第 '+(round+1)+' 次任務';$('leader').textContent='本輪領袖：'+players[leader].name;$('voteFails').textContent='連續否決：'+consecutive+'/5';$('teamNeed').textContent='請選出 '+teamSizes[count()][round]+' 位出征玩家。';
+ $('teamChoices').innerHTML=players.map((p,i)=>'<label class="vote"><input type="checkbox" value="'+i+'" style="width:auto"> '+p.name+'</label>').join('');updateTrack();
+ if(aiMode&&!players[leader].human){$('teamPanel').classList.add('hidden');setTimeout(()=>{team=aiChooseTeam();afterTeamChosen()},650)}
+}
+function afterTeamChosen(){
+ phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote();
+}
+$('submitTeam').onclick=()=>{team=[...document.querySelectorAll('#teamChoices input:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert('本次任務必須選擇 '+teamSizes[count()][round]+' 人。');return}afterTeamChosen()};
+
+function aiVote(p){
+ let knowsEvil=team.some(i=>aiIsEvil(players[i])&&(p.role==='梅林'||(aiIsEvil(p)&&p.role!=='奧伯倫'&&players[i].role!=='奧伯倫')));
+ const chance=aiIsEvil(p)?(team.some(i=>aiIsEvil(players[i]))?.78:.38):(knowsEvil?.18:.68);
+ return Math.random()<chance;
+}
+function renderVote(){
+ if(aiMode){$('votes').innerHTML='<div class="vote" style="grid-column:1/-1"><b>'+players[0].name+'</b>，請投票決定這支隊伍是否出發。</div><button class="blue" onclick="castVote(true)">贊成</button><button class="red" onclick="castVote(false)">反對</button>';$('submitVotes').disabled=true;return}
+ const p=players[voteIndex];$('votes').innerHTML='<div class="vote" style="grid-column:1/-1"><b>'+p.name+'</b>，請秘密選擇</div><button class="blue" onclick="castVote(true)">贊成</button><button class="red" onclick="castVote(false)">反對</button>';
+}
+window.castVote=v=>{
+ if(aiMode){voteValues[0]=v;for(let i=1;i<players.length;i++)voteValues[i]=aiVote(players[i]);const yes=voteValues.filter(Boolean).length,no=players.length-yes;$('votes').innerHTML='<div class="notice" style="grid-column:1/-1">電腦玩家已完成投票。贊成 '+yes+' 票、反對 '+no+' 票。</div>';$('submitVotes').disabled=false;return}
+ voteValues[voteIndex]=v;voteIndex++;if(voteIndex<players.length)renderVote();else{$('votes').innerHTML='<div class="notice" style="grid-column:1/-1">全員已投票，按下公布結果。</div>';$('submitVotes').disabled=false}
+};
+$('submitVotes').onclick=()=>{
+ const yes=voteValues.filter(Boolean).length,no=players.length-yes,passed=yes>no;$('votePanel').classList.add('hidden');$('submitVotes').disabled=true;
+ if(!passed){consecutive++;leader=(leader+1)%players.length;if(consecutive>=5){end('邪惡陣營獲勝','連續 5 次組隊投票遭否決。');return}if(!aiMode)alert('隊伍遭否決：贊成 '+yes+'、反對 '+no+'。');beginRound()}
+ else{consecutive=0;phase='mission';missionIndex=0;missionValues=[];$('missionPanel').classList.remove('hidden');renderMission()}
+};
+
+function finishMission(){
+ $('missionPanel').classList.add('hidden');const failed=missionValues.filter(x=>!x).length,threshold=($('rule').value==='standard'&&count()>=7&&round===3)?2:1,passed=failed<threshold;
+ if(passed)success++;else fail++;
+ $('resultPanel').classList.remove('hidden');$('resultText').innerHTML='本次任務：<b>'+(passed?'成功':'失敗')+'</b><br>失敗牌數：'+failed+' 張（本關需 '+threshold+' 張失敗才算失敗）<br><span class="muted">任務牌已統計，不公開各玩家出的牌。</span>';phase='result';updateTrack();
+}
+function renderMission(){
+ if(missionIndex>=team.length){finishMission();return}
+ const p=players[team[missionIndex]];$('missionSecret').classList.add('hidden');$('missionShow').classList.remove('hidden');
+ if(aiMode&&!p.human){$('missionPrompt').textContent='電腦玩家 '+p.name+' 正在秘密出牌…';$('missionShow').classList.add('hidden');setTimeout(()=>{missionValues.push(!(aiIsEvil(p)&&Math.random()<.78));missionIndex++;renderMission()},500);return}
+ $('missionPrompt').textContent=aiMode?'輪到你（'+p.name+'）執行任務，請秘密選擇任務牌。':'請交給出征玩家 '+p.name+'。其他人請勿觀看。';$('missionShow').textContent='查看並選擇任務牌';
+}
+$('missionShow').onclick=()=>{const p=players[team[missionIndex]],evil=aiIsEvil(p);$('missionSecret').innerHTML='<div>'+p.name+'，請選擇</div><div class="actions"><button class="blue" onclick="missionCard(true)">任務成功</button>'+(evil?'<button class="red" onclick="missionCard(false)">任務失敗</button>':'')+'</div>';$('missionSecret').classList.remove('hidden');$('missionShow').classList.add('hidden')};
+window.missionCard=v=>{missionValues.push(v);missionIndex++;renderMission()};
+
+$('next').onclick=()=>{
+ if(fail>=3){end('邪惡陣營獲勝','邪惡陣營累積 3 次任務失敗。');return}
+ if(success>=3){
+  const assassin=players.find(p=>p.role==='刺客');if(!assassin){end('正義陣營獲勝','正義陣營完成三次任務成功，且本局未配置刺客。');return}
+  $('resultPanel').classList.add('hidden');
+  if(aiMode&&!assassin.human){$('resultPanel').classList.remove('hidden');$('resultText').textContent='電腦刺客正在分析梅林身分…';const options=players.map((p,i)=>({p,i})).filter(x=>goodRoles.includes(x.p.role));setTimeout(()=>resolveAssassin(options[Math.floor(Math.random()*options.length)].i),850);return}
+  $('assassinPanel').classList.remove('hidden');$('assassinChoices').innerHTML=players.map((p,i)=>'<label class="vote"><input type="radio" name="target" value="'+i+'" style="width:auto"> '+p.name+'</label>').join('');
+  $('assassinPanel').querySelector('p').textContent=aiMode?'你是刺客，請選擇一位玩家，嘗試找出梅林。':'好人已完成三次任務成功。請由刺客選擇一位玩家，嘗試找出梅林。';return;
+ }
+ round++;leader=(leader+1)%players.length;beginRound();
+};
+function resolveAssassin(index){const p=players[index];if(p.role==='梅林')end('邪惡陣營獲勝','刺客成功指認梅林！');else end('正義陣營獲勝','刺客指認了 '+p.name+'，但他不是梅林。')}
+$('assassinate').onclick=()=>{const t=document.querySelector('input[name=target]:checked');if(!t){alert('請選擇刺殺目標。');return}resolveAssassin(+t.value)};
+
 </script></body></html>
