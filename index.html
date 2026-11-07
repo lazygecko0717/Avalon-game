@@ -64,6 +64,35 @@ button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 @media(max-width:520px){header{padding:22px 12px 18px}.character-art{width:96px;height:96px}.mission{min-height:58px;font-size:11px}}
 
+/* Role-specific 3D reveal cards and opening intel sequence */
+.secret{perspective:1100px;overflow:hidden}
+.role-card{width:min(100%,390px);margin:0 auto;perspective:1100px}
+.role-card-inner{position:relative;min-height:270px;transform-style:preserve-3d;animation:roleFlip .95s cubic-bezier(.2,.75,.2,1) both}
+.role-card-back,.role-card-front{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px}
+.role-card-back{background:linear-gradient(145deg,#172d48,#304c68);color:#f8e8bd;border:1px solid #d6b76b;box-shadow:inset 0 0 28px #ffffff12}
+.role-card-back .seal{width:76px;height:76px;border:2px solid #e8cf8c;border-radius:50%;display:grid;place-items:center;font-size:34px;margin-bottom:12px;box-shadow:0 0 0 7px #e8cf8c18,0 0 24px #e8cf8c35}
+.role-card-back small{letter-spacing:4px;color:#f3d58b}
+.role-card-front{transform:rotateY(180deg);background:linear-gradient(155deg,#ffffff,#f5f8fc);border:1px solid #dbe3ed}
+.faction-good .role-card-front{background:linear-gradient(155deg,#e4f3ff,#fff)}
+.faction-evil .role-card-front{background:linear-gradient(155deg,#ffe8e8,#fff)}
+.role-card-front .character-art{margin-bottom:5px}
+.role-card-front .character-name{font-size:24px}
+.role-card-merlin .role-card-inner{animation-duration:1.05s}
+.role-card-percival .role-card-inner{animation-duration:.9s}
+.role-card-assassin .role-card-inner,.role-card-morgana .role-card-inner,.role-card-mordred .role-card-inner,.role-card-oberon .role-card-inner,.role-card-minion .role-card-inner{animation-duration:1.15s}
+@keyframes roleFlip{0%{opacity:.65;transform:rotateY(-180deg) scale(.92)}65%{opacity:1;transform:rotateY(12deg) scale(1.015)}100%{opacity:1;transform:rotateY(0) scale(1)}}
+.intel-reveal{width:100%;margin-top:12px;padding:12px;border-radius:11px;background:#14243a0a;border:1px solid #14243a18;animation:intelPanelIn .55s .55s both}
+.intel-title{font-size:12px;font-weight:850;letter-spacing:1px;opacity:.72;margin-bottom:8px}
+.intel-list{display:flex;flex-wrap:wrap;justify-content:center;gap:7px}
+.intel-chip{display:inline-block;padding:6px 10px;border-radius:99px;font-size:13px;font-weight:750;opacity:0;transform:translateY(8px) scale(.94);animation:intelChipIn .42s both}
+.faction-good .intel-chip{background:#d3eaff;color:#15558b}
+.faction-evil .intel-chip{background:#ffdddd;color:#922e3a}
+.intel-note{font-size:13px;line-height:1.6;font-weight:550}
+@keyframes intelPanelIn{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
+@keyframes intelChipIn{to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.role-card-inner,.intel-reveal,.intel-chip{animation:none!important;opacity:1!important;transform:none!important}}
+
+
 </style></head>
 <body>
 <header><h1>⚔️ 阿瓦隆 Avalon</h1><p>5–10 人｜同一台裝置輪流查看身份、組隊、投票與執行任務</p><button type="button" class="gold" id="openRules" style="margin-top:12px">📖 遊戲規則說明</button></header>
@@ -174,7 +203,18 @@ function rolePortrait(role,good){
  const emblem=emblems[role]||'✦',bg=good?'#2d83c8':'#bd4652',dark=good?'#123e69':'#642735',cape=good?'#5db5ee':'#e66c75';
  return '<svg class="character-art" viewBox="0 0 120 120" role="img" aria-label="'+role+'角色插畫"><defs><linearGradient id="artBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+bg+'"/><stop offset="1" stop-color="'+dark+'"/></linearGradient></defs><circle cx="60" cy="60" r="56" fill="url(#artBg)"/><circle cx="60" cy="60" r="48" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.5"/><path d="M23 105 Q28 76 48 73 L72 73 Q92 76 97 105Z" fill="'+cape+'" stroke="#fff" stroke-opacity=".55" stroke-width="2"/><path d="M39 51 Q35 18 60 17 Q85 18 81 51 L75 70 Q60 83 45 70Z" fill="'+dark+'" stroke="#fff" stroke-opacity=".7" stroke-width="2"/><ellipse cx="60" cy="49" rx="17" ry="21" fill="#f0d2b4"/><path d="M43 43 Q43 21 61 22 Q78 22 78 43 Q65 34 43 43" fill="'+dark+'"/><path d="M51 51h5 M64 51h5" stroke="'+dark+'" stroke-width="2.5" stroke-linecap="round"/><path d="M55 61 Q60 65 65 61" fill="none" stroke="#a96c64" stroke-width="1.8" stroke-linecap="round"/><circle cx="88" cy="28" r="16" fill="#f7df9a" stroke="#fff" stroke-width="2"/><text x="88" y="34" text-anchor="middle" font-size="19" font-weight="800" fill="'+dark+'">'+emblem+'</text></svg>';
 }
-$('show').onclick=()=>{let p=players[revealIndex],good=goodRoles.includes(p.role);$('secret').className='secret '+(good?'faction-good':'faction-evil');$('secret').innerHTML=rolePortrait(p.role,good)+'<div class="character-name">'+p.role+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div><div style="font-size:14px;font-weight:500;margin-top:12px;line-height:1.7">'+info(p)+'</div>';$('secret').classList.remove('hidden');$('show').classList.add('hidden');$('hide').classList.remove('hidden');};
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function intelMarkup(p){
+ let r=p.role,evil=players.filter(x=>evilRoles.includes(x.role)),title='',names=[],note='';
+ if(r==='梅林'){title='梅林的視野｜邪惡陣營';names=evil.filter(x=>x.role!=='莫德雷德').map(x=>x.name);note='莫德雷德不會出現在你的視野中。'}
+ else if(r==='派西維爾'){title='派西維爾的視野｜梅林候選人';names=players.filter(x=>['梅林','莫甘娜'].includes(x.role)).map(x=>x.name);note='梅林與莫甘娜會同時出現，請自行判斷。'}
+ else if(evilRoles.includes(r)&&r!=='奧伯倫'){title='邪惡陣營｜你認識的同伴';names=evil.filter(x=>x.role!=='奧伯倫'&&x!==p).map(x=>x.name);note=names.length?'奧伯倫不會出現在邪惡同伴名單中。':'你沒有可辨識的邪惡同伴。'}
+ else if(r==='奧伯倫'){title='奧伯倫｜孤狼資訊';note='你不知道其他邪惡玩家是誰，其他邪惡玩家也不知道你是誰。'}
+ else {title='正義陣營｜沒有額外視野';note='你沒有額外的陣營名單，請透過討論與任務推理。'}
+ let chips=names.length?names.map((name,i)=>'<span class="intel-chip" style="animation-delay:'+(0.72+i*.16)+'s">'+escapeHTML(name)+'</span>').join(''):'<span class="intel-note">'+escapeHTML(note)+'</span>';
+ return '<div class="intel-reveal"><div class="intel-title">'+title+'</div><div class="intel-list">'+chips+'</div>'+(names.length?'<div class="intel-note" style="margin-top:8px">'+escapeHTML(note)+'</div>':'')+'</div>';
+}
+$('show').onclick=()=>{let p=players[revealIndex],good=goodRoles.includes(p.role),slug={'梅林':'merlin','派西維爾':'percival','忠臣':'servant','刺客':'assassin','莫甘娜':'morgana','莫德雷德':'mordred','奧伯倫':'oberon','爪牙':'minion'}[p.role]||'servant';$('secret').className='secret '+(good?'faction-good':'faction-evil');$('secret').innerHTML='<div class="role-card role-card-'+slug+'"><div class="role-card-inner"><div class="role-card-back"><div class="seal">⚔</div><small>AVALON</small><div style="font-size:14px;margin-top:10px">命運之牌・正在揭示</div></div><div class="role-card-front">'+rolePortrait(p.role,good)+'<div class="character-name">'+escapeHTML(p.role)+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div>'+intelMarkup(p)+'</div></div></div>';$('secret').classList.remove('hidden');$('show').classList.add('hidden');$('hide').classList.remove('hidden');};
 $('hide').onclick=()=>{revealIndex++;if(revealIndex<players.length)showReveal();else{$('reveal').classList.add('hidden');beginRound()}};
 function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent=`本輪領袖：${players[leader].name}`;$('voteFails').textContent=`連續否決：${consecutive}/5`;$('teamNeed').textContent=`請選出 ${teamSizes[count()][round]} 位出征玩家。`;
 $('teamChoices').innerHTML=players.map((p,i)=>`<label class="vote"><input type="checkbox" value="${i}" style="width:auto"> ${p.name}</label>`).join('');$('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
