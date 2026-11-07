@@ -93,6 +93,22 @@ button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter
 @media(prefers-reduced-motion:reduce){.role-card-inner,.intel-reveal,.intel-chip{animation:none!important;opacity:1!important;transform:none!important}}
 
 
+
+.vote-reveal-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;padding:8px 0 4px}
+.vote-reveal-stage{position:relative;width:min(100%,460px);aspect-ratio:1/1;margin:0 auto;border-radius:50%;background:radial-gradient(circle,#f8fafc 0 34%,#edf2f8 34.5% 35%,#f8fafc 35.5%);border:1px solid #e2e8f0}
+.vote-reveal-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34%;text-align:center;padding:10px 6px;border-radius:16px;background:#fff;border:1px solid #e3e8ef;box-shadow:0 4px 16px #17203312;z-index:1}
+.vote-reveal-center strong{display:block;font-size:clamp(14px,3.6vw,19px)}
+.vote-reveal-center span{display:block;font-size:12px;color:var(--muted);margin-top:5px}
+.vote-seat{position:absolute;left:50%;top:50%;width:clamp(76px,19%,94px);min-height:62px;transform:translate(-50%,-50%);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;padding:7px 4px;border:2px solid #cbd5e1;border-radius:13px;background:#fff;box-shadow:0 4px 12px #17203318;text-align:center;z-index:2}
+.vote-seat .seat-name{font-size:12px;font-weight:750;max-width:100%;overflow-wrap:anywhere;line-height:1.25}
+.vote-seat .seat-choice{font-size:13px;font-weight:850}
+.vote-seat.approve{border-color:#2d8b62;background:#e8f7ef;color:#17633f}
+.vote-seat.reject{border-color:#c44747;background:#fff0f0;color:#a52e35}
+.vote-reveal-summary{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.vote-reveal-summary span{padding:8px 13px;border-radius:999px;font-weight:750;font-size:14px}
+.vote-reveal-summary .yes{background:#e3f5eb;color:#17633f}
+.vote-reveal-summary .no{background:#ffebeb;color:#a52e35}
+@media(max-width:380px){.vote-seat{width:72px;min-height:58px;padding:5px 3px}.vote-seat .seat-name{font-size:11px}.vote-seat .seat-choice{font-size:12px}.vote-reveal-center{width:32%;padding:7px 3px}}
 </style></head>
 <body>
 <header><h1>⚔️ 阿瓦隆 Avalon</h1><p>5–10 人｜同一台裝置輪流查看身份、組隊、投票與執行任務</p><button type="button" class="gold" id="openRules" style="margin-top:12px">📖 遊戲規則說明</button></header>
@@ -169,6 +185,7 @@ const defaultSpecial={5:['梅林','派西維爾','刺客','莫甘娜'],6:['梅�
 const ratios={5:[3,2],6:[4,2],7:[4,3],8:[5,3],9:[6,3],10:[6,4]};
 const teamSizes={5:[2,3,2,3,3],6:[2,3,4,3,4],7:[2,3,3,4,4],8:[3,4,4,5,5],9:[3,4,4,5,5],10:[3,4,4,5,5]};
 let players=[],roles=[],round=0,leader=0,consecutive=0,success=0,fail=0,team=[],voteIndex=0,voteValues=[],missionIndex=0,missionValues=[],phase='setup',revealIndex=0,assassinTarget=null;
+let voteRevealed=false;
 function count(){return +$('count').value}
 function renderSetup(){let n=count();$('ratio').textContent=`${ratios[n][0]} 位正義（藍方）／${ratios[n][1]} 位邪惡（紅方）`;
 $('names').innerHTML=Array.from({length:n},(_,i)=>`<div class="player"><label>玩家 ${i+1} 名稱</label><input id="p${i}" value="玩家${i+1}" maxlength="12"></div>`).join('');
@@ -220,10 +237,25 @@ function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('
 $('teamChoices').innerHTML=players.map((p,i)=>`<label class="vote"><input type="checkbox" value="${i}" style="width:auto"> ${p.name}</label>`).join('');$('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
 $('progressLabel').textContent=success+' / 3 次成功';
 $('progressFill').style.width=Math.min(100,success/3*100)+'%';}
-$('submitTeam').onclick=()=>{team=[...document.querySelectorAll('#teamChoices input:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()};
+$('submitTeam').onclick=()=>{team=[...document.querySelectorAll('#teamChoices input:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()};
 function renderVote(){let p=players[voteIndex];$('votes').innerHTML=`<div class="vote" style="grid-column:1/-1"><b>${p.name}</b>，請秘密選擇</div><button class="blue" onclick="castVote(true)">贊成</button><button class="red" onclick="castVote(false)">反對</button>`}
 window.castVote=v=>{voteValues[voteIndex]=v;voteIndex++;if(voteIndex<players.length)renderVote();else{$('votes').innerHTML=`<div class="notice" style="grid-column:1/-1">全員已投票，按下公布結果。</div>`;$('submitVotes').disabled=false}};
-$('submitVotes').onclick=()=>{let yes=voteValues.filter(Boolean).length,no=players.length-yes;let passed=yes>no;$('votePanel').classList.add('hidden');$('submitVotes').disabled=true;if(!passed){consecutive++;leader=(leader+1)%players.length;if(consecutive>=5){end('邪惡陣營獲勝','連續 5 次組隊投票遭否決。');return}alert(`隊伍遭否決：贊成 ${yes}、反對 ${no}。`);beginRound()}else{consecutive=0;phase='mission';missionIndex=0;missionValues=[];$('missionPanel').classList.remove('hidden');renderMission()}};
+function revealVoteCircle(yes,no,passed){
+ const n=players.length,stage='<div class="vote-reveal-wrap"><div class="vote-reveal-stage" role="img" aria-label="依玩家順序排列的秘密投票開票結果">'+
+ '<div class="vote-reveal-center"><strong>'+(passed?'隊伍通過':'隊伍遭否決')+'</strong><span>贊成過半才可出發</span></div>'+
+ players.map((p,i)=>{const angle=(-90+i*360/n)*Math.PI/180,radius=39,left=50+radius*Math.cos(angle),top=50+radius*Math.sin(angle),v=voteValues[i];return '<div class="vote-seat '+(v?'approve':'reject')+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><span class="seat-name">'+escapeHTML(p.name)+'</span><span class="seat-choice">'+(v?'✓ 贊成':'✕ 反對')+'</span></div>'}).join('')+
+ '</div><div class="vote-reveal-summary"><span class="yes">✓ 贊成 '+yes+' 票</span><span class="no">✕ 反對 '+no+' 票</span></div></div>';
+ $('votes').innerHTML=stage;
+ $('submitVotes').textContent='確認結果並繼續';
+ $('submitVotes').disabled=false;
+}
+$('submitVotes').onclick=()=>{
+ const yes=voteValues.filter(Boolean).length,no=players.length-yes,passed=yes>no;
+ if(!voteRevealed){voteRevealed=true;revealVoteCircle(yes,no,passed);return}
+ $('votePanel').classList.add('hidden');$('submitVotes').disabled=true;
+ if(!passed){consecutive++;leader=(leader+1)%players.length;if(consecutive>=5){end('邪惡陣營獲勝','連續 5 次組隊投票遭否決。');return}alert('隊伍遭否決：贊成 '+yes+'、反對 '+no+'。');beginRound()}
+ else{consecutive=0;phase='mission';missionIndex=0;missionValues=[];$('missionPanel').classList.remove('hidden');renderMission()}
+};
 function renderMission(){let p=players[team[missionIndex]];$('missionPrompt').textContent=`請交給出征玩家 ${p.name}。其他人請勿觀看。`;$('missionSecret').classList.add('hidden');$('missionShow').classList.remove('hidden');$('missionHide').classList.add('hidden');$('missionShow').textContent='查看並選擇任務牌';}
 $('missionShow').onclick=()=>{let p=players[team[missionIndex]],evil=evilRoles.includes(p.role);$('missionSecret').innerHTML=`<div>${p.name}，請選擇</div><div class="actions"><button class="blue" onclick="missionCard(true)">任務成功</button>${evil?'<button class="red" onclick="missionCard(false)">任務失敗</button>':''}</div>`;$('missionSecret').classList.remove('hidden');$('missionShow').classList.add('hidden')};
 window.missionCard=v=>{missionValues.push(v);missionIndex++;if(missionIndex<team.length){renderMission()}else{$('missionPanel').classList.add('hidden');let fails=missionValues.filter(x=>!x).length,threshold=($('rule').value==='standard'&&count()>=7&&round===3)?2:1;let passed=fails<threshold;if(passed)success++;else fail++;$('resultPanel').classList.remove('hidden');$('resultText').innerHTML=`本次任務：<b>${passed?'成功':'失敗'}</b><br>失敗牌數：${fails} 張（本關需 ${threshold} 張失敗才算失敗）<br><span class="muted">任務牌已統計，不公開各玩家出的牌。</span>`;phase='result'}};
