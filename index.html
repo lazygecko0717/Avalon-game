@@ -144,6 +144,17 @@ body.app-fullscreen #game .panel{margin:8px 0}
 @keyframes focusZoom{from{opacity:0;transform:scale(.76)}to{opacity:1;transform:scale(1)}}
 @keyframes focusFlip{0%{transform:rotateY(0deg) scale(.94)}65%{transform:rotateY(192deg) scale(1.01)}100%{transform:rotateY(180deg) scale(1)}}
 @media(max-width:390px){.player-circle{width:100%}.identity-seat{width:66px;height:82px}.identity-card{height:57px}.identity-seat .identity-name{font-size:11px}.role-focus-card{height:min(78vh,680px);min-height:350px}}
+
+/* Mission team selection directly on circular player seats */
+.team-seat{cursor:pointer;z-index:3}
+.team-pick-card{width:100%;min-height:66px;border:1px solid #cbd5e1;border-radius:11px;background:linear-gradient(145deg,#172d48,#304c68);color:#f3d58b;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;box-shadow:0 4px 12px #17203324;transition:background .18s,border-color .18s,transform .18s,box-shadow .18s}
+.team-pick-card .mini-seal{font-size:20px;line-height:1}
+.team-pick-text{font-size:10px;font-weight:750}
+.team-pick{appearance:auto!important;-webkit-appearance:checkbox!important;width:19px!important;height:19px;margin:1px 0 0;accent-color:#e4b94f;cursor:pointer}
+.team-seat:has(.team-pick:checked) .team-pick-card{background:linear-gradient(145deg,#176b50,#29936e);border:2px solid #8be0b6;color:#fff;box-shadow:0 0 0 4px #36a87830,0 5px 15px #17203328;transform:translateY(-2px)}
+.team-seat:has(.team-pick:checked) .team-pick-text:after{content:" ✓"}
+.team-seat .identity-name{margin-top:1px}
+@media(max-width:390px){.team-pick-card{min-height:58px}.team-pick-card .mini-seal{font-size:18px}.team-pick-text{font-size:9px}.team-pick{width:17px!important;height:17px}}
 </style></head>
 <body>
 <header><h1>⚔️ 阿瓦隆 Avalon</h1><p>5–10 人｜同一台裝置輪流查看身份、組隊、投票與執行任務</p></header>
@@ -261,7 +272,7 @@ if(r==='派西維爾'){let m=players.filter(x=>['梅林','莫甘娜'].includes(x
 if(evilRoles.includes(r)&&r!=='奧伯倫'){let known=evil.filter(x=>x.role!=='奧伯倫'&&x!==p);seen='你認識的邪惡同伴：'+(known.map(x=>x.name).join('、')||'無（你可能是孤狼）');}
 if(r==='奧伯倫')seen='你是孤狼：你不知道其他邪惡玩家是誰，其他邪惡玩家也不知道你是誰。';
 return seen}
-function renderPlayerCircle(targetId,leaderIndex,identityMode=false){
+function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=false){
  const n=players.length,el=$(targetId);if(!el)return;
  el.innerHTML=players.map((p,i)=>{
   const order=(i-leaderIndex+n)%n,angle=(90+order*360/n)*Math.PI/180,r=39;
@@ -272,6 +283,11 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false){
     '<button type="button" class="identity-card" '+(i===revealIndex?'onclick="openRoleCard('+i+')"':'disabled')+' aria-label="'+escapeHTML(p.name)+'的身份牌">'+
     '<span class="mini-seal">'+(i<revealIndex?'✓':'✦')+'</span><small>AVALON</small></button>'+
     '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
+  }
+  if(teamMode){
+   return '<label class="identity-seat team-seat" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
+    '<span class="team-pick-card"><span class="mini-seal">♟</span><span class="team-pick-text">選入隊伍</span><input class="team-pick" type="checkbox" value="'+i+'" aria-label="選擇 '+escapeHTML(p.name)+' 出征"></span>'+
+    '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</label>';
   }
   return '<div class="identity-seat" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><div class="identity-card"><span class="mini-seal">♟</span></div><span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
  }).join('');
@@ -312,11 +328,12 @@ function intelMarkup(p){
  return '<div class="intel-reveal"><div class="intel-title">'+title+'</div><div class="intel-list">'+chips+'</div>'+(names.length?'<div class="intel-note" style="margin-top:8px">'+escapeHTML(note)+'</div>':'')+'</div>';
 }
 
-function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent=`本輪領袖：${players[leader].name}`;$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;$('teamNeed').textContent=`請選出 ${teamSizes[count()][round]} 位出征玩家。`;
-$('teamChoices').innerHTML=players.map((p,i)=>`<label class="vote"><input type="checkbox" value="${i}" style="width:auto"> ${p.name}</label>`).join('');$('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
+function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent=`本輪領袖：${players[leader].name}`;$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;$('teamNeed').textContent=`請在下方圓桌座位直接勾選 ${teamSizes[count()][round]} 位出征玩家。`;
+$('teamChoices').classList.add('hidden');renderPlayerCircle('tableCircle',leader,false,true);
+$('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
 $('progressLabel').textContent=success+' / 3 次成功';
 $('progressFill').style.width=Math.min(100,success/3*100)+'%';}
-$('submitTeam').onclick=()=>{team=[...document.querySelectorAll('#teamChoices input:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()};
+$('submitTeam').onclick=()=>{team=[...document.querySelectorAll('#tableCircle .team-pick:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()};
 function renderVote(){let p=players[voteIndex];$('votes').innerHTML=`<div class="vote" style="grid-column:1/-1"><b>${p.name}</b>，請秘密選擇</div><button class="blue" onclick="castVote(true)">贊成</button><button class="red" onclick="castVote(false)">反對</button>`}
 window.castVote=v=>{voteValues[voteIndex]=v;voteIndex++;if(voteIndex<players.length)renderVote();else{$('votes').innerHTML=`<div class="notice" style="grid-column:1/-1">全員已投票，按下公布結果。</div>`;$('submitVotes').disabled=false}};
 function revealVoteCircle(yes,no,passed){
