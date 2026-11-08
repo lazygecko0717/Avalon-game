@@ -154,6 +154,13 @@ body.app-fullscreen #game .panel{margin:8px 0}
 .team-seat:has(.team-pick:checked) .team-pick-card{background:linear-gradient(145deg,#176b50,#29936e);border:2px solid #8be0b6;color:#fff;box-shadow:0 0 0 4px #36a87830,0 5px 15px #17203328;transform:translateY(-2px)}
 .team-seat:has(.team-pick:checked) .team-pick-text:after{content:" ✓"}
 .team-seat .identity-name{margin-top:1px}
+.team-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;width:38%;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.team-center-title{font-size:12px;font-weight:850;color:#43536a;background:#ffffffdf;border-radius:99px;padding:4px 9px;white-space:nowrap}
+.team-center button{width:100%;padding:9px 5px;font-size:clamp(11px,2.7vw,14px);box-shadow:0 4px 14px #17203330}
+.team-seat.team-selected .team-pick-card{background:linear-gradient(145deg,#176b50,#29936e);border:2px solid #8be0b6;color:#fff;box-shadow:0 0 0 4px #36a87830,0 5px 15px #17203328}
+.team-seat.team-selected .team-pick-text:after{content:' ✓ 已入選'}
+.team-seat.team-unselected{opacity:.48;filter:grayscale(.65)}
+.team-seat.team-selected .team-pick,.team-seat.team-unselected .team-pick{visibility:hidden}
 @media(max-width:390px){.team-pick-card{min-height:58px}.team-pick-card .mini-seal{font-size:18px}.team-pick-text{font-size:9px}.team-pick{width:17px!important;height:17px}}
 </style></head>
 <body>
@@ -218,7 +225,7 @@ body.app-fullscreen #game .panel{margin:8px 0}
 <div class="panel"><div class="row"><div><h2 id="roundTitle">第1次任務</h2><p class="muted" id="leader"></p></div><div style="text-align:right"><span class="pill" id="voteFails">連續否決：0/5</span></div></div>
 <div id="tableCircle" class="player-circle hidden" aria-label="玩家座位順時針排列，本輪領袖位於最下方"></div><div class="progress-summary"><span>任務進度</span><span id="progressLabel">0 / 3 次成功</span></div><div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div><div class="track" id="track"></div><div class="notice" id="status"></div>
 </div>
-<div class="panel" id="teamPanel"><h2>③ 領袖選擇出征隊伍</h2><p class="muted" id="teamNeed"></p><div id="teamChoices" class="votegrid"></div><div class="actions"><button class="blue" id="submitTeam">確認出征名單</button></div></div>
+<div class="panel" id="teamPanel"><h2>③ 領袖選擇出征隊伍</h2><p class="muted" id="teamNeed"></p><div id="teamChoices" class="votegrid"></div></div>
 <div class="panel hidden" id="votePanel"><h2>④ 全員投票：贊成或反對</h2><p class="muted">所有玩家都要投票。平票視為未過半，隊伍遭否決。</p><div id="votes" class="votegrid"></div><div class="actions"><button class="blue" id="submitVotes">公布投票結果</button></div></div>
 <div class="panel hidden" id="missionPanel"><h2>⑤ 任務玩家秘密出牌</h2><p class="muted">依序把裝置交給出征玩家。好人只能選成功；壞人可選成功或失敗。</p><div id="missionPrompt" class="notice"></div><div id="missionSecret" class="secret hidden"></div><div class="actions"><button class="blue" id="missionShow">查看並出牌</button><button class="secondary hidden" id="missionHide">確認出牌並交給下一位</button></div></div>
 <div class="panel hidden" id="resultPanel"><h2>任務結果</h2><div id="resultText" class="notice"></div><div class="actions"><button class="blue" id="next">進入下一步</button></div></div>
@@ -235,7 +242,7 @@ const defaultSpecial={5:['梅林','派西維爾','刺客','莫甘娜'],6:['梅�
 const ratios={5:[3,2],6:[4,2],7:[4,3],8:[5,3],9:[6,3],10:[6,4]};
 const teamSizes={5:[2,3,2,3,3],6:[2,3,4,3,4],7:[2,3,3,4,4],8:[3,4,4,5,5],9:[3,4,4,5,5],10:[3,4,4,5,5]};
 let players=[],roles=[],round=0,leader=0,consecutive=0,success=0,fail=0,team=[],voteIndex=0,voteValues=[],missionIndex=0,missionValues=[],phase='setup',revealIndex=0,assassinTarget=null;
-let voteRevealed=false;
+let voteRevealed=false,teamConfirmed=false;
 function count(){return +$('count').value}
 function renderSetup(){let n=count();$('ratio').textContent=`${ratios[n][0]} 位正義（藍方）／${ratios[n][1]} 位邪惡（紅方）`;
 $('names').innerHTML=Array.from({length:n},(_,i)=>`<div class="player"><label>玩家 ${i+1} 名稱</label><input id="p${i}" value="玩家${i+1}" maxlength="12"></div>`).join('');
@@ -285,12 +292,13 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
     '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
   }
   if(teamMode){
-   return '<label class="identity-seat team-seat" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
+   return '<label class="identity-seat team-seat '+(teamConfirmed?(team.includes(i)?'team-selected':'team-unselected'):'')+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
     '<span class="team-pick-card"><span class="mini-seal">♟</span><span class="team-pick-text">選入隊伍</span><input class="team-pick" type="checkbox" value="'+i+'" aria-label="選擇 '+escapeHTML(p.name)+' 出征"></span>'+
     '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</label>';
   }
   return '<div class="identity-seat" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><div class="identity-card"><span class="mini-seal">♟</span></div><span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
- }).join('');
+ }).join('')+(teamMode?'<div class="team-center"><div class="team-center-title">出征名單</div><button type="button" class="blue" id="submitTeam">'+(teamConfirmed?'開始投票':'確認出征名單')+'</button></div>':'');
+ if(teamMode&&teamConfirmed){el.querySelectorAll('.team-pick').forEach(x=>{x.disabled=true;x.checked=team.includes(+x.value)});}
 }
 function showReveal(){
  if(revealIndex>=players.length){$('revealText').textContent='所有玩家都已查看身份，請確認後開始遊戲。';$('finishReveal').classList.remove('hidden');renderPlayerCircle('revealCircle',leader,true);return}
@@ -329,11 +337,11 @@ function intelMarkup(p){
 }
 
 function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent=`本輪領袖：${players[leader].name}`;$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;$('teamNeed').textContent=`請在下方圓桌座位直接勾選 ${teamSizes[count()][round]} 位出征玩家。`;
-$('teamChoices').classList.add('hidden');renderPlayerCircle('tableCircle',leader,false,true);
+$('teamChoices').classList.add('hidden');team=[];teamConfirmed=false;renderPlayerCircle('tableCircle',leader,false,true);
 $('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
 $('progressLabel').textContent=success+' / 3 次成功';
 $('progressFill').style.width=Math.min(100,success/3*100)+'%';}
-$('submitTeam').onclick=()=>{team=[...document.querySelectorAll('#tableCircle .team-pick:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()};
+function submitTeamSelection(){if(!teamConfirmed){team=[...document.querySelectorAll('#tableCircle .team-pick:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}teamConfirmed=true;renderPlayerCircle('tableCircle',leader,false,true);$('teamNeed').textContent='出征名單已確認，綠色標記為本次出征玩家；確認無誤後按「開始投票」。';$('submitTeam').onclick=submitTeamSelection;return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()}
 function renderVote(){let p=players[voteIndex];$('votes').innerHTML=`<div class="vote" style="grid-column:1/-1"><b>${p.name}</b>，請秘密選擇</div><button class="blue" onclick="castVote(true)">贊成</button><button class="red" onclick="castVote(false)">反對</button>`}
 window.castVote=v=>{voteValues[voteIndex]=v;voteIndex++;if(voteIndex<players.length)renderVote();else{$('votes').innerHTML=`<div class="notice" style="grid-column:1/-1">全員已投票，按下公布結果。</div>`;$('submitVotes').disabled=false}};
 function revealVoteCircle(yes,no,passed){
