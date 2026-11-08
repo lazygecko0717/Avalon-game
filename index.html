@@ -299,6 +299,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
   return '<div class="identity-seat" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><div class="identity-card"><span class="mini-seal">♟</span></div><span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
  }).join('')+(teamMode?'<div class="team-center"><div class="team-center-title">出征名單</div><button type="button" class="blue" id="submitTeam">'+(teamConfirmed?'開始投票':'確認出征名單')+'</button></div>':'');
  if(teamMode&&teamConfirmed){el.querySelectorAll('.team-pick').forEach(x=>{x.disabled=true;x.checked=team.includes(+x.value)});}
+ if(teamMode){$('submitTeam').onclick=submitTeamSelection;}
 }
 function showReveal(){
  if(revealIndex>=players.length){$('revealText').textContent='所有玩家都已查看身份，請確認後開始遊戲。';$('finishReveal').classList.remove('hidden');renderPlayerCircle('revealCircle',leader,true);return}
