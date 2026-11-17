@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#091b31"/><stop offset=".48" stop-color="#173b5b"/><stop offset="1" stop-color="#351e2b"/></linearGradient>
+ <radialGradient id="blue"><stop stop-color="#3c7593" stop-opacity=".55"/><stop offset="1" stop-color="#173b5b" stop-opacity="0"/></radialGradient>
+ <radialGradient id="red"><stop stop-color="#9b4b45" stop-opacity=".35"/><stop offset="1" stop-color="#351e2b" stop-opacity="0"/></radialGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0bb"/><stop offset=".5" stop-color="#e8cf8c"/><stop offset="1" stop-color="#a77c38"/></linearGradient>
+ <pattern id="stars" width="130" height="130" patternUnits="userSpaceOnUse"><circle cx="14" cy="20" r="1.6" fill="#f3d58b" opacity=".45"/><circle cx="88" cy="72" r="1" fill="#fff2c7" opacity=".35"/><path d="M48 108v8m-4-4h8" stroke="#e8cf8c" stroke-width="1" opacity=".25"/></pattern>
+</defs>
+<rect width="1600" height="1000" fill="url(#bg)"/>
+<ellipse cx="240" cy="180" rx="650" ry="520" fill="url(#blue)"/>
+<ellipse cx="1430" cy="820" rx="650" ry="560" fill="url(#red)"/>
+<rect width="1600" height="1000" fill="url(#stars)"/>
+<g fill="none" stroke="url(#gold)" opacity=".22">
+ <circle cx="800" cy="500" r="420" stroke-width="3"/><circle cx="800" cy="500" r="390" stroke-width="1.5"/>
+ <circle cx="800" cy="500" r="330" stroke-width="1.2" stroke-dasharray="3 18"/>
+ <circle cx="800" cy="500" r="250" stroke-width="2"/>
+ <path d="M800 54 910 390 1246 500 910 610 800 946 690 610 354 500 690 390Z" stroke-width="4"/>
+ <path d="M800 160 888 412 1140 500 888 588 800 840 712 588 460 500 712 412Z" stroke-width="2"/>
+</g>
+<g transform="translate(800 500)" opacity=".12">
+ <path d="M0-250 58-58 250 0 58 58 0 250-58 58-250 0-58-58Z" fill="#f3d58b"/>
+ <path d="M0-165 30-30 165 0 30 30 0 165-30 30-165 0-30-30Z" fill="#173957"/>
+</g>
+<g fill="#f3d58b" opacity=".42">
+ <path d="M800 62l7 18 18 7-18 7-7 18-7-18-18-7 18-7Z"/>
+ <path d="M800 888l6 15 15 6-15 6-6 15-6-15-15-6 15-6Z"/>
+ <circle cx="260" cy="500" r="4"/><circle cx="1340" cy="500" r="4"/>
+</g>
+<rect x="22" y="22" width="1556" height="956" rx="26" fill="none" stroke="#e8cf8c" stroke-opacity=".16" stroke-width="2"/>
+</svg>
