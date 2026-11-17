@@ -171,31 +171,30 @@ body.app-fullscreen #game .panel{margin:8px 0}
 .team-seat.team-selected .team-pick,.team-seat.team-unselected .team-pick{visibility:hidden}
 @media(max-width:390px){.team-pick-card{min-height:58px}.team-pick-card .mini-seal{font-size:18px}.team-pick-text{font-size:9px}.team-pick{width:17px!important;height:17px}}
 /* Home screen and install experience */
-.home-screen{min-height:calc(100vh - 130px);display:flex;align-items:center;justify-content:center;padding:24px 8px;position:relative;isolation:isolate;background:#0b1e32 url('./home-background.svg') center/cover no-repeat}
-.home-screen:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#08182a55,#08182a88 70%,#08182a99);pointer-events:none}
-.home-card{width:min(100%,560px);text-align:center;padding:34px 22px;border-radius:26px;background:linear-gradient(155deg,#102d50ed,#1d4564e8 58%,#512832ed);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);color:#fff;box-shadow:0 18px 48px #050d18a8,0 0 0 1px #e8cf8c35;position:relative;overflow:hidden}
-.home-card:before,.home-card:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #ffffff20;border-radius:50%;pointer-events:none}
-.home-card:before{left:-110px;top:-130px}.home-card:after{right:-110px;bottom:-145px}
-.home-emblem{width:104px;height:104px;border:2px solid #e8cf8c;border-radius:50%;display:grid;place-items:center;margin:0 auto 18px;font-size:54px;color:#f3d58b;box-shadow:0 0 0 9px #e8cf8c16,0 0 35px #e8cf8c30}
+.home-screen{position:fixed;inset:0;z-index:1000;min-height:100vh;min-height:100dvh;width:100%;box-sizing:border-box;display:flex;align-items:center;justify-content:center;padding:28px 20px;isolation:isolate;background:#0b1e32 url('./home-background.svg') center/cover no-repeat}
+.home-screen:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#08182a44,#08182a70 65%,#08182a99);pointer-events:none}
+.home-card{width:min(100%,560px);box-sizing:border-box;text-align:center;padding:24px 18px;background:transparent;color:#fff;position:relative}
+.home-card h2{font-size:clamp(32px,7vw,48px);letter-spacing:4px;margin:0 0 12px;color:#fff;text-shadow:0 3px 18px #000b}
+.home-subtitle{color:#e5edf6;font-size:15px;line-height:1.9;margin:0 0 32px;text-shadow:0 2px 10px #000b}
 .home-card h2{font-size:clamp(27px,6vw,38px);letter-spacing:3px;margin:0 0 8px;color:#fff}
 .home-subtitle{color:#dbe8f5;font-size:14px;line-height:1.8;margin:0 0 26px}
 .home-actions{display:grid;gap:12px;max-width:330px;margin:0 auto;position:relative;z-index:1}
 .home-actions button{width:100%;min-height:52px;font-size:16px;border-radius:14px}
 .home-enter{background:linear-gradient(135deg,#b1842d,#e1bd68);color:#17283d;box-shadow:0 6px 18px #0003}
 .home-install{background:#ffffff18;border:1px solid #ffffff55;color:#fff}
-.home-version{margin-top:24px;color:#d2ddeb;font-size:12px;letter-spacing:1px}
+.home-version{margin-top:26px;color:#e1e8f0;font-size:12px;letter-spacing:1.5px;text-shadow:0 2px 8px #000b}
+body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer{display:none}body.home-active>main{margin:0;padding:0}
 .install-overlay{position:fixed;inset:0;z-index:4000;background:#081321d9;display:flex;align-items:center;justify-content:center;padding:16px}
 .install-dialog{width:min(100%,430px);background:#fff;color:#263448;border-radius:18px;padding:22px;box-shadow:0 20px 60px #0005;line-height:1.7}
 .install-dialog h2{margin:0 0 10px}.install-dialog ol{padding-left:22px}.install-dialog .actions{margin-top:16px}
-@media(max-width:520px){.home-screen{min-height:calc(100dvh - 115px);padding:14px 0}.home-card{padding:30px 18px}.home-emblem{width:90px;height:90px;font-size:46px}}
+@media(max-width:520px){.home-screen{padding:20px 14px}.home-card{padding:20px 10px}.home-subtitle{font-size:14px;margin-bottom:28px}}
 </style></head>
-<body>
+<body class="home-active">
 <header><h1>⚔️ 阿瓦隆 Avalon</h1><p>5–10 人｜同一台裝置輪流查看身份、組隊、投票與執行任務</p></header>
 <main>
 <section id="homeScreen" class="home-screen">
  <div class="home-card">
-  <div class="home-emblem">⚔</div>
-  <h2>阿瓦隆 Avalon</h2>
+   <h2>阿瓦隆 Avalon</h2>
   <p class="home-subtitle">忠誠與背叛的陣營對決<br>5–10 人同樂・同一台裝置輪流遊玩</p>
   <div class="home-actions">
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
@@ -285,7 +284,7 @@ body.app-fullscreen #game .panel{margin:8px 0}
 const $=id=>document.getElementById(id);
 let deferredInstallPrompt=null;
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
-$('enterGame').onclick=()=>{$('homeScreen').classList.add('hidden');$('gameApp').classList.remove('hidden');window.scrollTo(0,0)};
+$('enterGame').onclick=()=>{$('homeScreen').classList.add('hidden');document.body.classList.remove('home-active');$('gameApp').classList.remove('hidden');window.scrollTo(0,0)};
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e});
 $('installApp').onclick=async()=>{
  if(deferredInstallPrompt){deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;return}
