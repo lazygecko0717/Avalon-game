@@ -188,6 +188,52 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 .install-dialog{width:min(100%,430px);background:#fff;color:#263448;border-radius:18px;padding:22px;box-shadow:0 20px 60px #0005;line-height:1.7}
 .install-dialog h2{margin:0 0 10px}.install-dialog ol{padding-left:22px}.install-dialog .actions{margin-top:16px}
 @media(max-width:520px){.home-screen{padding:20px 14px}.home-card{padding:20px 10px}.home-subtitle{font-size:14px;margin-bottom:28px}}
+
+/* Avalon setup layout inspired by the Undercover setup screen */
+#setup.setup-panel{width:min(100%,650px);margin:14px auto 18px;padding:18px;border-radius:20px;background:#fff;border:1px solid #dbe3ef;box-shadow:0 5px 18px #0f172a0d}
+.setup-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.setup-heading h2{margin:3px 0 0;font-size:21px;color:#172f4d}
+.setup-eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:#9a762e}
+.setup-rules{flex:0 0 auto;padding:10px 12px;font-size:13px}
+.setup-row{display:grid;grid-template-columns:minmax(105px,32%) minmax(0,1fr);align-items:center;gap:12px;margin:11px 0}
+.setup-row>label{margin:0;font-size:15px;font-weight:750;color:#294563}
+.setup-row select{min-width:0;min-height:44px;border:1px solid #d6deea;border-radius:12px;background:#fbfcfe;padding:10px 12px}
+.setup-ratio{margin:14px 0 4px;padding:11px 13px;border-radius:12px;background:#eef5fc;color:#294e73;font-size:14px;font-weight:750;text-align:center}
+.setup-divider{height:1px;background:#e8edf3;margin:18px 0}
+.setup-section-title{font-size:16px;font-weight:850;color:#203d5d;margin-bottom:4px}
+.setup-note{font-size:12px;line-height:1.6;color:#718096;margin:0 0 10px}
+#setup .setup-players{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#setup .player{min-width:0;padding:10px 11px;border:1px solid #e0e7ef;border-radius:13px;background:#f8fafc}
+#setup .player label{margin:0 0 6px;color:#52657b;font-size:12px;font-weight:750}
+#setup .player input{min-width:0;min-height:40px;padding:8px 10px;border:1px solid #d9e1eb;border-radius:9px;background:#fff}
+#setup .setup-roles>.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#setup .setup-roles>.row>div{min-width:0;padding:12px;border:1px solid #e0e7ef;border-radius:14px;background:#f8fafc}
+#setup .setup-roles>.row>div>label{margin:0 0 10px;color:#294563;font-weight:800}
+#setup .setup-roles #goodChecks,#setup .setup-roles #evilChecks{display:grid;gap:7px}
+#setup .setup-roles #goodChecks label,#setup .setup-roles #evilChecks label{display:flex;align-items:center;gap:7px;margin:0;padding:8px 9px;border-radius:9px;background:#fff;border:1px solid #e4eaf1;font-size:13px;color:#334155}
+#setup .setup-roles #goodChecks label{border-left:3px solid #4b91cf}
+#setup .setup-roles #evilChecks label{border-left:3px solid #c65b5b}
+#setup .setup-roles input[type=checkbox]{accent-color:#2878c7}
+#setup .setup-roles p{margin:10px 1px 0;font-size:12px;line-height:1.6;color:#718096}
+#setup .setup-actions{margin-top:18px}
+#setup .setup-actions button{width:100%;min-height:50px;border-radius:13px;font-size:16px;font-weight:800}
+@media(max-width:520px){
+ #setup.setup-panel{margin:10px auto 14px;padding:15px;border-radius:17px}
+ .setup-heading{align-items:flex-start}
+ .setup-heading h2{font-size:19px}
+ .setup-rules{padding:9px 10px;font-size:12px}
+ .setup-row{grid-template-columns:94px minmax(0,1fr);gap:9px}
+ .setup-row>label{font-size:14px}
+ #setup .setup-players{gap:7px}
+ #setup .player{padding:8px}
+ #setup .setup-roles>.row{gap:7px}
+ #setup .setup-roles>.row>div{padding:9px}
+}
+@media(max-width:360px){
+ #setup .setup-players{grid-template-columns:1fr}
+ .setup-rules{font-size:11px}
+}
+
 </style></head>
 <body class="home-active">
 <header><h1>⚔️ 阿瓦隆 Avalon</h1><p>5–10 人｜同一台裝置輪流查看身份、組隊、投票與執行任務</p></header>
@@ -242,14 +288,23 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
   <p class="muted">此頁為遊戲規則摘要；不同桌遊版本或擴充角色可能另有細節，開局前請先確認全體玩家採用相同規則。</p>
  </div>
 </div>
-<section id="setup" class="panel">
-<button type="button" class="gold" id="openRules">📖 遊戲規則說明</button>
-<h2>① 建立遊戲</h2>
-<div class="row"><div><label>玩家人數</label><select id="count"><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div><div><label>任務規則</label><select id="rule"><option value="standard">標準規則（7人以上第4任務需2張失敗）</option><option value="one">所有任務1張失敗即失敗</option></select></div></div>
-<p class="muted" id="ratio"></p><div id="names" class="players"></div>
-<hr><h3>角色配置</h3><p class="muted">預設含梅林、派西維爾、刺客；可依喜好調整特殊角色。陣營人數會固定符合玩家人數。</p>
-<div id="roles"></div>
-<div class="actions"><button class="blue" id="start">洗牌並開始分配身份</button></div>
+<section id="setup" class="panel setup-panel">
+<div class="setup-heading">
+ <div><div class="setup-eyebrow">GAME SETUP</div><h2>① 建立遊戲</h2></div>
+ <button type="button" class="gold setup-rules" id="openRules">📖 遊戲規則說明</button>
+</div>
+<div class="setup-row"><label for="count">玩家人數</label><select id="count"><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="setup-row"><label for="rule">任務規則</label><select id="rule"><option value="standard">標準規則（7人以上第4任務需2張失敗）</option><option value="one">所有任務1張失敗即失敗</option></select></div>
+<div class="setup-ratio" id="ratio"></div>
+<div class="setup-divider"></div>
+<div class="setup-section-title">玩家名稱</div>
+<p class="setup-note">可依照實際參與者修改名稱。</p>
+<div id="names" class="players setup-players"></div>
+<div class="setup-divider"></div>
+<div class="setup-section-title">角色配置</div>
+<p class="setup-note">預設含梅林、派西維爾、刺客；可依喜好調整特殊角色。陣營人數會固定符合玩家人數。</p>
+<div id="roles" class="setup-roles"></div>
+<div class="actions setup-actions"><button class="blue" id="start">洗牌並開始分配身份</button></div>
 </section>
 <section id="reveal" class="panel hidden">
 <h2>② 玩家座位與秘密身份</h2>
