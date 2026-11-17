@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "阿瓦隆 Avalon",
+  "short_name": "阿瓦隆",
+  "description": "5–10 人同樂的阿瓦隆陣營推理遊戲",
+  "lang": "zh-TW",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f1e9",
+  "theme_color": "#14243a",
+  "icons": [
+    {
+      "src": "./avalon-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
