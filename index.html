@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="阿瓦隆 Avalon">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="avalon-icon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="apple-touch-icon.png">
 <style>
@@ -282,6 +283,7 @@ body.app-fullscreen #game .panel{margin:8px 0}
 <script>
 const $=id=>document.getElementById(id);
 let deferredInstallPrompt=null;
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
 $('enterGame').onclick=()=>{$('homeScreen').classList.add('hidden');$('gameApp').classList.remove('hidden');window.scrollTo(0,0)};
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e});
 $('installApp').onclick=async()=>{
