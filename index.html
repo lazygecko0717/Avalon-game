@@ -320,6 +320,12 @@ header p{display:none !important}
 .names-dialog #names .player label{color:#f5f7fb}
 .names-dialog #names .player input{background:rgba(255,255,255,.94);color:#17283d}
 @media(max-width:380px){.names-dialog #names{grid-template-columns:1fr}.setup-name-open{padding:9px 10px;font-size:13px}}
+/* Keep the Avalon title visible throughout gameplay */
+body:not(.home-active)>header{position:sticky;top:0;z-index:1200;text-align:left;padding:12px 16px !important;min-height:0 !important;box-shadow:0 3px 12px #07142635}
+body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height:1.2 !important}
+.role-card-back .seal{display:grid;place-items:center}
+.role-card-back .crossed-swords{width:64px;height:64px;display:block;color:#f3d58b;filter:drop-shadow(0 1px 2px #0005)}
+
 
 </style></head>
 <body class="home-active">
@@ -523,7 +529,7 @@ function showReveal(){
 function openRoleCard(index){
  if(index!==revealIndex||$('roleFocusOverlay').classList.contains('hidden')===false)return;
  const p=players[index],good=goodRoles.includes(p.role),slug={'梅林':'merlin','派西維爾':'percival','忠臣':'servant','刺客':'assassin','莫甘娜':'morgana','莫德雷德':'mordred','奧伯倫':'oberon','爪牙':'minion'}[p.role]||'servant';
- $('roleFocusCard').innerHTML='<div class="secret '+(good?'faction-good':'faction-evil')+'" style="width:100%;height:100%;margin:0"><div class="role-card role-card-'+slug+'"><div class="role-card-inner"><div class="role-card-back"><div class="seal">⚔</div><small>AVALON</small><div style="font-size:14px;margin-top:10px">命運之牌・正在揭示</div></div><div class="role-card-front">'+rolePortrait(p.role,good)+'<div class="character-name">'+escapeHTML(p.role)+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div>'+intelMarkup(p)+'</div></div></div></div>';
+ $('roleFocusCard').innerHTML='<div class="secret '+(good?'faction-good':'faction-evil')+'" style="width:100%;height:100%;margin:0"><div class="role-card role-card-'+slug+'"><div class="role-card-inner"><div class="role-card-back"><div class="seal"><svg class="crossed-swords" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16 L73 69 M15 10 L26 14 L22 25 Z M67 63 L82 78 M72 69 L66 82 L82 78"/><path d="M80 16 L27 69 M85 10 L74 14 L78 25 Z M33 63 L18 78 M28 69 L34 82 L18 78"/><path d="M39 43 L48 34 M61 43 L52 34"/></g></svg></div><small>AVALON</small><div style="font-size:14px;margin-top:10px">命運之牌・正在揭示</div></div><div class="role-card-front">'+rolePortrait(p.role,good)+'<div class="character-name">'+escapeHTML(p.role)+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div>'+intelMarkup(p)+'</div></div></div></div>';
  $('roleFocusOverlay').classList.remove('hidden');
 }
 function closeRoleCard(){
