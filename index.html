@@ -143,7 +143,7 @@ body.app-fullscreen #game .panel{margin:8px 0}
 
 /* Circular seating and tap-to-reveal identity cards */
 .player-circle{position:relative;width:min(100%,520px);aspect-ratio:1/1;margin:14px auto 8px;border-radius:50%;background:radial-gradient(circle,#f7f9fc 0 27%,#e8eef5 27.5% 28%,transparent 28.5%);border:1px solid #e1e7ef}
-.identity-seat{position:absolute;left:50%;top:50%;width:clamp(70px,17%,92px);height:clamp(86px,20%,108px);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.identity-seat{position:absolute;left:50%;top:50%;width:clamp(70px,17%,92px);height:clamp(86px,20%,108px);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px};transition:left .48s cubic-bezier(.22,.7,.25,1),top .48s cubic-bezier(.22,.7,.25,1)
 .identity-card{width:100%;height:66px;border:1px solid #d6b76b;border-radius:10px;background:linear-gradient(145deg,#172d48,#304c68);color:#f3d58b;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:4px;box-shadow:0 4px 12px #17203324;transition:transform .2s,filter .2s}
 .identity-card:active{transform:scale(.95)}
 .identity-card .mini-seal{font-size:25px;line-height:1.1}
@@ -262,7 +262,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.15：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.16：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -285,7 +285,7 @@ body, body.app-fullscreen {
 }
 
 
-/* v0.0.15：前景底色 10% 不透明度，主要介面文字改為近白色 */
+/* v0.0.16：前景底色 10% 不透明度，主要介面文字改為近白色 */
 .panel,
 #setup.setup-panel,
 #setup .player,
@@ -316,7 +316,7 @@ body, main, main h1, main h2, main h3, main p,
 }
 
 
-/* v0.0.15：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
+/* v0.0.16：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
 header{padding:0 16px !important;min-height:0 !important}
 header h1{margin:0 !important;line-height:1.2 !important;padding:0 !important}
 header p{display:none !important}
@@ -342,7 +342,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.15：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
+/* v0.0.16：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
 .identity-seat.revealed{
  width:clamp(140px,34%,190px);
  height:clamp(180px,44%,240px);
@@ -395,7 +395,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.15：優化 iPhone 身份牌翻轉效能 */
+/* v0.0.16：優化 iPhone 身份牌翻轉效能 */
 #reveal:has(.identity-seat.revealed){
  -webkit-backdrop-filter:none !important;
  backdrop-filter:none !important;
@@ -427,7 +427,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.15：身份牌統一調整為 1:1 正方形 */
+/* v0.0.16：身份牌統一調整為 1:1 正方形 */
 .identity-seat .identity-card{
  height:auto;
  aspect-ratio:1 / 1;
@@ -453,7 +453,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.15：角色牌正面加入四邊框線，並以陣營色區分底色 */
+/* v0.0.16：角色牌正面加入四邊框線，並以陣營色區分底色 */
 .role-card-front{
  position:relative;
  overflow:hidden;
@@ -509,7 +509,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.0.15</div>
+  <div class="home-version">VERSION v0.0.16</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -597,7 +597,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 <section class="panel"><h2>玩法提醒</h2><p class="muted">每輪由領袖選隊，全員投票；組隊通過後，隊員秘密出任務牌。連續5次隊伍遭否決，邪惡陣營獲勝。三次任務失敗則邪惡獲勝；三次成功後進入刺客指認梅林階段。</p><p class="muted">可選擇同一支手機輪流傳閱，或由一位玩家與電腦玩家對戰。電腦會自動完成組隊、投票及任務行動。</p></section>
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.0.15｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.0.16｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -674,8 +674,8 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
   const order=(i-leaderIndex+n)%n,angle=(90+order*360/n)*Math.PI/180,r=39;
   const left=50+r*Math.cos(angle),top=50+r*Math.sin(angle);
   if(identityMode){
-   const state=i<revealIndex?'done':i===revealIndex?'active':'locked';
-   if(i===revealIndex&&roleCardOpen){
+   const currentIndex=(leader+revealIndex)%n;const state=revealIndex>=n?'done':i===currentIndex?'active':((i-leader+n)%n<revealIndex?'done':'locked');
+   if(i===currentIndex&&roleCardOpen){
     const good=goodRoles.includes(p.role),slug={'梅林':'merlin','派西維爾':'percival','忠臣':'servant','刺客':'assassin','莫甘娜':'morgana','莫德雷德':'mordred','奧伯倫':'oberon','爪牙':'minion'}[p.role]||'servant';
     return '<div class="identity-seat active revealed" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%" onclick="closeRoleCard()" role="button" aria-label="點擊翻回牌背並交給下一位玩家">'+
      '<div class="role-card role-card-'+slug+'"><div class="role-card-inner">'+
@@ -684,9 +684,9 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
      '</div></div></div>';
    }
    return '<div class="identity-seat '+state+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
-    '<button type="button" class="identity-card" '+(i===revealIndex?'onclick="openRoleCard('+i+')"':'disabled')+' aria-label="'+escapeHTML(p.name)+'的身份牌">'+
+    '<button type="button" class="identity-card" '+(i===currentIndex&&revealIndex<players.length?'onclick="openRoleCard('+i+')"':'disabled')+' aria-label="'+escapeHTML(p.name)+'的身份牌">'+
     '<span class="mini-seal">'+(i<revealIndex?'✓':'✦')+'</span><small>AVALON</small></button>'+
-    '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
+    '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leader?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
   }
   if(teamMode){
    return '<label class="identity-seat team-seat '+(teamConfirmed?(team.includes(i)?'team-selected':'team-unselected'):'')+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
@@ -699,15 +699,16 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
  if(teamMode){$('submitTeam').onclick=submitTeamSelection;}
 }
 function showReveal(){
- if(revealIndex>=players.length){$('revealText').textContent='所有玩家都已查看身份，請確認後開始遊戲。';$('finishReveal').classList.remove('hidden');renderPlayerCircle('revealCircle',leader,true);return}
+ if(revealIndex>=players.length){$('revealText').textContent='所有玩家都已查看身份，請確認後開始遊戲。';$('finishReveal').classList.remove('hidden');renderPlayerCircle('revealCircle',(leader+revealIndex)%players.length,true);return}
+ const currentIndex=(leader+revealIndex)%players.length;
  $('finishReveal').classList.add('hidden');
- $('revealText').textContent='現在輪到 '+players[revealIndex].name+'。請點選自己座位上的牌卡查看身份。';
- renderPlayerCircle('revealCircle',leader,true);
+ $('revealText').textContent='現在輪到 '+players[currentIndex].name+'。請點選最下方座位上的牌卡查看身份。';
+ renderPlayerCircle('revealCircle',currentIndex,true);
 }
 function openRoleCard(index){
- if(index!==revealIndex||roleCardOpen)return;
+ if(index!==((leader+revealIndex)%players.length)||roleCardOpen)return;
  roleCardOpen=true;
- renderPlayerCircle('revealCircle',leader,true);
+ renderPlayerCircle('revealCircle',(leader+revealIndex)%players.length,true);
 }
 function closeRoleCard(){
  if(!roleCardOpen)return;
