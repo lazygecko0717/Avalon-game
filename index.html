@@ -248,7 +248,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.9：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.10：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -271,7 +271,7 @@ body, body.app-fullscreen {
 }
 
 
-/* v0.0.9：前景底色 10% 不透明度，主要介面文字改為近白色 */
+/* v0.0.10：前景底色 10% 不透明度，主要介面文字改為近白色 */
 .panel,
 #setup.setup-panel,
 #setup .player,
@@ -302,7 +302,7 @@ body, main, main h1, main h2, main h3, main p,
 }
 
 
-/* v0.0.9：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
+/* v0.0.10：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
 header{padding:0 16px !important;min-height:0 !important}
 header h1{margin:0 !important;line-height:1.2 !important;padding:0 !important}
 header p{display:none !important}
@@ -328,14 +328,14 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.9：遊戲畫面固定顯示精簡標題列（全螢幕模式亦適用） */
+/* v0.0.10：遊戲畫面固定顯示精簡標題列（全螢幕模式亦適用） */
 body.app-fullscreen>header, body:not(.home-active)>header{
  display:block !important;
  position:sticky !important;
  top:env(safe-area-inset-top,0px) !important;
  z-index:1200 !important;
  width:100%;
- padding:6px 12px !important;
+ padding:12px 16px !important;
  min-height:0 !important;
  height:auto !important;
  text-align:left !important;
@@ -345,8 +345,8 @@ body.app-fullscreen>header h1, body:not(.home-active)>header h1{
  margin:0 !important;
  padding:0 !important;
  text-align:left !important;
- font-size:clamp(18px,4vw,19px) !important;
- line-height:1.15 !important;
+ font-size:25px !important;
+ line-height:1.2 !important;
  letter-spacing:1px !important;
 }
 .role-card-back .seal{font-size:0 !important;}
@@ -367,7 +367,7 @@ body.app-fullscreen>header h1, body:not(.home-active)>header h1{
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.0.9</div>
+  <div class="home-version">VERSION v0.0.10</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -455,7 +455,7 @@ body.app-fullscreen>header h1, body:not(.home-active)>header h1{
 </section>
 <section class="panel"><h2>玩法提醒</h2><p class="muted">每輪由領袖選隊，全員投票；組隊通過後，隊員秘密出任務牌。連續5次隊伍遭否決，邪惡陣營獲勝。三次任務失敗則邪惡獲勝；三次成功後進入刺客指認梅林階段。</p><p class="muted">可選擇同一支手機輪流傳閱，或由一位玩家與電腦玩家對戰。電腦會自動完成組隊、投票及任務行動。</p></section>
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.0.9｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.0.10｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -535,7 +535,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
    const state=i<revealIndex?'done':i===revealIndex?'active':'locked';
    return '<div class="identity-seat '+state+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
     '<button type="button" class="identity-card" '+(i===revealIndex?'onclick="openRoleCard('+i+')"':'disabled')+' aria-label="'+escapeHTML(p.name)+'的身份牌">'+
-    '<span class="mini-seal">'+(i<revealIndex?'✓':'✦')+'</span><small>AVALON</small></button>'+
+    (i<revealIndex?'<span class="mini-seal">✓</span>':'<svg class="identity-swords" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 14 L72 68 M12 8 L25 12 L20 25 Z M66 62 L84 80 M72 68 L66 84 L84 80"/><path d="M82 14 L28 68 M88 8 L75 12 L80 25 Z M34 62 L16 80 M28 68 L34 84 L16 80"/></g></svg>')+'<small>AVALON</small></button>'+
     '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
   }
   if(teamMode){
