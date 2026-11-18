@@ -59,6 +59,9 @@ button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter
 .secret.faction-good{background:radial-gradient(circle at 50% 0%,#d8edff,#f8fbff 70%);border-color:#8fc7f5;color:#123e69}
 .secret.faction-evil{background:radial-gradient(circle at 50% 0%,#ffdede,#fff8f8 70%);border-color:#efaaaa;color:#702532}
 .character-art{width:112px;height:112px;margin:0 auto 12px;display:block;filter:drop-shadow(0 8px 9px #17203324);animation:portraitFloat 3s ease-in-out infinite}
+.role-avatar{background-image:url('./role-avatars.webp');background-size:300% 300%;background-repeat:no-repeat;border-radius:16px;overflow:hidden}
+.role-avatar-good{border:3px solid #55b8f2;box-shadow:0 0 0 2px #d9efff,0 8px 18px #1673b944}
+.role-avatar-evil{border:3px solid #d94b58;box-shadow:0 0 0 2px #ffe0e2,0 8px 18px #9d253b55}
 .character-name{font-size:25px;font-weight:850;letter-spacing:2px}
 .faction-tag{display:inline-block;padding:5px 12px;border-radius:99px;font-size:12px;font-weight:800;margin-top:8px}
 .faction-good .faction-tag{background:#d6ebff;color:#155b96}.faction-evil .faction-tag{background:#ffe0e0;color:#a32f3c}
@@ -262,7 +265,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.12：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.13：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -285,7 +288,7 @@ body, body.app-fullscreen {
 }
 
 
-/* v0.0.12：前景底色 10% 不透明度，主要介面文字改為近白色 */
+/* v0.0.13：前景底色 10% 不透明度，主要介面文字改為近白色 */
 .panel,
 #setup.setup-panel,
 #setup .player,
@@ -316,7 +319,7 @@ body, main, main h1, main h2, main h3, main p,
 }
 
 
-/* v0.0.12：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
+/* v0.0.13：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
 header{padding:0 16px !important;min-height:0 !important}
 header h1{margin:0 !important;line-height:1.2 !important;padding:0 !important}
 header p{display:none !important}
@@ -342,7 +345,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.12：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
+/* v0.0.13：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
 .identity-seat.revealed{
  width:clamp(140px,34%,190px);
  height:clamp(180px,44%,240px);
@@ -395,7 +398,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.12：優化 iPhone 身份牌翻轉效能 */
+/* v0.0.13：優化 iPhone 身份牌翻轉效能 */
 #reveal:has(.identity-seat.revealed){
  -webkit-backdrop-filter:none !important;
  backdrop-filter:none !important;
@@ -427,7 +430,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.12：身份牌統一調整為 1:1 正方形 */
+/* v0.0.13：身份牌統一調整為 1:1 正方形 */
 .identity-seat .identity-card{
  height:auto;
  aspect-ratio:1 / 1;
@@ -463,7 +466,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.0.12</div>
+  <div class="home-version">VERSION v0.0.13</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -551,7 +554,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 <section class="panel"><h2>玩法提醒</h2><p class="muted">每輪由領袖選隊，全員投票；組隊通過後，隊員秘密出任務牌。連續5次隊伍遭否決，邪惡陣營獲勝。三次任務失敗則邪惡獲勝；三次成功後進入刺客指認梅林階段。</p><p class="muted">可選擇同一支手機輪流傳閱，或由一位玩家與電腦玩家對戰。電腦會自動完成組隊、投票及任務行動。</p></section>
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.0.12｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.0.13｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -670,9 +673,9 @@ function closeRoleCard(){
  showReveal();
 }
 function rolePortrait(role,good){
- const emblems={'梅林':'✦','派西維爾':'◇','忠臣':'盾','刺客':'†','莫甘娜':'☾','莫德雷德':'♜','奧伯倫':'♧','爪牙':'⚔'};
- const emblem=emblems[role]||'✦',bg=good?'#2d83c8':'#bd4652',dark=good?'#123e69':'#642735',cape=good?'#5db5ee':'#e66c75';
- return '<svg class="character-art" viewBox="0 0 120 120" role="img" aria-label="'+role+'角色插畫"><defs><linearGradient id="artBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+bg+'"/><stop offset="1" stop-color="'+dark+'"/></linearGradient></defs><circle cx="60" cy="60" r="56" fill="url(#artBg)"/><circle cx="60" cy="60" r="48" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.5"/><path d="M23 105 Q28 76 48 73 L72 73 Q92 76 97 105Z" fill="'+cape+'" stroke="#fff" stroke-opacity=".55" stroke-width="2"/><path d="M39 51 Q35 18 60 17 Q85 18 81 51 L75 70 Q60 83 45 70Z" fill="'+dark+'" stroke="#fff" stroke-opacity=".7" stroke-width="2"/><ellipse cx="60" cy="49" rx="17" ry="21" fill="#f0d2b4"/><path d="M43 43 Q43 21 61 22 Q78 22 78 43 Q65 34 43 43" fill="'+dark+'"/><path d="M51 51h5 M64 51h5" stroke="'+dark+'" stroke-width="2.5" stroke-linecap="round"/><path d="M55 61 Q60 65 65 61" fill="none" stroke="#a96c64" stroke-width="1.8" stroke-linecap="round"/><circle cx="88" cy="28" r="16" fill="#f7df9a" stroke="#fff" stroke-width="2"/><text x="88" y="34" text-anchor="middle" font-size="19" font-weight="800" fill="'+dark+'">'+emblem+'</text></svg>';
+ const positions={'梅林':'0% 0%','派西維爾':'50% 0%','忠臣':'100% 0%','刺客':'0% 50%','莫甘娜':'50% 50%','莫德雷德':'100% 50%','奧伯倫':'0% 100%','爪牙':'50% 100%'};
+ const pos=positions[role]||'50% 50%';
+ return '<div class="character-art role-avatar '+(good?'role-avatar-good':'role-avatar-evil')+'" style="background-position:'+pos+'" role="img" aria-label="'+role+'角色頭像"></div>';
 }
 function escapeHTML(value){return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 function intelMarkup(p){
