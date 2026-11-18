@@ -83,52 +83,6 @@ button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter
 .role-card-front{transform:rotateY(180deg);-webkit-transform:rotateY(180deg);background:linear-gradient(155deg,#ffffff,#f5f8fc);border:1px solid #dbe3ed}
 .faction-good .role-card-front{background:linear-gradient(155deg,#e4f3ff,#fff)}
 .faction-evil .role-card-front{background:linear-gradient(155deg,#ffe8e8,#fff)}
-/* Ornate faction identity card frame */
-.role-card-front{
- border:2px solid #8dbfe7;
- outline:1px solid #ffffffc9;
- outline-offset:-6px;
- box-shadow:inset 0 0 0 5px #ffffff80,inset 0 0 0 7px #8dbfe755,0 8px 22px #17203320;
- overflow:hidden;
-}
-.faction-good .role-card-front{
- background:linear-gradient(145deg,#d9efff 0%,#eef8ff 48%,#dcefff 100%);
- border-color:#72b6e8;
- box-shadow:inset 0 0 0 5px #ffffffa8,inset 0 0 0 7px #78b9e877,0 8px 22px #17203320;
-}
-.faction-evil .role-card-front{
- background:linear-gradient(145deg,#ffe0e2 0%,#fff0f0 48%,#ffdddd 100%);
- border-color:#df8e98;
- box-shadow:inset 0 0 0 5px #ffffffa8,inset 0 0 0 7px #d9828b77,0 8px 22px #17203320;
-}
-.role-card-front:before{
- content:"";
- position:absolute;
- inset:9px;
- border:1px solid #8bb9dcaa;
- border-radius:9px;
- pointer-events:none;
- z-index:0;
-}
-.faction-evil .role-card-front:before{border-color:#d58a91bb}
-.role-card-front>*{position:relative;z-index:1}
-.role-card-front .card-corner{
- position:absolute;
- z-index:3;
- width:25px;height:25px;
- display:grid;place-items:center;
- font-size:18px;line-height:1;
- color:#397fb2;
- text-shadow:0 1px 0 #fff,0 1px 5px #4a83a533;
- pointer-events:none;
-}
-.faction-evil .role-card-front .card-corner{color:#b84c5b;text-shadow:0 1px 0 #fff,0 1px 5px #a13c4b33}
-.role-card-front .corner-tl{top:10px;left:11px;transform:rotate(-18deg)}
-.role-card-front .corner-tr{top:10px;right:11px}
-.role-card-front .corner-bl{bottom:10px;left:11px}
-.role-card-front .corner-br{bottom:10px;right:11px;transform:rotate(18deg)}
-.role-card-front .identity-owner,.role-card-front .character-art,.role-card-front .character-name,.role-card-front .faction-tag,.role-card-front .intel-reveal,.role-card-front .card-tap-hint{position:relative;z-index:1}
-
 .role-card-front .character-art{margin-bottom:5px}
 .role-card-front .character-name{font-size:24px}
 .role-card-merlin .role-card-inner{animation-duration:1.05s}
@@ -680,7 +634,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
     return '<div class="identity-seat active revealed" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%" onclick="closeRoleCard()" role="button" aria-label="點擊翻回牌背並交給下一位玩家">'+
      '<div class="role-card role-card-'+slug+'"><div class="role-card-inner">'+
      '<div class="role-card-back"><div class="seal"><svg class="crossed-swords" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16 L73 69 M15 10 L26 14 L22 25 Z M67 63 L82 78 M72 69 L66 82 L82 78"/><path d="M80 16 L27 69 M85 10 L74 14 L78 25 Z M33 63 L18 78 M28 69 L34 82 L18 78"/><path d="M39 43 L48 34 M61 43 L52 34"/></g></svg></div><small>AVALON</small><div class="card-back-caption">點擊查看身份</div></div>'+
-     '<div class="role-card-front"><span class="card-corner corner-tl" aria-hidden="true">⚔</span><span class="card-corner corner-tr" aria-hidden="true">🛡</span><span class="card-corner corner-bl" aria-hidden="true">🛡</span><span class="card-corner corner-br" aria-hidden="true">⚔</span><div class="identity-owner">'+escapeHTML(p.name)+'</div>'+rolePortrait(p.role,good)+'<div class="character-name">'+escapeHTML(p.role)+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div>'+intelMarkup(p)+'<div class="card-tap-hint">點擊翻回牌背，交給下一位玩家</div></div>'+
+     '<div class="role-card-front"><div class="identity-owner">'+escapeHTML(p.name)+'</div>'+rolePortrait(p.role,good)+'<div class="character-name">'+escapeHTML(p.role)+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div>'+intelMarkup(p)+'<div class="card-tap-hint">點擊翻回牌背，交給下一位玩家</div></div>'+
      '</div></div></div>';
    }
    return '<div class="identity-seat '+state+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
