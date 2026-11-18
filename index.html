@@ -685,7 +685,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
    }
    return '<div class="identity-seat '+state+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
     '<button type="button" class="identity-card" '+(i===currentIndex&&revealIndex<players.length?'onclick="openRoleCard('+i+')"':'disabled')+' aria-label="'+escapeHTML(p.name)+'的身份牌">'+
-    '<span class="mini-seal">'+(i<revealIndex?'✓':'✦')+'</span><small>AVALON</small></button>'+
+    '<span class="mini-seal">'+(state==='done'?'✓':'✦')+'</span><small>AVALON</small></button>'+
     '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leader?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
   }
   if(teamMode){
