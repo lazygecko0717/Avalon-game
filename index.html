@@ -261,7 +261,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.24：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.25：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -284,7 +284,7 @@ body, body.app-fullscreen {
 }
 
 
-/* v0.0.24：前景底色 10% 不透明度，主要介面文字改為近白色 */
+/* v0.0.25：前景底色 10% 不透明度，主要介面文字改為近白色 */
 .panel,
 #setup.setup-panel,
 #setup .player,
@@ -315,7 +315,7 @@ body, main, main h1, main h2, main h3, main p,
 }
 
 
-/* v0.0.24：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
+/* v0.0.25：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
 header{padding:0 16px !important;min-height:0 !important}
 header h1{margin:0 !important;line-height:1.2 !important;padding:0 !important}
 header p{display:none !important}
@@ -341,7 +341,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.24：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
+/* v0.0.25：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
 .identity-seat.revealed{
  width:clamp(140px,34%,190px);
  height:clamp(180px,44%,240px);
@@ -394,7 +394,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.24：優化 iPhone 身份牌翻轉效能 */
+/* v0.0.25：優化 iPhone 身份牌翻轉效能 */
 #reveal:has(.identity-seat.revealed){
  -webkit-backdrop-filter:none !important;
  backdrop-filter:none !important;
@@ -426,7 +426,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.24：身份牌統一調整為 1:1 正方形 */
+/* v0.0.25：身份牌統一調整為 1:1 正方形 */
 .identity-seat .identity-card{
  height:auto;
  aspect-ratio:1 / 1;
@@ -451,7 +451,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.24：玩家座位區與投票結果區套用自訂底圖 */
+/* v0.0.25：玩家座位區與投票結果區套用自訂底圖 */
 .player-circle,
 .vote-reveal-stage{
  background-image:
@@ -463,7 +463,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  border-color:rgba(255,255,255,.42);
 }
 
-/* v0.0.24：玩家牌卡維持完全不透明 */
+/* v0.0.25：玩家牌卡維持完全不透明 */
 .identity-seat .identity-card,
 .team-seat .team-pick-card,
 .identity-seat.locked .identity-card,
@@ -478,47 +478,35 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .vote-reveal-stage .vote-seat.approve{background-color:#e8f7ef !important}
 .vote-reveal-stage .vote-seat.reject{background-color:#fff0f0 !important}
 
-/* v0.0.24：縮回時精準對齊靜態牌卡尺寸，並略微加快翻牌 */
+/* v0.0.25：復原上一版的牌卡縮小方式與動畫速度 */
 #reveal .identity-seat.revealed{
   transform-origin:center;
-  animation:avalonIdentityGrow .68s cubic-bezier(.22,.7,.25,1) both;
+  animation:avalonIdentityGrow .78s cubic-bezier(.22,.7,.25,1) both;
 }
 #reveal .identity-seat.revealed.closing{
   pointer-events:none;
-  animation:avalonIdentityShrink .68s cubic-bezier(.4,0,.2,1) both;
+  animation:avalonIdentityShrink .78s cubic-bezier(.4,0,.2,1) both;
 }
 #reveal .identity-seat.revealed.closing .role-card-inner{
-  animation:avalonCloseFlip .68s cubic-bezier(.4,0,.2,1) both !important;
+  animation:avalonCloseFlip .78s cubic-bezier(.4,0,.2,1) both !important;
 }
-#reveal .identity-seat.revealed .role-card-back,
-#reveal .identity-seat.revealed .role-card-front{border-radius:10px}
 @keyframes avalonIdentityGrow{
   from{opacity:.65;transform:translate(-50%,-50%) scale(.32)}
   to{opacity:1;transform:translate(-50%,-50%) scale(1)}
 }
 @keyframes avalonIdentityShrink{
   from{opacity:1;transform:translate(-50%,-50%) scale(1)}
-  to{opacity:1;transform:translate(-50%,-50%) scale(1,.244)}
+  to{opacity:.65;transform:translate(-50%,-50%) scale(.32)}
 }
 @keyframes avalonCloseFlip{
   0%{transform:translateZ(0) rotateY(180deg);-webkit-transform:translateZ(0) rotateY(180deg)}
   100%{transform:translateZ(0) rotateY(0deg);-webkit-transform:translateZ(0) rotateY(0deg)}
 }
-@media(max-width:390px){
- #reveal .identity-seat.revealed.closing{animation-name:avalonIdentityShrinkSmall}
- @keyframes avalonIdentityShrinkSmall{
-  from{opacity:1;transform:translate(-50%,-50%) scale(1)}
-  to{opacity:1;transform:translate(-50%,-50%) scale(1,.211)}
- }
-}
-@media(prefers-reduced-motion:reduce){
-  #reveal .identity-seat.revealed,
-  #reveal .identity-seat.revealed.closing{animation:none!important}
-  #reveal .identity-seat.revealed.closing .role-card-inner{animation:none!important;transform:rotateY(0deg);-webkit-transform:rotateY(0deg)}
+
 }
 
 
-/* v0.0.24：動畫牌背與靜態身份牌背完全統一 */
+/* v0.0.25：動畫牌背與靜態身份牌背完全統一 */
 .identity-seat.revealed .role-card-back{
  background:linear-gradient(145deg,#172d48,#304c68) !important;
  color:#f3d58b !important;
@@ -548,7 +536,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.0.24</div>
+  <div class="home-version">VERSION v0.0.25</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -636,7 +624,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.0.24｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.0.25｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
