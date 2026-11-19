@@ -1,5 +1,5 @@
-const CACHE_NAME = 'avalon-v0-0-19';
-const APP_FILES = ['./', './index.html', './manifest.webmanifest', './avalon-icon.svg'];
+const CACHE_NAME = 'avalon-v0-0-20';
+const APP_FILES = ['./', './index.html', './manifest.webmanifest', './avalon-icon.svg', './assets/player-area-bg.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)));
