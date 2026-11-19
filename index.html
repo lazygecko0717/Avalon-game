@@ -261,7 +261,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.36：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.37：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -284,7 +284,7 @@ body, body.app-fullscreen {
 }
 
 
-/* v0.0.36：前景底色 10% 不透明度，主要介面文字改為近白色 */
+/* v0.0.37：前景底色 10% 不透明度，主要介面文字改為近白色 */
 .panel,
 #setup.setup-panel,
 #setup .player,
@@ -315,7 +315,7 @@ body, main, main h1, main h2, main h3, main p,
 }
 
 
-/* v0.0.36：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
+/* v0.0.37：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
 header{padding:0 16px !important;min-height:0 !important}
 header h1{margin:0 !important;line-height:1.2 !important;padding:0 !important}
 header p{display:none !important}
@@ -341,7 +341,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.36：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
+/* v0.0.37：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
 .identity-seat.revealed{
  width:clamp(140px,34%,190px);
  height:clamp(180px,44%,240px);
@@ -394,7 +394,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.36：優化 iPhone 身份牌翻轉效能 */
+/* v0.0.37：優化 iPhone 身份牌翻轉效能 */
 #reveal:has(.identity-seat.revealed){
  -webkit-backdrop-filter:none !important;
  backdrop-filter:none !important;
@@ -426,7 +426,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.36：身份牌統一調整為 1:1 正方形 */
+/* v0.0.37：身份牌統一調整為 1:1 正方形 */
 .identity-seat .identity-card{
  height:auto;
  aspect-ratio:1 / 1;
@@ -451,12 +451,12 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.36：玩家區背景圖 */
+/* v0.0.37：玩家區背景圖 */
 .player-circle,
 .vote-reveal-stage{
   background-image:
     linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
-    url('./assets/player-area-bg.png') !important;
+    url('./assets/player-area-bg.png?v=037') !important;
   background-position: center center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
@@ -477,7 +477,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.0.36</div>
+  <div class="home-version">VERSION v0.0.37</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -565,7 +565,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.0.36｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.0.37｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
