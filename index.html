@@ -262,7 +262,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.88：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.89：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -583,7 +583,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.88：進度方塊底部圖示與否決方塊縮小 */
+/* v0.0.89：進度方塊底部圖示與否決方塊縮小 */
 .round-progress-cell{flex-direction:column;gap:3px;padding:4px 1px}
 .round-progress-row:first-child .round-progress-cell:after{
  content:"🚩";display:block;font-size:11px;line-height:1
@@ -596,7 +596,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 .round-progress-row .round-progress-cell:after{filter:grayscale(1)}
 
-/* v0.0.88：進度格標記改為外框，已否決格使用紅色 */
+/* v0.0.89：進度格標記改為外框，已否決格使用紅色 */
 .round-progress-row .round-progress-cell:after{content:none!important;display:none!important}
 .round-progress-cell.current{
  border:2px solid #f5cf70!important;
@@ -613,7 +613,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .round-progress-row:first-child .round-progress-label:before{content:"🚩"}
 .round-progress-row:last-child .round-progress-label:before{content:"✖"}
 
-/* v0.0.88：任務進度移至玩家座位圓桌中央 */
+/* v0.0.89：任務進度移至玩家座位圓桌中央 */
 #game .player-area-panel{position:relative}
 #game .player-circle{position:relative}
 .round-progress-center{
@@ -882,7 +882,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .player-area-actions{margin-top:14px;justify-content:center}
 .player-area-actions button{width:100%;min-height:48px;font-weight:800}
 
-/* v0.0.88：修正先前誤置於 HTML 結尾、未被瀏覽器載入的任務資訊樣式 */
+/* v0.0.89：修正先前誤置於 HTML 結尾、未被瀏覽器載入的任務資訊樣式 */
 .round-progress-center{align-items:flex-start!important;text-align:left!important}
 .round-progress-row{width:100%!important;align-items:flex-start!important}
 .round-progress-label{width:100%!important;text-align:left!important}
@@ -894,18 +894,18 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 .round-progress-row:last-child .round-progress-cell.current{background:rgba(255,255,255,.16)!important}
 
-/* v0.0.88：任務出征人數進度格改為旗標外型 */
+/* v0.0.89：任務出征人數進度格改為旗標外型 */
 .round-progress-row:first-child .round-progress-cell{
  clip-path:polygon(0 0,18% 0,18% 12%,100% 50%,18% 88%,18% 100%,0 100%)!important;
  border-radius:0!important;
 }
 
-/* v0.0.88：連續否決次數的 X 標記大幅加粗 */
+/* v0.0.89：連續否決次數的 X 標記大幅加粗 */
 .round-progress-row:last-child .round-progress-cell{
   clip-path:polygon(20% 0,50% 30%,80% 0,100% 20%,70% 50%,100% 80%,80% 100%,50% 70%,20% 100%,0 80%,30% 50%,0 20%)!important;
 }
 
-/* v0.0.88：任務出征人數與連續否決次數的目前標記加粗高亮外框 */
+/* v0.0.89：任務出征人數與連續否決次數的目前標記加粗高亮外框 */
 .round-progress-row:first-child .round-progress-cell.current,
 .round-progress-row:last-child .round-progress-cell.current{
  border:4px solid #f5cf70!important;
@@ -913,10 +913,10 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  filter:drop-shadow(0 0 2px #f5cf70)!important;
 }
 
-/* v0.0.88：所有遊戲階段統一移除「第 N 次任務」標題欄位區塊 */
+/* v0.0.89：所有遊戲階段統一移除「第 N 次任務」標題欄位區塊 */
 #game > .panel:has(#roundTitle){display:none!important}
 
-/* v0.0.88：開票結果直接顯示於原玩家座位區 */
+/* v0.0.89：開票結果直接顯示於原玩家座位區 */
 .vote-result-seat{width:clamp(76px,19%,94px);height:auto;min-height:76px;z-index:4}
 .vote-result-card{width:100%;min-height:76px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:2px solid #cbd5e1;border-radius:13px;background:rgba(255,255,255,.2);box-shadow:0 4px 12px #17203330;text-align:center}
 .vote-result-seat.approve .vote-result-card{border-color:#45c58a;background:rgba(28,120,77,.42);color:#fff}
@@ -925,7 +925,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .vote-result-choice{font-size:13px;font-weight:900;white-space:nowrap}
 @media(max-width:380px){.vote-result-seat,.vote-result-card{min-height:68px}.vote-result-seat .identity-name{font-size:11px}.vote-result-choice{font-size:12px}}
 
-/* v0.0.88：開票座位由領袖起順時針逐一自動翻牌 */
+/* v0.0.89：開票座位由領袖起順時針逐一自動翻牌 */
 .vote-result-seat{width:clamp(76px,19%,94px);height:auto;min-height:76px;z-index:4;perspective:900px}
 .vote-flip-inner{position:relative;width:100%;height:76px;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;animation:voteSeatFlip .52s cubic-bezier(.2,.75,.2,1) both}
 .vote-result-back,.vote-result-front{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 4px;border:2px solid #d6b76b;border-radius:13px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 4px 12px #17203330;text-align:center}
@@ -939,7 +939,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 @media(max-width:380px){.vote-result-seat,.vote-flip-inner{height:68px;min-height:68px}.vote-result-seat .identity-name{font-size:11px}.vote-result-choice{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.vote-flip-inner{animation-duration:.01ms!important}}
 
-/* v0.0.88：選擇出任務玩家時沿用身份牌背圖，尺寸縮小至 3/4，名稱移除黑色遮罩 */
+/* v0.0.89：選擇出任務玩家時沿用身份牌背圖，尺寸縮小至 3/4，名稱移除黑色遮罩 */
 #game .team-seat .team-pick-card{
  width:100%;
  min-height:66px;
@@ -970,6 +970,12 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  #game .team-seat .team-pick-card{min-height:58px}
 }
 
+
+/* v0.0.89：翻牌確認身份時，放大的正面角色牌整體下移 10% */
+#reveal .identity-seat.revealed{
+ top:60% !important;
+}
+
 </style></head>
 <body class="home-active">
 <header><h1>⚔️ 阿瓦隆 Avalon</h1></header>
@@ -982,7 +988,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.0.88</div>
+  <div class="home-version">VERSION v0.0.89</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
