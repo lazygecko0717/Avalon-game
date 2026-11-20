@@ -943,7 +943,6 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <section id="game" class="hidden">
 <div class="player-area-panel">
 <div id="tableCircle" class="player-circle hidden" aria-label="玩家座位順時針排列，本輪領袖位於最下方"></div>
-<div id="roundProgressCenter" class="round-progress-center" aria-label="任務進度與連續否決進度"></div>
 <div class="actions player-area-actions"><button type="button" class="blue hidden" id="submitTeam">確認出征名單</button></div>
 </div>
 <div class="panel"><div class="row"><div><h2 id="roundTitle">第1次任務</h2><p class="muted" id="leader"></p></div><div style="text-align:right"><span class="pill" id="voteFails">連續否決：0/5</span></div></div>
@@ -1065,7 +1064,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
   }
   return '<div class="identity-seat" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><div class="identity-card"><span class="mini-seal '+(i===leaderIndex?'is-leader':'')+'">'+(i===leaderIndex?'♛':'♟')+'</span></div><span class="identity-name">'+escapeHTML(p.name)+'</span></div>';
  }).join('');
- if(targetId==='tableCircle')renderRoundProgress();
+ if(targetId==='tableCircle'){el.insertAdjacentHTML('beforeend','<div id="roundProgressCenter" class="round-progress-center" aria-label="任務進度與連續否決進度"></div>');renderRoundProgress();}
  const teamButton=$('submitTeam');
  if(teamButton){teamButton.classList.toggle('hidden',!teamMode);teamButton.textContent=teamConfirmed?'開始投票':'確認出征名單';}
  if(identityMode){
