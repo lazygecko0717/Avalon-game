@@ -262,7 +262,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.69：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.70：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -583,7 +583,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.69：進度方塊底部圖示與否決方塊縮小 */
+/* v0.0.70：進度方塊底部圖示與否決方塊縮小 */
 .round-progress-cell{flex-direction:column;gap:3px;padding:4px 1px}
 .round-progress-row:first-child .round-progress-cell:after{
  content:"🚩";display:block;font-size:11px;line-height:1
@@ -596,7 +596,24 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 .round-progress-row .round-progress-cell:after{filter:grayscale(1)}
 
-/* v0.0.69：任務進度移至玩家座位圓桌中央 */
+/* v0.0.70：進度格標記改為外框，已否決格使用紅色 */
+.round-progress-row .round-progress-cell:after{content:none!important;display:none!important}
+.round-progress-cell.current{
+ border:2px solid #f5cf70!important;
+ background:rgba(255,255,255,.10)!important;
+ color:#fff!important;
+ box-shadow:0 0 0 1px #f5cf7040!important
+}
+.round-progress-cell.rejected{
+ background:#963e46!important;border-color:#ffb1b1!important;color:#fff!important
+}
+.round-progress-label:before{
+ display:inline-block;margin-right:5px;font-size:12px;filter:grayscale(1);vertical-align:middle
+}
+.round-progress-row:first-child .round-progress-label:before{content:"🚩"}
+.round-progress-row:last-child .round-progress-label:before{content:"✖"}
+
+/* v0.0.70：任務進度移至玩家座位圓桌中央 */
 #game .player-area-panel{position:relative}
 #game .player-circle{position:relative}
 .round-progress-center{
