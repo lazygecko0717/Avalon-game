@@ -172,15 +172,16 @@ body.app-fullscreen #game .panel{margin:8px 0}
 .team-pick-card{width:100%;min-height:66px;border:1px solid #cbd5e1;border-radius:11px;background:linear-gradient(145deg,#172d48,#304c68);color:#f3d58b;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;box-shadow:0 4px 12px #17203324;transition:background .18s,border-color .18s,transform .18s,box-shadow .18s}
 .team-pick-card .mini-seal{font-size:20px;line-height:1}
 .team-pick-text{font-size:10px;font-weight:750}
-.team-pick{appearance:auto!important;-webkit-appearance:checkbox!important;width:19px!important;height:19px;margin:1px 0 0;accent-color:#e4b94f;cursor:pointer}
-.team-seat:has(.team-pick:checked) .team-pick-card{background:linear-gradient(145deg,#176b50,#29936e);border:2px solid #8be0b6;color:#fff;box-shadow:0 0 0 4px #36a87830,0 5px 15px #17203328;transform:translateY(-2px)}
-.team-seat:has(.team-pick:checked) .team-pick-text:after{content:" ✓"}
+.team-pick{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.team-seat .team-pick-card{color:#fff}
+.team-seat:has(.team-pick:checked) .team-pick-card{background:linear-gradient(145deg,#a87518,#e4b94f);border:2px solid #ffe29a;color:#fff;box-shadow:0 0 0 4px rgba(244,190,66,.32),0 5px 15px #17203338;transform:translateY(-2px)}
+.team-seat:has(.team-pick:checked) .team-pick-text:after{content:""}
 .team-seat .identity-name{margin-top:1px}
 .team-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;width:38%;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
 .team-center-title{font-size:12px;font-weight:850;color:#43536a;background:#ffffffdf;border-radius:99px;padding:4px 9px;white-space:nowrap}
 .team-center button{width:100%;padding:9px 5px;font-size:clamp(11px,2.7vw,14px);box-shadow:0 4px 14px #17203330}
-.team-seat.team-selected .team-pick-card{background:linear-gradient(145deg,#176b50,#29936e);border:2px solid #8be0b6;color:#fff;box-shadow:0 0 0 4px #36a87830,0 5px 15px #17203328}
-.team-seat.team-selected .team-pick-text:after{content:' ✓ 已入選'}
+.team-seat.team-selected .team-pick-card{background:linear-gradient(145deg,#a87518,#e4b94f);border:2px solid #ffe29a;color:#fff;box-shadow:0 0 0 4px rgba(244,190,66,.32),0 5px 15px #17203338}
+.team-seat.team-selected .team-pick-text:after{content:''}
 .team-seat.team-unselected{opacity:.48;filter:grayscale(.65)}
 .team-seat.team-selected .team-pick,.team-seat.team-unselected .team-pick{visibility:hidden}
 @media(max-width:390px){.team-pick-card{min-height:58px}.team-pick-card .mini-seal{font-size:18px}.team-pick-text{font-size:9px}.team-pick{width:17px!important;height:17px}}
@@ -261,7 +262,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.65：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.66：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -284,7 +285,7 @@ body, body.app-fullscreen {
 }
 
 
-/* v0.0.65：前景底色 10% 不透明度，主要介面文字改為近白色 */
+/* v0.0.66：前景底色 10% 不透明度，主要介面文字改為近白色 */
 .panel,
 #setup.setup-panel,
 #setup .player,
@@ -315,7 +316,7 @@ body, main, main h1, main h2, main h3, main p,
 }
 
 
-/* v0.0.65：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
+/* v0.0.66：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
 header{padding:0 16px !important;min-height:0 !important}
 header h1{margin:0 !important;line-height:1.2 !important;padding:0 !important}
 header p{display:none !important}
@@ -341,7 +342,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.65：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
+/* v0.0.66：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
 .identity-seat.revealed{
  width:clamp(140px,34%,190px);
  height:clamp(180px,44%,240px);
@@ -394,7 +395,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.65：優化 iPhone 身份牌翻轉效能 */
+/* v0.0.66：優化 iPhone 身份牌翻轉效能 */
 #reveal:has(.identity-seat.revealed){
  -webkit-backdrop-filter:none !important;
  backdrop-filter:none !important;
@@ -426,7 +427,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.65：身份牌統一調整為 1:1 正方形 */
+/* v0.0.66：身份牌統一調整為 1:1 正方形 */
 .identity-seat .identity-card{
  height:auto;
  aspect-ratio:1 / 1;
@@ -451,7 +452,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.65：玩家座位區與投票結果區套用自訂底圖 */
+/* v0.0.66：玩家座位區與投票結果區套用自訂底圖 */
 .player-circle,
 .vote-reveal-stage{
  background-image:
@@ -463,7 +464,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  border-color:rgba(255,255,255,.42);
 }
 
-/* v0.0.65：玩家牌卡維持完全不透明 */
+/* v0.0.66：玩家牌卡維持完全不透明 */
 .identity-seat .identity-card,
 .team-seat .team-pick-card,
 .identity-seat.locked .identity-card,
@@ -478,7 +479,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .vote-reveal-stage .vote-seat.approve{background-color:#e8f7ef !important}
 .vote-reveal-stage .vote-seat.reject{background-color:#fff0f0 !important}
 
-/* v0.0.65：翻牌動畫加速至 0.62 秒 */
+/* v0.0.66：翻牌動畫加速至 0.62 秒 */
 #reveal .identity-seat.revealed{
   transform-origin:center;
   animation:avalonIdentityGrow .48s cubic-bezier(.22,.7,.25,1) both;
@@ -508,7 +509,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.65：動畫牌背與靜態身份牌背完全統一 */
+/* v0.0.66：動畫牌背與靜態身份牌背完全統一 */
 .identity-seat.revealed .role-card-back{
  background:linear-gradient(145deg,#172d48,#304c68) !important;
  color:#f3d58b !important;
@@ -552,7 +553,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.65：翻牌正面尺寸再放大一倍，並同步放大卡面內容 */
+/* v0.0.66：翻牌正面尺寸再放大一倍，並同步放大卡面內容 */
 #reveal .identity-seat.revealed{
  width:clamp(264px,76%,316px) !important;
  height:auto !important;
@@ -580,7 +581,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.65：放大翻牌置於下方資訊面板上層，避免被遮擋 */
+/* v0.0.66：放大翻牌置於下方資訊面板上層，避免被遮擋 */
 #reveal{position:relative;isolation:isolate}
 #reveal .player-area-panel,
 #game .player-area-panel{
@@ -612,7 +613,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.65：強化阿瓦隆古典徽章風格牌框 */
+/* v0.0.66：強化阿瓦隆古典徽章風格牌框 */
 #reveal .identity-seat.revealed .role-card-front{
  position:relative;
  isolation:isolate;
@@ -681,7 +682,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  box-shadow:inset 0 1px 0 #ffffff88,0 2px 5px #17203318;
 }
 
-/* v0.0.65：梅林查看身份時，高亮標記已知邪惡玩家（排除莫德雷德） */
+/* v0.0.66：梅林查看身份時，高亮標記已知邪惡玩家（排除莫德雷德） */
 #revealCircle .identity-seat.merlin-known-evil{
  z-index:12;
 }
@@ -712,7 +713,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  box-shadow:0 2px 8px #c9364355;
 }
 
-/* v0.0.65：依各角色資訊視野標記可辨識玩家 */
+/* v0.0.66：依各角色資訊視野標記可辨識玩家 */
 #revealCircle .identity-seat.percival-known-candidate,
 #revealCircle .identity-seat.evil-known-ally{z-index:12}
 #revealCircle .identity-seat.percival-known-candidate .identity-card{
@@ -736,7 +737,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 #revealCircle .percival-mark{background:#a87917!important;box-shadow:0 2px 8px #c69a3c55!important}
 #revealCircle .evil-ally-mark{background:#922e3a!important;box-shadow:0 2px 8px #c9364355!important}
 
-/* v0.0.65：未翻開的身份牌背縮小為原尺寸的 3/4 */
+/* v0.0.66：未翻開的身份牌背縮小為原尺寸的 3/4 */
 #revealCircle .identity-seat:not(.revealed) .identity-card{
   transform:scale(.75);
   transform-origin:center;
@@ -745,7 +746,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
   transform:scale(.71);
 }
 
-/* v0.0.65：輪到翻牌的玩家，牌卡背面維持 100% 原尺寸 */
+/* v0.0.66：輪到翻牌的玩家，牌卡背面維持 100% 原尺寸 */
 #revealCircle .identity-seat.active:not(.revealed) .identity-card{
   transform:scale(1);
 }
@@ -754,7 +755,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.65：確保角色牌正面資訊完整呈現 */
+/* v0.0.66：確保角色牌正面資訊完整呈現 */
 #reveal .identity-seat.revealed .role-card-front{
  box-sizing:border-box !important;
  padding:14px 16px !important;
@@ -814,7 +815,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  margin-top:3px !important;
 }
 
-/* v0.0.65：領袖標記改為卡牌背面的王冠符號 */
+/* v0.0.66：領袖標記改為卡牌背面的王冠符號 */
 .identity-card .mini-seal.is-leader,.team-pick-card .mini-seal.is-leader,.role-card-back .mini-seal.is-leader{color:#ffe08a;text-shadow:0 0 8px rgba(255,218,120,.85),0 1px 3px #0008;filter:drop-shadow(0 0 4px rgba(243,213,139,.7))}
 .identity-card:has(.mini-seal.is-leader),.team-seat:has(.mini-seal.is-leader) .team-pick-card{border-color:#f3d58b;box-shadow:0 0 0 2px rgba(243,213,139,.28),0 4px 12px #17203324}
 .player-area-actions{margin-top:14px;justify-content:center}
@@ -831,7 +832,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.0.65</div>
+  <div class="home-version">VERSION v0.0.66</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -926,7 +927,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.0.65｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.0.66｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1028,7 +1029,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
   }
   if(teamMode){
    return '<label class="identity-seat team-seat '+(teamConfirmed?(team.includes(i)?'team-selected':'team-unselected'):'')+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
-    '<span class="team-pick-card"><span class="mini-seal '+(i===leaderIndex?'is-leader':'')+'">'+(i===leaderIndex?'♛':'♟')+'</span><span class="team-pick-text">選入隊伍</span><input class="team-pick" type="checkbox" value="'+i+'" aria-label="選擇 '+escapeHTML(p.name)+' 出征"></span>'+
+    '<span class="team-pick-card"><span class="mini-seal '+(i===leaderIndex?'is-leader':'')+'">'+(i===leaderIndex?'♛':'✦')+'</span><span class="team-pick-text">選入隊伍</span><input class="team-pick" type="checkbox" value="'+i+'" aria-label="選擇 '+escapeHTML(p.name)+' 出征"></span>'+
     '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+'</label>';
   }
   return '<div class="identity-seat" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><div class="identity-card"><span class="mini-seal '+(i===leaderIndex?'is-leader':'')+'">'+(i===leaderIndex?'♛':'♟')+'</span></div><span class="identity-name">'+escapeHTML(p.name)+'</span></div>';
