@@ -261,7 +261,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.58：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.59：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -284,7 +284,7 @@ body, body.app-fullscreen {
 }
 
 
-/* v0.0.58：前景底色 10% 不透明度，主要介面文字改為近白色 */
+/* v0.0.59：前景底色 10% 不透明度，主要介面文字改為近白色 */
 .panel,
 #setup.setup-panel,
 #setup .player,
@@ -315,7 +315,7 @@ body, main, main h1, main h2, main h3, main p,
 }
 
 
-/* v0.0.58：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
+/* v0.0.59：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
 header{padding:0 16px !important;min-height:0 !important}
 header h1{margin:0 !important;line-height:1.2 !important;padding:0 !important}
 header p{display:none !important}
@@ -341,7 +341,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.58：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
+/* v0.0.59：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
 .identity-seat.revealed{
  width:clamp(140px,34%,190px);
  height:clamp(180px,44%,240px);
@@ -394,7 +394,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.58：優化 iPhone 身份牌翻轉效能 */
+/* v0.0.59：優化 iPhone 身份牌翻轉效能 */
 #reveal:has(.identity-seat.revealed){
  -webkit-backdrop-filter:none !important;
  backdrop-filter:none !important;
@@ -426,7 +426,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.58：身份牌統一調整為 1:1 正方形 */
+/* v0.0.59：身份牌統一調整為 1:1 正方形 */
 .identity-seat .identity-card{
  height:auto;
  aspect-ratio:1 / 1;
@@ -451,7 +451,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.58：玩家座位區與投票結果區套用自訂底圖 */
+/* v0.0.59：玩家座位區與投票結果區套用自訂底圖 */
 .player-circle,
 .vote-reveal-stage{
  background-image:
@@ -463,7 +463,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  border-color:rgba(255,255,255,.42);
 }
 
-/* v0.0.58：玩家牌卡維持完全不透明 */
+/* v0.0.59：玩家牌卡維持完全不透明 */
 .identity-seat .identity-card,
 .team-seat .team-pick-card,
 .identity-seat.locked .identity-card,
@@ -478,7 +478,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .vote-reveal-stage .vote-seat.approve{background-color:#e8f7ef !important}
 .vote-reveal-stage .vote-seat.reject{background-color:#fff0f0 !important}
 
-/* v0.0.58：翻牌動畫加速至 0.62 秒 */
+/* v0.0.59：翻牌動畫加速至 0.62 秒 */
 #reveal .identity-seat.revealed{
   transform-origin:center;
   animation:avalonIdentityGrow .48s cubic-bezier(.22,.7,.25,1) both;
@@ -508,7 +508,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.58：動畫牌背與靜態身份牌背完全統一 */
+/* v0.0.59：動畫牌背與靜態身份牌背完全統一 */
 .identity-seat.revealed .role-card-back{
  background:linear-gradient(145deg,#172d48,#304c68) !important;
  color:#f3d58b !important;
@@ -552,7 +552,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.58：翻牌正面尺寸再放大一倍，並同步放大卡面內容 */
+/* v0.0.59：翻牌正面尺寸再放大一倍，並同步放大卡面內容 */
 #reveal .identity-seat.revealed{
  width:clamp(264px,76%,316px) !important;
  height:auto !important;
@@ -580,7 +580,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.58：放大翻牌置於下方資訊面板上層，避免被遮擋 */
+/* v0.0.59：放大翻牌置於下方資訊面板上層，避免被遮擋 */
 #reveal{position:relative;isolation:isolate}
 #reveal .player-area-panel{
  position:relative !important;
@@ -603,7 +603,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.0.58：強化阿瓦隆古典徽章風格牌框 */
+/* v0.0.59：強化阿瓦隆古典徽章風格牌框 */
 #reveal .identity-seat.revealed .role-card-front{
  position:relative;
  isolation:isolate;
@@ -672,7 +672,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  box-shadow:inset 0 1px 0 #ffffff88,0 2px 5px #17203318;
 }
 
-/* v0.0.58：梅林查看身份時，高亮標記已知邪惡玩家（排除莫德雷德） */
+/* v0.0.59：梅林查看身份時，高亮標記已知邪惡玩家（排除莫德雷德） */
 #revealCircle .identity-seat.merlin-known-evil{
  z-index:12;
 }
@@ -703,7 +703,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  box-shadow:0 2px 8px #c9364355;
 }
 
-/* v0.0.58：依各角色資訊視野標記可辨識玩家 */
+/* v0.0.59：依各角色資訊視野標記可辨識玩家 */
 #revealCircle .identity-seat.percival-known-candidate,
 #revealCircle .identity-seat.evil-known-ally{z-index:12}
 #revealCircle .identity-seat.percival-known-candidate .identity-card{
@@ -727,7 +727,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 #revealCircle .percival-mark{background:#a87917!important;box-shadow:0 2px 8px #c69a3c55!important}
 #revealCircle .evil-ally-mark{background:#922e3a!important;box-shadow:0 2px 8px #c9364355!important}
 
-/* v0.0.58：未翻開的身份牌背縮小為原尺寸的 3/4 */
+/* v0.0.59：未翻開的身份牌背縮小為原尺寸的 3/4 */
 #revealCircle .identity-seat:not(.revealed) .identity-card{
   transform:scale(.75);
   transform-origin:center;
@@ -736,7 +736,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
   transform:scale(.71);
 }
 
-/* v0.0.58：確保角色牌正面資訊完整呈現 */
+/* v0.0.59：確保角色牌正面資訊完整呈現 */
 #reveal .identity-seat.revealed .role-card-front{
  box-sizing:border-box !important;
  padding:14px 16px !important;
@@ -796,7 +796,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  margin-top:3px !important;
 }
 
-/* v0.0.58：領袖標記改為卡牌背面的王冠符號 */
+/* v0.0.59：領袖標記改為卡牌背面的王冠符號 */
 .identity-card .mini-seal.is-leader,.team-pick-card .mini-seal.is-leader,.role-card-back .mini-seal.is-leader{color:#ffe08a;text-shadow:0 0 8px rgba(255,218,120,.85),0 1px 3px #0008;filter:drop-shadow(0 0 4px rgba(243,213,139,.7))}
 .identity-card:has(.mini-seal.is-leader),.team-seat:has(.mini-seal.is-leader) .team-pick-card{border-color:#f3d58b;box-shadow:0 0 0 2px rgba(243,213,139,.28),0 4px 12px #17203324}
 </style></head>
@@ -811,7 +811,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.0.58</div>
+  <div class="home-version">VERSION v0.0.59</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -907,7 +907,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.0.58｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.0.59｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1004,7 +1004,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
    }
    return '<div class="identity-seat '+state+(knownClass?' '+knownClass:'')+'" data-player-index="'+i+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
     '<button type="button" class="identity-card" '+(i===revealIndex?'':'disabled')+' aria-label="'+escapeHTML(p.name)+'的身份牌">'+
-    '<span class="mini-seal '+(i===leaderIndex?'is-leader':'')+'">'+(i===leaderIndex?'♛':i<revealIndex?'✓':'✦')+'</span><small>AVALON</small></button>'+
+    '<span class="mini-seal '+(i===leaderIndex?'is-leader':'')+'">'+(i===leaderIndex?'♛':'✦')+'</span><small>AVALON</small></button>'+
     '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(knownLabel?'<span class="merlin-evil-mark '+(percivalKnown?'percival-mark':evilKnown?'evil-ally-mark':'')+'">'+knownLabel+'</span>':'')+'</div>';
   }
   if(teamMode){
