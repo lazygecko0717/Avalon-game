@@ -262,7 +262,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.76：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.77：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -583,7 +583,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.76：進度方塊底部圖示與否決方塊縮小 */
+/* v0.0.77：進度方塊底部圖示與否決方塊縮小 */
 .round-progress-cell{flex-direction:column;gap:3px;padding:4px 1px}
 .round-progress-row:first-child .round-progress-cell:after{
  content:"🚩";display:block;font-size:11px;line-height:1
@@ -596,7 +596,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 .round-progress-row .round-progress-cell:after{filter:grayscale(1)}
 
-/* v0.0.76：進度格標記改為外框，已否決格使用紅色 */
+/* v0.0.77：進度格標記改為外框，已否決格使用紅色 */
 .round-progress-row .round-progress-cell:after{content:none!important;display:none!important}
 .round-progress-cell.current{
  border:2px solid #f5cf70!important;
@@ -613,7 +613,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .round-progress-row:first-child .round-progress-label:before{content:"🚩"}
 .round-progress-row:last-child .round-progress-label:before{content:"✖"}
 
-/* v0.0.76：任務進度移至玩家座位圓桌中央 */
+/* v0.0.77：任務進度移至玩家座位圓桌中央 */
 #game .player-area-panel{position:relative}
 #game .player-circle{position:relative}
 .round-progress-center{
@@ -882,7 +882,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .player-area-actions{margin-top:14px;justify-content:center}
 .player-area-actions button{width:100%;min-height:48px;font-weight:800}
 
-/* v0.0.76：修正先前誤置於 HTML 結尾、未被瀏覽器載入的任務資訊樣式 */
+/* v0.0.77：修正先前誤置於 HTML 結尾、未被瀏覽器載入的任務資訊樣式 */
 .round-progress-center{align-items:flex-start!important;text-align:left!important}
 .round-progress-row{width:100%!important;align-items:flex-start!important}
 .round-progress-label{width:100%!important;text-align:left!important}
@@ -894,10 +894,15 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 .round-progress-row:last-child .round-progress-cell.current{background:rgba(255,255,255,.16)!important}
 
-/* v0.0.76：任務出征人數進度格改為旗標外型 */
+/* v0.0.77：任務出征人數進度格改為旗標外型 */
 .round-progress-row:first-child .round-progress-cell{
  clip-path:polygon(0 0,100% 0,78% 50%,100% 100%,0 100%);
  border-radius:0!important;
+}
+
+/* v0.0.77：連續否決次數的 X 標記再縮細 */
+.round-progress-row:last-child .round-progress-cell{
+ clip-path:polygon(47% 0,50% 3%,53% 0,100% 47%,97% 50%,100% 53%,53% 100%,50% 97%,47% 100%,0 53%,3% 50%,0 47%)!important;
 }
 </style></head>
 <body class="home-active">
@@ -911,7 +916,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.0.76</div>
+  <div class="home-version">VERSION v0.0.77</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
