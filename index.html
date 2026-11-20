@@ -653,6 +653,38 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  z-index:1;
 }
 
+
+/* v0.0.50：梅林查看身份時，高亮標記已知邪惡玩家（排除莫德雷德） */
+#revealCircle .identity-seat.merlin-known-evil{
+ z-index:12;
+}
+#revealCircle .identity-seat.merlin-known-evil .identity-card{
+ opacity:1 !important;
+ filter:none !important;
+ border:2px solid #e34b52 !important;
+ background:linear-gradient(145deg,#8f2935,#d6535b) !important;
+ color:#fff !important;
+ outline:3px solid #ff8585;
+ outline-offset:2px;
+ box-shadow:0 0 0 6px #e34b5240,0 0 22px #ed5555b8,0 5px 16px #17203340 !important;
+}
+#revealCircle .identity-seat.merlin-known-evil .identity-name{
+ color:#b52635;
+ font-weight:900;
+ text-shadow:0 0 8px #ffb0b0;
+}
+#revealCircle .merlin-evil-mark{
+ display:inline-block;
+ padding:2px 7px;
+ border-radius:99px;
+ background:#c93643;
+ color:#fff;
+ font-size:10px;
+ font-weight:900;
+ line-height:1.35;
+ box-shadow:0 2px 8px #c9364355;
+}
+
 </style></head>
 <body class="home-active">
 <header><h1>⚔️ 阿瓦隆 Avalon</h1></header>
@@ -842,6 +874,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
   const left=50+r*Math.cos(angle),top=50+r*Math.sin(angle);
   if(identityMode){
    const state=i<revealIndex?'done':i===revealIndex?'active':'locked';
+   const merlinKnownEvil=roleCardOpen&&players[revealIndex]?.role==='梅林'&&evilRoles.includes(p.role)&&p.role!=='莫德雷德'&&i!==revealIndex;
    if(i===revealIndex&&roleCardOpen){
     const good=goodRoles.includes(p.role),slug={'梅林':'merlin','派西維爾':'percival','忠臣':'servant','刺客':'assassin','莫甘娜':'morgana','莫德雷德':'mordred','奧伯倫':'oberon','爪牙':'minion'}[p.role]||'servant';
     return '<div class="identity-seat active revealed" data-player-index="'+i+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%" onclick="closeRoleCard()" role="button" aria-label="點擊翻回牌背並交給下一位玩家">'+
@@ -850,10 +883,10 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
      '<div class="role-card-front '+(good?'faction-good':'faction-evil')+'"><div class="identity-owner">'+escapeHTML(p.name)+'</div>'+rolePortrait(p.role,good)+'<div class="character-name">'+escapeHTML(p.role)+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div>'+intelMarkup(p)+'<div class="card-tap-hint">點擊翻回牌背，交給下一位玩家</div></div>'+
      '</div></div></div>';
    }
-   return '<div class="identity-seat '+state+'" data-player-index="'+i+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
-    '<button type="button" class="identity-card" '+(i===revealIndex?'onclick="openRoleCard('+i+')"':'disabled')+' aria-label="'+escapeHTML(p.name)+'的身份牌">'+
+   return '<div class="identity-seat '+state+(merlinKnownEvil?' merlin-known-evil':'')+'" data-player-index="'+i+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
+    '<button type="button" class="identity-card" '+(i===revealIndex?'onclick="openRoleCard('+i+')':'disabled')+' aria-label="'+escapeHTML(p.name)+'的身份牌">'+
     '<span class="mini-seal">'+(i<revealIndex?'✓':'✦')+'</span><small>AVALON</small></button>'+
-    '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
+    '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+(merlinKnownEvil?'<span class="merlin-evil-mark">邪惡陣營</span>':'')+(i===leaderIndex?'<span class="leader-mark">本輪領袖</span>':'')+'</div>';
   }
   if(teamMode){
    return '<label class="identity-seat team-seat '+(teamConfirmed?(team.includes(i)?'team-selected':'team-unselected'):'')+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
