@@ -262,7 +262,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.68：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.69：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -583,7 +583,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.0.68：進度方塊底部圖示與否決方塊縮小 */
+/* v0.0.69：進度方塊底部圖示與否決方塊縮小 */
 .round-progress-cell{flex-direction:column;gap:3px;padding:4px 1px}
 .round-progress-row:first-child .round-progress-cell:after{
  content:"🚩";display:block;font-size:11px;line-height:1
@@ -594,8 +594,9 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .round-progress-row:last-child .round-progress-cell:after{
  content:"✋";display:block;font-size:10px;line-height:1
 }
+.round-progress-row .round-progress-cell:after{filter:grayscale(1)}
 
-/* v0.0.68：任務進度移至玩家座位圓桌中央 */
+/* v0.0.69：任務進度移至玩家座位圓桌中央 */
 #game .player-area-panel{position:relative}
 #game .player-circle{position:relative}
 .round-progress-center{
