@@ -262,7 +262,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.0.66：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.0.67：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -580,6 +580,36 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  }
 }
 
+
+
+/* v0.0.67：任務進度移至玩家座位圓桌中央 */
+#game .player-area-panel{position:relative}
+#game .player-circle{position:relative}
+.round-progress-center{
+ position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+ z-index:2;width:48%;max-width:250px;display:flex;flex-direction:column;gap:9px;
+ padding:9px 8px;border:1px solid #d8c18a;border-radius:13px;
+ background:rgba(15,31,49,.88);box-shadow:0 5px 18px #101b2d45;
+ color:#fff;pointer-events:none;text-align:center;
+}
+.round-progress-row{display:flex;flex-direction:column;gap:4px}
+.round-progress-label{font-size:10px;font-weight:850;letter-spacing:.8px;color:#f3d58b;line-height:1.2}
+.round-progress-cells{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+.round-progress-cell{
+ min-width:0;min-height:29px;display:flex;align-items:center;justify-content:center;
+ border:1px solid #ffffff45;border-radius:6px;background:#ffffff18;
+ color:#fff;font-size:13px;font-weight:900;line-height:1;
+}
+.round-progress-cell.current{border:2px solid #f5cf70;background:#a87518;color:#fff;box-shadow:0 0 0 2px #f5cf7033}
+.round-progress-cell.win{background:#246b9e;border-color:#8dcaff;color:#fff}
+.round-progress-cell.fail{background:#963e46;border-color:#ffb1b1;color:#fff}
+.round-progress-cell.rejected{background:#a87518;border-color:#f5cf70;color:#fff}
+@media(max-width:390px){
+ .round-progress-center{width:49%;padding:7px 5px;gap:7px}
+ .round-progress-label{font-size:9px}
+ .round-progress-cells{gap:3px}
+ .round-progress-cell{min-height:25px;font-size:11px;border-radius:5px}
+}
 
 /* v0.0.66：放大翻牌置於下方資訊面板上層，避免被遮擋 */
 #reveal{position:relative;isolation:isolate}
@@ -913,10 +943,11 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <section id="game" class="hidden">
 <div class="player-area-panel">
 <div id="tableCircle" class="player-circle hidden" aria-label="玩家座位順時針排列，本輪領袖位於最下方"></div>
+<div id="roundProgressCenter" class="round-progress-center" aria-label="任務進度與連續否決進度"></div>
 <div class="actions player-area-actions"><button type="button" class="blue hidden" id="submitTeam">確認出征名單</button></div>
 </div>
 <div class="panel"><div class="row"><div><h2 id="roundTitle">第1次任務</h2><p class="muted" id="leader"></p></div><div style="text-align:right"><span class="pill" id="voteFails">連續否決：0/5</span></div></div>
-<div class="progress-summary"><span>任務進度</span><span id="progressLabel">0 / 3 次成功</span></div><div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div><div class="track" id="track"></div><div class="notice" id="status"></div>
+<div class="notice hidden" id="status"></div><div class="hidden"><span id="progressLabel">0 / 3 次成功</span><div class="progress-fill" id="progressFill"></div><div class="track" id="track"></div></div>
 </div>
 <div class="panel" id="teamPanel"><h2>③ 領袖選擇出征隊伍</h2><p class="muted" id="teamNeed"></p><div id="teamChoices" class="votegrid"></div></div>
 <div class="panel hidden" id="votePanel"><h2>④ 全員投票：贊成或反對</h2><p class="muted">所有玩家都要投票。平票視為未過半，隊伍遭否決。</p><div id="votes" class="votegrid"></div><div class="actions"><button class="blue" id="submitVotes">公布投票結果</button></div></div>
@@ -1034,6 +1065,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
   }
   return '<div class="identity-seat" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><div class="identity-card"><span class="mini-seal '+(i===leaderIndex?'is-leader':'')+'">'+(i===leaderIndex?'♛':'♟')+'</span></div><span class="identity-name">'+escapeHTML(p.name)+'</span></div>';
  }).join('');
+ if(targetId==='tableCircle')renderRoundProgress();
  const teamButton=$('submitTeam');
  if(teamButton){teamButton.classList.toggle('hidden',!teamMode);teamButton.textContent=teamConfirmed?'開始投票':'確認出征名單';}
  if(identityMode){
@@ -1112,13 +1144,28 @@ function intelMarkup(p){
  return '<div class="intel-reveal"><div class="intel-title">'+title+'</div><div class="intel-list">'+chips+'</div>'+(names.length?'<div class="intel-note" style="margin-top:8px">'+escapeHTML(note)+'</div>':'')+'</div>';
 }
 
-function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;$('teamNeed').textContent=`請在下方圓桌座位直接勾選 ${teamSizes[count()][round]} 位出征玩家。`;
+
+function renderRoundProgress(){
+ const host=$('roundProgressCenter');if(!host)return;
+ const n=count(),missionCells=Array.from({length:5},(_,i)=>{
+  const state=i<success?'win':i<success+fail?'fail':'';
+  const current=i===round?'current':'';
+  return '<div class="round-progress-cell '+state+' '+current+'">'+teamSizes[n][i]+'</div>';
+ }).join('');
+ const rejectCells=Array.from({length:5},(_,i)=>
+  '<div class="round-progress-cell '+(i<consecutive?'rejected':'')+' '+(i===consecutive&&consecutive<5?'current':'')+'">'+(i+1)+'</div>'
+ ).join('');
+ host.innerHTML='<div class="round-progress-row"><div class="round-progress-label">任務出征人數</div><div class="round-progress-cells">'+missionCells+'</div></div>'+
+  '<div class="round-progress-row"><div class="round-progress-label">連續否決次數</div><div class="round-progress-cells">'+rejectCells+'</div></div>';
+}
+
+function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;renderRoundProgress();$('teamNeed').textContent=`請在下方圓桌座位直接勾選 ${teamSizes[count()][round]} 位出征玩家。`;
 $('teamChoices').classList.add('hidden');team=[];teamConfirmed=false;renderPlayerCircle('tableCircle',leader,false,true);
 $('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
 $('progressLabel').textContent=success+' / 3 次成功';
 $('progressFill').style.width=Math.min(100,success/3*100)+'%';}
 $('finishReveal').onclick=()=>{$('reveal').classList.add('hidden');beginRound()};
-function submitTeamSelection(){if(!teamConfirmed){team=[...document.querySelectorAll('#tableCircle .team-pick:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}teamConfirmed=true;renderPlayerCircle('tableCircle',leader,false,true);$('teamNeed').textContent='出征名單已確認，綠色標記為本次出征玩家；確認無誤後按「開始投票」。';$('submitTeam').onclick=submitTeamSelection;return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()}
+function submitTeamSelection(){if(!teamConfirmed){team=[...document.querySelectorAll('#tableCircle .team-pick:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}teamConfirmed=true;renderPlayerCircle('tableCircle',leader,false,true);$('teamNeed').textContent='出征名單已確認，金黃色標記為本次出征玩家；確認無誤後按「開始投票」。';$('submitTeam').onclick=submitTeamSelection;return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=0;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()}
 function renderVote(){let p=players[voteIndex];$('votes').innerHTML=`<div class="vote" style="grid-column:1/-1"><b>${p.name}</b>，請秘密選擇</div><button class="blue" onclick="castVote(true)">贊成</button><button class="red" onclick="castVote(false)">反對</button>`}
 window.castVote=v=>{voteValues[voteIndex]=v;voteIndex++;if(voteIndex<players.length)renderVote();else{$('votes').innerHTML=`<div class="notice" style="grid-column:1/-1">全員已投票，按下公布結果。</div>`;$('submitVotes').disabled=false}};
 function revealVoteCircle(yes,no,passed){
