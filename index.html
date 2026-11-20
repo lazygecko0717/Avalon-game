@@ -602,6 +602,57 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  overflow:visible;
 }
 
+
+/* v0.0.49：角色牌正面依陣營套用淺色底與四邊線框裝飾 */
+#reveal .identity-seat.revealed .role-card-front{
+ position:relative;
+ isolation:isolate;
+ overflow:hidden;
+ border:1px solid #b8c7d8;
+}
+#reveal .identity-seat.revealed .role-card-front.faction-good{
+ background:linear-gradient(145deg,#d8edff 0%,#eef8ff 52%,#dcefff 100%) !important;
+ border-color:#78b8e8;
+ color:#153f66;
+}
+#reveal .identity-seat.revealed .role-card-front.faction-evil{
+ background:linear-gradient(145deg,#ffdddd 0%,#fff0f0 52%,#ffe1e1 100%) !important;
+ border-color:#e99a9a;
+ color:#702b35;
+}
+#reveal .identity-seat.revealed .role-card-front:before{
+ content:"";
+ position:absolute;
+ inset:10px;
+ border:1px solid currentColor;
+ border-radius:7px;
+ opacity:.42;
+ pointer-events:none;
+ z-index:0;
+}
+#reveal .identity-seat.revealed .role-card-front:after{
+ content:"";
+ position:absolute;
+ inset:5px;
+ border-radius:9px;
+ pointer-events:none;
+ z-index:0;
+ background:
+  linear-gradient(currentColor,currentColor) left top/22px 2px no-repeat,
+  linear-gradient(currentColor,currentColor) left top/2px 22px no-repeat,
+  linear-gradient(currentColor,currentColor) right top/22px 2px no-repeat,
+  linear-gradient(currentColor,currentColor) right top/2px 22px no-repeat,
+  linear-gradient(currentColor,currentColor) left bottom/22px 2px no-repeat,
+  linear-gradient(currentColor,currentColor) left bottom/2px 22px no-repeat,
+  linear-gradient(currentColor,currentColor) right bottom/22px 2px no-repeat,
+  linear-gradient(currentColor,currentColor) right bottom/2px 22px no-repeat;
+ opacity:.65;
+}
+#reveal .identity-seat.revealed .role-card-front>*{
+ position:relative;
+ z-index:1;
+}
+
 </style></head>
 <body class="home-active">
 <header><h1>⚔️ 阿瓦隆 Avalon</h1></header>
@@ -796,7 +847,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
     return '<div class="identity-seat active revealed" data-player-index="'+i+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%" onclick="closeRoleCard()" role="button" aria-label="點擊翻回牌背並交給下一位玩家">'+
      '<div class="role-card role-card-'+slug+'"><div class="role-card-inner">'+
      '<div class="role-card-back"><span class="mini-seal">✦</span><small>AVALON</small></div>'+
-     '<div class="role-card-front"><div class="identity-owner">'+escapeHTML(p.name)+'</div>'+rolePortrait(p.role,good)+'<div class="character-name">'+escapeHTML(p.role)+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div>'+intelMarkup(p)+'<div class="card-tap-hint">點擊翻回牌背，交給下一位玩家</div></div>'+
+     '<div class="role-card-front '+(good?'faction-good':'faction-evil')+'"><div class="identity-owner">'+escapeHTML(p.name)+'</div>'+rolePortrait(p.role,good)+'<div class="character-name">'+escapeHTML(p.role)+'</div><div class="faction-tag">'+(good?'正義陣營｜藍方':'邪惡陣營｜紅方')+'</div>'+intelMarkup(p)+'<div class="card-tap-hint">點擊翻回牌背，交給下一位玩家</div></div>'+
      '</div></div></div>';
    }
    return '<div class="identity-seat '+state+'" data-player-index="'+i+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%">'+
