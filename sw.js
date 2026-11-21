@@ -1,4 +1,4 @@
-const CACHE_NAME = 'avalon-v0-1-05';
+const CACHE_NAME = 'avalon-v0-1-06';
 const APP_FILES = ['./', './index.html', './manifest.webmanifest', './avalon-icon.svg', './assets/player-area-bg.png'];
 
 self.addEventListener('install', event => {
