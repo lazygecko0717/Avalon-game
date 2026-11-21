@@ -265,7 +265,7 @@ body.home-active{overflow:hidden}body.home-active>header,body.home-active>footer
 }
 
 
-/* v0.1.11：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
+/* v0.1.08：遊戲所有階段沿用首頁背景，主要前景面板為 20% 不透明度 */
 body, body.app-fullscreen {
   background: #0b1e32 url('./home-background.svg') center center / cover fixed no-repeat !important;
 }
@@ -288,7 +288,7 @@ body, body.app-fullscreen {
 }
 
 
-/* v0.1.11：前景底色 10% 不透明度，主要介面文字改為近白色 */
+/* v0.1.08：前景底色 10% 不透明度，主要介面文字改為近白色 */
 .panel,
 #setup.setup-panel,
 #setup .player,
@@ -319,7 +319,7 @@ body, main, main h1, main h2, main h3, main p,
 }
 
 
-/* v0.1.11：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
+/* v0.1.08：精簡頂部標題列，玩家名稱改為獨立彈出設定 */
 header{padding:0 16px !important;min-height:0 !important}
 header h1{margin:0 !important;line-height:1.2 !important;padding:0 !important}
 header p{display:none !important}
@@ -345,7 +345,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.1.11：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
+/* v0.1.08：身份牌在原座位翻開，尺寸約放大一倍，不使用全螢幕覆蓋 */
 .identity-seat.revealed{
  width:clamp(140px,34%,190px);
  height:clamp(180px,44%,240px);
@@ -398,7 +398,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.1.11：優化 iPhone 身份牌翻轉效能 */
+/* v0.1.08：優化 iPhone 身份牌翻轉效能 */
 #reveal:has(.identity-seat.revealed){
  -webkit-backdrop-filter:none !important;
  backdrop-filter:none !important;
@@ -430,7 +430,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.1.11：身份牌統一調整為 1:1 正方形 */
+/* v0.1.08：身份牌統一調整為 1:1 正方形 */
 .identity-seat .identity-card{
  height:auto;
  aspect-ratio:1 / 1;
@@ -455,7 +455,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.1.11：玩家座位區與投票結果區套用自訂底圖 */
+/* v0.1.08：玩家座位區與投票結果區套用自訂底圖 */
 .player-circle,
 .vote-reveal-stage{
  background-image:
@@ -467,7 +467,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  border-color:rgba(255,255,255,.42);
 }
 
-/* v0.1.11：玩家牌卡維持完全不透明 */
+/* v0.1.08：玩家牌卡維持完全不透明 */
 .identity-seat .identity-card,
 .team-seat .team-pick-card,
 .identity-seat.locked .identity-card,
@@ -482,7 +482,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .vote-reveal-stage .vote-seat.approve{background-color:#e8f7ef !important}
 .vote-reveal-stage .vote-seat.reject{background-color:#fff0f0 !important}
 
-/* v0.1.11：翻牌動畫加速至 0.62 秒 */
+/* v0.1.08：翻牌動畫加速至 0.62 秒 */
 #reveal .identity-seat.revealed{
   transform-origin:center;
   animation:avalonIdentityGrow .48s cubic-bezier(.22,.7,.25,1) both;
@@ -512,7 +512,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.1.11：動畫牌背與靜態身份牌背完全統一 */
+/* v0.1.08：動畫牌背與靜態身份牌背完全統一 */
 .identity-seat.revealed .role-card-back{
  background:linear-gradient(145deg,#172d48,#304c68) !important;
  color:#f3d58b !important;
@@ -556,7 +556,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.1.11：翻牌正面尺寸再放大一倍，並同步放大卡面內容 */
+/* v0.1.08：翻牌正面尺寸再放大一倍，並同步放大卡面內容 */
 #reveal .identity-seat.revealed{
  width:clamp(264px,76%,316px) !important;
  height:auto !important;
@@ -586,7 +586,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 
 
-/* v0.1.11：進度方塊底部圖示與否決方塊縮小 */
+/* v0.1.08：進度方塊底部圖示與否決方塊縮小 */
 .round-progress-cell{flex-direction:column;gap:3px;padding:4px 1px}
 .round-progress-row:first-child .round-progress-cell:after{
  content:"🚩";display:block;font-size:11px;line-height:1
@@ -599,7 +599,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 .round-progress-row .round-progress-cell:after{filter:grayscale(1)}
 
-/* v0.1.11：進度格標記改為外框，已否決格使用紅色 */
+/* v0.1.08：進度格標記改為外框，已否決格使用紅色 */
 .round-progress-row .round-progress-cell:after{content:none!important;display:none!important}
 .round-progress-cell.current{
  border:2px solid #f5cf70!important;
@@ -616,7 +616,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .round-progress-row:first-child .round-progress-label:before{content:"🚩"}
 .round-progress-row:last-child .round-progress-label:before{content:"✖"}
 
-/* v0.1.11：任務進度移至玩家座位圓桌中央 */
+/* v0.1.08：任務進度移至玩家座位圓桌中央 */
 #game .player-area-panel{position:relative}
 #game .player-circle{position:relative}
 .round-progress-center{
@@ -645,7 +645,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  .round-progress-cell{min-height:25px;font-size:11px;border-radius:5px}
 }
 
-/* v0.1.11：放大翻牌置於下方資訊面板上層，避免被遮擋 */
+/* v0.1.08：放大翻牌置於下方資訊面板上層，避免被遮擋 */
 #reveal{position:relative;isolation:isolate}
 #reveal .player-area-panel,
 #game .player-area-panel{
@@ -677,7 +677,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.1.11：強化阿瓦隆古典徽章風格牌框 */
+/* v0.1.08：強化阿瓦隆古典徽章風格牌框 */
 #reveal .identity-seat.revealed .role-card-front{
  position:relative;
  isolation:isolate;
@@ -746,7 +746,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  box-shadow:inset 0 1px 0 #ffffff88,0 2px 5px #17203318;
 }
 
-/* v0.1.11：梅林查看身份時，高亮標記已知邪惡玩家（排除莫德雷德） */
+/* v0.1.08：梅林查看身份時，高亮標記已知邪惡玩家（排除莫德雷德） */
 #revealCircle .identity-seat.merlin-known-evil{
  z-index:12;
 }
@@ -777,7 +777,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  box-shadow:0 2px 8px #c9364355;
 }
 
-/* v0.1.11：依各角色資訊視野標記可辨識玩家 */
+/* v0.1.08：依各角色資訊視野標記可辨識玩家 */
 #revealCircle .identity-seat.percival-known-candidate,
 #revealCircle .identity-seat.evil-known-ally{z-index:12}
 #revealCircle .identity-seat.percival-known-candidate .identity-card{
@@ -801,7 +801,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 #revealCircle .percival-mark{background:#a87917!important;box-shadow:0 2px 8px #c69a3c55!important}
 #revealCircle .evil-ally-mark{background:#922e3a!important;box-shadow:0 2px 8px #c9364355!important}
 
-/* v0.1.11：未翻開的身份牌背縮小為原尺寸的 3/4 */
+/* v0.1.08：未翻開的身份牌背縮小為原尺寸的 3/4 */
 #revealCircle .identity-seat:not(.revealed) .identity-card{
   transform:scale(.75);
   transform-origin:center;
@@ -810,7 +810,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
   transform:scale(.71);
 }
 
-/* v0.1.11：輪到翻牌的玩家，牌卡背面維持 100% 原尺寸 */
+/* v0.1.08：輪到翻牌的玩家，牌卡背面維持 100% 原尺寸 */
 #revealCircle .identity-seat.active:not(.revealed) .identity-card{
   transform:scale(1);
 }
@@ -819,7 +819,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 
 
-/* v0.1.11：確保角色牌正面資訊完整呈現 */
+/* v0.1.08：確保角色牌正面資訊完整呈現 */
 #reveal .identity-seat.revealed .role-card-front{
  box-sizing:border-box !important;
  padding:14px 16px !important;
@@ -879,7 +879,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  margin-top:3px !important;
 }
 
-/* v0.1.11：領袖標記改為卡牌背面的王冠符號 */
+/* v0.1.08：領袖標記改為卡牌背面的王冠符號 */
 .identity-card .mini-seal.is-leader,.team-pick-card .mini-seal.is-leader,.role-card-back .mini-seal.is-leader{color:#ffe08a;text-shadow:0 0 8px rgba(255,218,120,.85),0 1px 3px #0008;filter:drop-shadow(0 0 4px rgba(243,213,139,.7))}
 .identity-card:has(.mini-seal.is-leader),.team-seat:has(.mini-seal.is-leader) .team-pick-card{border-color:#f3d58b;box-shadow:0 0 0 2px rgba(243,213,139,.28),0 4px 12px #17203324}
 .player-area-actions{margin-top:14px;justify-content:center;min-height:62px;align-items:center}
@@ -887,7 +887,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 #game .game-hint{margin:8px 0 0;min-height:48px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;line-height:1.55}
 #game .game-hint.hidden{display:none!important}
 
-/* v0.1.11：修正先前誤置於 HTML 結尾、未被瀏覽器載入的任務資訊樣式 */
+/* v0.1.08：修正先前誤置於 HTML 結尾、未被瀏覽器載入的任務資訊樣式 */
 .round-progress-center{align-items:flex-start!important;text-align:left!important}
 .round-progress-row{width:100%!important;align-items:flex-start!important}
 .round-progress-label{width:100%!important;text-align:left!important}
@@ -899,18 +899,18 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 }
 .round-progress-row:last-child .round-progress-cell.current{background:rgba(255,255,255,.16)!important}
 
-/* v0.1.11：任務出征人數進度格改為旗標外型 */
+/* v0.1.08：任務出征人數進度格改為旗標外型 */
 .round-progress-row:first-child .round-progress-cell{
  clip-path:polygon(0 0,18% 0,18% 12%,100% 50%,18% 88%,18% 100%,0 100%)!important;
  border-radius:0!important;
 }
 
-/* v0.1.11：連續否決次數的 X 標記大幅加粗 */
+/* v0.1.08：連續否決次數的 X 標記大幅加粗 */
 .round-progress-row:last-child .round-progress-cell{
   clip-path:polygon(20% 0,50% 30%,80% 0,100% 20%,70% 50%,100% 80%,80% 100%,50% 70%,20% 100%,0 80%,30% 50%,0 20%)!important;
 }
 
-/* v0.1.11：任務出征人數與連續否決次數的目前標記加粗高亮外框 */
+/* v0.1.08：任務出征人數與連續否決次數的目前標記加粗高亮外框 */
 .round-progress-row:first-child .round-progress-cell.current,
 .round-progress-row:last-child .round-progress-cell.current{
  border:4px solid #f5cf70!important;
@@ -918,9 +918,10 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
  filter:drop-shadow(0 0 2px #f5cf70)!important;
 }
 
-/* v0.1.11：移除舊版隱藏整個遊戲面板的規則，避免身份確認後階段內容消失 */
+/* v0.1.08：所有遊戲階段統一移除「第 N 次任務」標題欄位區塊 */
+#game > .panel:has(#roundTitle){display:none!important}
 
-/* v0.1.11：開票結果直接顯示於原玩家座位區 */
+/* v0.1.08：開票結果直接顯示於原玩家座位區 */
 .vote-result-seat{width:clamp(76px,19%,94px);height:auto;min-height:76px;z-index:4}
 .vote-result-card{width:100%;min-height:76px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:2px solid #cbd5e1;border-radius:13px;background:rgba(255,255,255,.2);box-shadow:0 4px 12px #17203330;text-align:center}
 .vote-result-seat.approve .vote-result-card{border-color:#45c58a;background:rgba(28,120,77,.42);color:#fff}
@@ -929,7 +930,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .vote-result-choice{font-size:13px;font-weight:900;white-space:nowrap}
 @media(max-width:380px){.vote-result-seat,.vote-result-card{min-height:68px}.vote-result-seat .identity-name{font-size:11px}.vote-result-choice{font-size:12px}}
 
-/* v0.1.11：開票座位由領袖起順時針逐一自動翻牌 */
+/* v0.1.08：開票座位由領袖起順時針逐一自動翻牌 */
 .vote-result-seat{width:clamp(76px,19%,94px);height:auto;min-height:76px;z-index:4;perspective:900px}
 .vote-flip-inner{position:relative;width:100%;height:76px;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;animation:voteSeatFlip .52s cubic-bezier(.2,.75,.2,1) both}
 .vote-result-back,.vote-result-front{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 4px;border:2px solid #d6b76b;border-radius:13px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 4px 12px #17203330;text-align:center}
@@ -943,14 +944,14 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 @media(max-width:380px){.vote-result-seat,.vote-flip-inner{height:68px;min-height:68px}.vote-result-seat .identity-name{font-size:11px}.vote-result-choice{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.vote-flip-inner{animation-duration:.01ms!important}}
 
-/* v0.1.11：出征選人卡牌維持原始比例，整體等比縮小至 3/4 */
+/* v0.1.08：出征選人卡牌維持原始比例，整體等比縮小至 3/4 */
 .team-pick-card{transform:scale(.75);transform-origin:center}
 .team-seat:has(.team-pick:checked) .team-pick-card{transform:scale(.75) translateY(-2px)}
-/* v0.1.11：已選取出征玩家仍維持 75% 等比尺寸 */
+/* v0.1.08：已選取出征玩家仍維持 75% 等比尺寸 */
 .team-seat:has(.team-pick:checked) .team-pick-card{transform:scale(.75) translateY(-2px)!important}
 .team-seat.team-selected .team-pick-card{transform:scale(.75)!important}
 
-/* v0.1.11：投票輪替座位，當前玩家固定在下方 */
+/* v0.1.08：投票輪替座位，當前玩家固定在下方 */
 .vote-turn-seat{position:absolute;left:50%;top:50%;width:clamp(76px,19%,94px);height:100px;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;z-index:2;transition:left .55s cubic-bezier(.2,.75,.25,1),top .55s cubic-bezier(.2,.75,.25,1)}
 .vote-turn-seat .identity-card{transform:scale(.75);transform-origin:center;transition:transform .3s ease}
 .vote-turn-seat.current-voter{z-index:4}
@@ -958,7 +959,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .vote-turn-seat .identity-name{font-size:12px;font-weight:800;text-align:center;max-width:100%;overflow-wrap:anywhere;line-height:1.2;color:#172033}
 @media(max-width:390px){.vote-turn-seat{height:92px}.vote-turn-seat .identity-name{font-size:11px}}
 
-/* v0.1.11：投票階段持續標示已選出的任務出征玩家 */
+/* v0.1.08：投票階段持續標示已選出的任務出征玩家 */
 .vote-turn-seat.mission-team-highlight .identity-card,
 .vote-result-seat.mission-team-highlight .vote-result-front{
  border:2px solid #ffe29a!important;
@@ -971,12 +972,12 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .vote-result-seat.mission-team-highlight .vote-result-front{outline:3px solid #f5cf70;outline-offset:2px}
 .vote-turn-seat.current-voter.mission-team-highlight .identity-card{transform:scale(1)}
 
-/* v0.1.11：投票結果翻牌正面改為不透明底色，僅顯示贊成或反對 */
+/* v0.1.08：投票結果翻牌正面改為不透明底色，僅顯示贊成或反對 */
 .vote-result-seat.approve .vote-result-front{background:#247b55!important}
 .vote-result-seat.reject .vote-result-front{background:#a52e35!important}
 .vote-result-seat .vote-result-front .identity-name{display:none!important}
 
-/* v0.1.11：投票階段卡牌尺寸統一比照查看身份階段 */
+/* v0.1.08：投票階段卡牌尺寸統一比照查看身份階段 */
 .vote-turn-seat{
  width:clamp(70px,17%,92px)!important;
  height:clamp(86px,20%,108px)!important;
@@ -1024,8 +1025,8 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 /* All player names beneath cards stay white in every game phase */
 .identity-seat .identity-name{color:#fff!important}
 
-/* v0.1.11：任務秘密出牌座位依順時針方向排列 */
-/* v0.1.11：公布隊伍投票結果時，卡牌縮小至 3/4，玩家名稱顯示於卡牌下方 */
+/* v0.1.08：任務秘密出牌座位依順時針方向排列 */
+/* v0.1.08：公布隊伍投票結果時，卡牌縮小至 3/4，玩家名稱顯示於卡牌下方 */
 .vote-result-seat{gap:2px!important;justify-content:center!important}
 .vote-result-seat .vote-flip-inner{width:75%!important;height:49.5px!important;flex:0 0 49.5px;margin:0 auto}
 .vote-result-seat .vote-result-back,.vote-result-seat .vote-result-front{border-radius:8px!important;padding:3px!important}
@@ -1033,15 +1034,10 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 .vote-result-seat .identity-name{display:block!important;width:100%;font-size:11px!important;line-height:1.15!important;text-align:center;color:#fff!important;text-shadow:0 1px 3px #172033!important;overflow-wrap:anywhere}
 @media(max-width:390px){.vote-result-seat .vote-result-choice{font-size:11px!important}.vote-result-seat .identity-name{font-size:10px!important}}
 
-/* v0.1.11：領袖優先開始投票，王冠符號尺寸加倍 */
+/* v0.1.08：領袖優先開始投票，王冠符號尺寸加倍 */
 .identity-card .mini-seal.is-leader,
 .role-card-back .mini-seal.is-leader{font-size:50px!important;line-height:1!important}
 .team-pick-card .mini-seal.is-leader{font-size:40px!important;line-height:1!important}
-
-/* v0.1.11：秘密身份確認提示併入第三區，不再呈現額外提示框 */
-#reveal .stage-info-area .reveal-instruction{display:block;margin:8px 0 0;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none;color:var(--muted);font-size:14px;line-height:1.55}
-#reveal .stage-info-area .actions{margin:10px 0 0;padding:0;border:0;background:transparent;box-shadow:none}
-#reveal .stage-info-area{display:block}
 </style></head>
 <body class="home-active">
 <header><h1>⚔️ 阿瓦隆 Avalon</h1></header>
@@ -1054,7 +1050,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.11</div>
+  <div class="home-version">VERSION v0.1.08</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1128,7 +1124,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <div class="stage-info-area">
 <h2>秘密身份確認</h2>
 <p class="muted">依玩家順序順時針排列，最下方為本輪領袖。請依序點選自己的牌卡；牌卡會放大顯示，確認後再點一下即可翻回牌背。</p>
-<div id="revealText" class="reveal-instruction"></div>
+<div id="revealText" class="notice"></div>
 <div class="actions"><button class="blue hidden" id="finishReveal">完成身份確認，開始遊戲</button></div>
 </div>
 </section>
@@ -1137,7 +1133,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <div id="tableCircle" class="player-circle hidden" aria-label="玩家座位順時針排列，本輪領袖位於最下方"></div>
 </div>
 <div class="stage-info-area">
-
+<div class="stage-summary"><div><h2 id="roundTitle">第1次任務</h2><p class="muted" id="leader"></p></div><div style="text-align:right"><span class="pill" id="voteFails">連續否決：0/5</span></div></div>
 <div class="notice game-hint hidden" id="gameHint" aria-live="polite"></div>
 <div class="notice hidden" id="status"></div><div class="hidden"><span id="progressLabel">0 / 3 次成功</span><div class="progress-fill" id="progressFill"></div><div class="track" id="track"></div></div>
 <div class="panel" id="teamPanel"><h2>③ 領袖選擇出征隊伍</h2><div id="teamChoices" class="votegrid"></div><div class="actions"><button type="button" class="blue hidden" id="submitTeam">確認出征名單</button></div></div>
@@ -1150,7 +1146,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.11｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.08｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1352,12 +1348,12 @@ function renderRoundProgress(){
   '<div class="round-progress-row"><div class="round-progress-label">連續否決次數</div><div class="round-progress-cells">'+rejectCells+'</div></div>';
 }
 
-function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);renderRoundProgress();$('gameHint').textContent=`請在上方圓桌座位直接勾選 ${teamSizes[count()][round]} 位出征玩家。`;$('gameHint').classList.remove('hidden');
+function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;renderRoundProgress();$('gameHint').textContent=`請在上方圓桌座位直接勾選 ${teamSizes[count()][round]} 位出征玩家。`;$('gameHint').classList.remove('hidden');
 $('teamChoices').classList.add('hidden');team=[];teamConfirmed=false;renderPlayerCircle('tableCircle',leader,false,true);
 $('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
 $('progressLabel').textContent=success+' / 3 次成功';
 $('progressFill').style.width=Math.min(100,success/3*100)+'%';}
-$('finishReveal').onclick=()=>{$('reveal').classList.add('hidden');$('game').classList.remove('hidden');$('teamPanel').classList.remove('hidden');beginRound()};
+$('finishReveal').onclick=()=>{$('reveal').classList.add('hidden');beginRound()};
 function submitTeamSelection(){if(!teamConfirmed){team=[...document.querySelectorAll('#tableCircle .team-pick:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}teamConfirmed=true;renderPlayerCircle('tableCircle',leader,false,true);$('gameHint').textContent='出征名單已確認，金黃色標記為本次出征玩家；確認無誤後按「開始投票」。';$('submitTeam').onclick=submitTeamSelection;return}phase='vote';voteValues=Array(players.length).fill(null);voteIndex=leader;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()}
 function updateVoteTurnCircle(){
  const el=$('tableCircle'),n=players.length;if(!el)return;
@@ -1429,13 +1425,13 @@ $('missionShow').onclick=()=>{let p=players[team[missionIndex]],evil=evilRoles.i
 window.missionCard=v=>{missionValues.push(v);missionIndex++;if(missionIndex<team.length){renderMission()}else{$('missionPanel').classList.add('hidden');$('gameHint').textContent='所有出征玩家均已完成秘密出牌，請查看任務結果。';let fails=missionValues.filter(x=>!x).length,threshold=($('rule').value==='standard'&&count()>=7&&round===3)?2:1;let passed=fails<threshold;if(passed)success++;else fail++;$('resultPanel').classList.remove('hidden');$('gameHint').textContent='任務結果已統計，請確認後進入下一步。';$('resultText').innerHTML=`本次任務：<b>${passed?'成功':'失敗'}</b><br>失敗牌數：${fails} 張（本關需 ${threshold} 張失敗才算失敗）<br><span class="muted">任務牌已統計，不公開各玩家出的牌。</span>`;phase='result'}};
 $('next').onclick=()=>{if(fail>=3){end('邪惡陣營獲勝','邪惡陣營累積 3 次任務失敗。');return}if(success>=3){let assassin=players.find(p=>p.role==='刺客');if(!assassin){end('正義陣營獲勝','正義陣營完成三次任務成功，且本局未配置刺客。');return}$('resultPanel').classList.add('hidden');$('assassinPanel').classList.remove('hidden');$('gameHint').textContent='請由刺客選擇一位玩家，嘗試找出梅林。';$('assassinChoices').innerHTML=players.map((p,i)=>`<label class="vote"><input type="radio" name="target" value="${i}" style="width:auto"> ${p.name}</label>`).join('');return}round++;leader=(leader+1)%players.length;beginRound()};
 $('assassinate').onclick=()=>{let t=document.querySelector('input[name=target]:checked');if(!t){alert('請選擇刺殺目標。');return}let p=players[+t.value];if(p.role==='梅林')end('邪惡陣營獲勝','刺客成功指認梅林！');else end('正義陣營獲勝',`刺客指認了 ${p.name}，但他不是梅林。`);};
-function end(title,msg){$('teamPanel').classList.add('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('endPanel').classList.remove('hidden');$('gameHint').textContent=msg;$('endTitle').textContent=title;$('endText').textContent=msg+` 最終戰績：正義任務成功 ${success} 次、失敗 ${fail} 次。`;}
+function end(title,msg){$('teamPanel').classList.add('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('endPanel').classList.remove('hidden');$('gameHint').textContent=msg;$('endTitle').textContent=title;$('endText').textContent=msg+` 最終戰績：正義任務成功 ${success} 次、失敗 ${fail} 次。`;$('roundTitle').textContent='遊戲結束';}
 $('restart').onclick=()=>location.reload();
 
 </script></body></html>
 
 <style>
-/* v0.1.11：所有遊戲階段統一只保留標題、玩家座位、階段資訊三區 */
+/* v0.1.08：所有遊戲階段統一只保留標題、玩家座位、階段資訊三區 */
 .stage-info-area{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:8px 0;box-shadow:0 8px 24px #1720330c}
 .stage-summary{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
 .stage-info-area>.panel{background:transparent;border:0;border-radius:0;box-shadow:none;padding:8px 0;margin:8px 0;border-top:1px solid #e6eaf0}
