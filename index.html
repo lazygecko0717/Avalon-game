@@ -1385,13 +1385,22 @@ function renderRoundProgress(){
 
 function syncDecisionDock(){
  const dock=$('decisionDock');if(!dock)return;
+ // 先將上一階段移出的按鈕容器放回原位置，避免不同階段的按鈕累積
+ [...dock.children].forEach(node=>{
+  const origin=$(node.dataset.dockOrigin);
+  if(origin)origin.appendChild(node);
+ });
+ dock.innerHTML='';
  const visible=[...document.querySelectorAll('#game .stage-info-area > .panel:not(.hidden)')];
  const panel=visible[0];let actions=null;
  if(panel){
   if(panel.id==='missionPanel'&&!$('missionSecret').classList.contains('hidden'))actions=$('missionSecret').querySelector('.actions');
   else actions=panel.querySelector(':scope > .actions');
  }
- if(actions&&actions.parentElement!==dock)dock.appendChild(actions);
+ if(actions){
+  if(!actions.dataset.dockOrigin)actions.dataset.dockOrigin=actions.parentElement.id;
+  dock.appendChild(actions);
+ }
 }
 function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;renderRoundProgress();$('gameHint').textContent=`請在上方圓桌座位直接勾選 ${teamSizes[count()][round]} 位出征玩家。`;$('gameHint').classList.remove('hidden');
 $('teamChoices').classList.add('hidden');team=[];teamConfirmed=false;renderPlayerCircle('tableCircle',leader,false,true);
