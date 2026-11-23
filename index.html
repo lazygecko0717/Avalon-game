@@ -1369,7 +1369,7 @@ function renderRoundProgress(){
 }
 
 function beginRound(){phase='team';$('teamPanel').classList.remove('hidden');$('teamStageTitle').textContent=`選擇出征名單：${teamSizes[count()][round]}名玩家`;$("teamStageText").textContent=`本輪領袖：${players[leader].name}，請在上方玩家座位區點擊選擇 ${teamSizes[count()][round]} 位出征玩家。`;$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;renderRoundProgress();$('gameHint').classList.add('hidden');
-$('teamChoices').classList.add('hidden');team=[];teamConfirmed=false;renderPlayerCircle('tableCircle',leader,false,true);
+team=[];teamConfirmed=false;renderPlayerCircle('tableCircle',leader,false,true);
 $('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
 $('progressLabel').textContent=success+' / 3 次成功';
 $('progressFill').style.width=Math.min(100,success/3*100)+'%';}
