@@ -1130,7 +1130,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 </style>
 <style>
-/* v0.1.33：角色選擇改以人物頭像高亮表示，不顯示勾選方塊 */
+/* v0.1.34：角色選擇改以人物頭像高亮表示，不顯示勾選方塊 */
 #setup .role-menu .role-option:has(input[type="checkbox"]:checked){
   border:2px solid #62c5ff;
   background:rgba(38,133,210,.32);
@@ -1156,7 +1156,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.33</div>
+  <div class="home-version">VERSION v0.1.34</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1253,7 +1253,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.33｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.34｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1457,7 +1457,7 @@ function renderRoundProgress(){
   '<div class="round-progress-row"><div class="round-progress-label">連續否決次數</div><div class="round-progress-cells">'+rejectCells+'</div></div>';
 }
 
-function beginRound(){phase='team';$('game').classList.add('team-selection-phase');$('teamPanel').classList.remove('hidden');$('teamStageTitle').textContent=`選擇出征名單：${teamSizes[count()][round]}名玩家`;$("teamStageText").textContent=`本輪領袖：${players[leader].name}，請在上方玩家座位區點擊選擇 ${teamSizes[count()][round]} 位出征玩家。`;$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;renderRoundProgress();$('gameHint').classList.add('hidden');
+function beginRound(){phase='team';$('game').classList.remove('vote-phase');$('voteStageInfo').classList.add('hidden');$('votePanel').classList.add('hidden');$('voteActionSpace').innerHTML='';const voteButtonSpace=document.querySelector('#game .player-area-button-space');if(voteButtonSpace&&$('submitVotes').parentElement!==voteButtonSpace)voteButtonSpace.appendChild($('submitVotes'));$('submitVotes').classList.add('hidden');$('submitVotes').disabled=true;$('submitVotes').textContent='公布投票結果';$('game').classList.add('team-selection-phase');$('teamPanel').classList.remove('hidden');$('teamStageTitle').textContent=`選擇出征名單：${teamSizes[count()][round]}名玩家`;$("teamStageText").textContent=`本輪領袖：${players[leader].name}，請在上方玩家座位區點擊選擇 ${teamSizes[count()][round]} 位出征玩家。`;$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;renderRoundProgress();$('gameHint').classList.add('hidden');
 team=[];teamConfirmed=false;renderPlayerCircle('tableCircle',leader,false,true);
 $('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
 $('progressLabel').textContent=success+' / 3 次成功';
@@ -1575,13 +1575,13 @@ $('restart').onclick=()=>location.reload();
 </style>
 
 <style>
-/* v0.1.33：出征確認按鈕沿用身份確認按鈕的尺寸、外觀與座位區下方定位 */
+/* v0.1.34：出征確認按鈕沿用身份確認按鈕的尺寸、外觀與座位區下方定位 */
 .player-area-button-space #finishReveal,
 .player-area-button-space #submitTeam{margin:0;max-width:100%;width:auto;}
 </style>
 
 <style>
-/* v0.1.33：出征按鈕置中，空白投票操作區不再佔位；階段訊息取消內層面板框架 */
+/* v0.1.34：出征按鈕置中，空白投票操作區不再佔位；階段訊息取消內層面板框架 */
 .player-area-button-space{justify-content:center!important;position:relative}
 .player-area-button-space #submitTeam{display:block;margin-left:auto!important;margin-right:auto!important}
 #voteActionSpace:empty{display:none!important}
