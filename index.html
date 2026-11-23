@@ -1140,7 +1140,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.26</div>
+  <div class="home-version">VERSION v0.1.27</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1237,7 +1237,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.26｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.27｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1277,7 +1277,7 @@ $('names').innerHTML=Array.from({length:n},(_,i)=>`<div class="player name-optio
 let sp=defaultSpecial[n];let good=sp.filter(x=>goodRoles.includes(x)),evil=sp.filter(x=>evilRoles.includes(x));
 const roleOption=(name,side,selected)=>{const slug={'梅林':'merlin','派西維爾':'percival','忠臣':'servant','刺客':'assassin','莫甘娜':'morgana','莫德雷德':'mordred','奧伯倫':'oberon','爪牙':'minion'}[name];return `<label class="role-option"><img src="./assets/roles/${slug}.png" alt=""><span>${name}</span><input type="checkbox" value="${name}" ${selected?'checked':''}></label>`};
 const fixedRole=(name)=>{const slug=name==='忠臣'?'servant':'minion';return `<div class="role-option role-fixed"><img src="./assets/roles/${slug}.png" alt=""><span>${name}</span><small>固定補足</small></div>`};
-$('roles').innerHTML=`<div class="row"><div class="role-side good"><label>正義方角色</label><details class="role-dropdown"><summary><span>選擇正義方角色</span><span class="role-count">已選 ${good.length} 位</span></summary><div class="role-menu" id="goodChecks">${['梅林','派西維爾'].map(x=>roleOption(x,'good',good.includes(x))).join('')}${fixedRole('忠臣')}</div></details></div><div class="role-side evil"><label>邪惡方角色</label><details class="role-dropdown"><summary><span>選擇邪惡方角色</span><span class="role-count">已選 ${evil.length} 位</span></summary><div class="role-menu" id="evilChecks">${['刺客','莫甘娜','莫德雷德','奧伯倫'].map(x=>roleOption(x,'evil',evil.includes(x))).join('')}${fixedRole('爪牙')}</div></details></div></div><p class="muted">未選滿的陣營名額會自動以「忠臣」或「爪牙」補足。刺客建議保留，否則三次成功後將無法進行刺殺階段。</p>`;
+$('roles').innerHTML=`<div class="row"><div class="role-side good"><div class="role-heading"><span>正義方角色</span><span class="role-total">${ratios[n][0]} 人</span></div><details class="role-dropdown"><summary><span>選擇正義方角色</span><span class="role-count">已選 ${good.length} 位</span></summary><div class="role-menu" id="goodChecks">${['梅林','派西維爾'].map(x=>roleOption(x,'good',good.includes(x))).join('')}${fixedRole('忠臣')}</div></details></div><div class="role-side evil"><div class="role-heading"><span>邪惡方角色</span><span class="role-total">${ratios[n][1]} 人</span></div><details class="role-dropdown"><summary><span>選擇邪惡方角色</span><span class="role-count">已選 ${evil.length} 位</span></summary><div class="role-menu" id="evilChecks">${['刺客','莫甘娜','莫德雷德','奧伯倫'].map(x=>roleOption(x,'evil',evil.includes(x))).join('')}${fixedRole('爪牙')}</div></details></div></div><p class="muted">未選滿的陣營名額會自動以「忠臣」或「爪牙」補足。刺客建議保留，否則三次成功後將無法進行刺殺階段。</p>`;
 $('roles').querySelectorAll('.role-dropdown').forEach(dropdown=>{const update=()=>{const checks=dropdown.querySelectorAll('input[type="checkbox"]');const count=dropdown.querySelector('.role-count');count.textContent='已選 '+Array.from(checks).filter(x=>x.checked).length+' 位'};dropdown.querySelectorAll('input[type="checkbox"]').forEach(input=>input.addEventListener('change',update));});
 }
 $('count').onchange=renderSetup;renderSetup();
@@ -1550,4 +1550,10 @@ $('restart').onclick=()=>location.reload();
 /* v0.1.26：角色選單標題右側僅顯示已選人數 */
 #setup .role-dropdown>summary{display:flex;align-items:center;justify-content:space-between;gap:8px}
 #setup .role-dropdown>summary .role-count{margin-left:auto;white-space:nowrap}
+</style>
+
+<style>
+/* v0.1.27：陣營標題右側顯示依玩家人數計算的陣營總人數 */
+#setup .role-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 4px;color:#fff;font-size:13px;font-weight:750}
+#setup .role-total{font-size:11px;font-weight:700;white-space:nowrap;opacity:.9}
 </style>
