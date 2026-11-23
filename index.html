@@ -1130,20 +1130,29 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 </style>
 <style>
-/* v0.1.35：角色選取時，整個頭像與名稱選項外框同步高亮 */
+/* v0.1.36：角色名稱恢復黑色，正義／邪惡角色分別使用藍／紅底色 */
 #setup .role-menu .role-option:has(input[type="checkbox"]:checked){
-  border:2px solid #79d0ff;
-  background:linear-gradient(110deg,rgba(37,139,218,.48),rgba(58,164,235,.28));
-  box-shadow:0 0 0 3px rgba(98,197,255,.28),0 0 16px rgba(75,177,255,.62),inset 0 0 12px rgba(255,255,255,.10);
+  border-width:2px;
+  box-shadow:0 0 0 3px rgba(98,197,255,.24),0 0 16px rgba(75,177,255,.48),inset 0 0 12px rgba(255,255,255,.16);
 }
-#setup .role-menu .role-option:has(input[type="checkbox"]:checked) img{
-  filter:drop-shadow(0 0 7px #75d0ff);
-  transform:scale(1.08);
+#setup #goodChecks .role-option:has(input[type="checkbox"]:checked){
+  border-color:#398bd0;
+  background:linear-gradient(110deg,#b9dcff,#dceeff);
+  box-shadow:0 0 0 3px rgba(68,153,220,.24),0 0 16px rgba(75,177,255,.48),inset 0 0 12px rgba(255,255,255,.28);
+}
+#setup #evilChecks .role-option:has(input[type="checkbox"]:checked){
+  border-color:#d45b65;
+  background:linear-gradient(110deg,#ffc5c9,#ffe1e2);
+  box-shadow:0 0 0 3px rgba(212,91,101,.22),0 0 16px rgba(235,105,115,.45),inset 0 0 12px rgba(255,255,255,.28);
 }
 #setup .role-menu .role-option:has(input[type="checkbox"]:checked) span{
-  color:#fff;
+  color:#172033;
   font-weight:900;
-  text-shadow:0 0 8px rgba(117,208,255,.85);
+  text-shadow:none;
+}
+#setup .role-menu .role-option:has(input[type="checkbox"]:checked) img{
+  filter:drop-shadow(0 0 6px rgba(30,65,100,.32));
+  transform:scale(1.08);
 }
 #setup .role-menu .role-option input[type="checkbox"]{display:none!important}
 #setup .role-menu .role-option{cursor:pointer;transition:background .16s,border-color .16s,box-shadow .16s,transform .16s}
@@ -1161,7 +1170,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.34</div>
+  <div class="home-version">VERSION v0.1.36</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
