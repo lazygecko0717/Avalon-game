@@ -1140,7 +1140,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.31</div>
+  <div class="home-version">VERSION v0.1.32</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1220,7 +1220,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <section id="game" class="hidden">
 <div class="player-area-panel">
 <div id="tableCircle" class="player-circle hidden" aria-label="玩家座位順時針排列，本輪領袖位於最下方"></div>
-<div class="player-area-button-space"><button type="button" class="blue hidden" id="submitTeam">確認出征名單，開始投票</button><div id="voteActionSpace"></div></div>
+<div class="player-area-button-space"><button type="button" class="blue hidden" id="submitTeam">確認出征名單，開始投票</button><div id="voteActionSpace"></div><button type="button" class="blue hidden" id="submitVotes">公布投票結果</button></div>
 </div>
 <div class="stage-info-area">
 <div id="voteStageInfo" class="hidden"><h2>投票決定是否贊成隊伍出征</h2><p class="muted">玩家順時針方向輪流進行秘密投票，決定本輪隊伍是否出征。所有玩家完成投票後，公開公布各玩家投票結果。</p></div>
@@ -1228,7 +1228,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <div class="notice game-hint hidden" id="gameHint" aria-live="polite"></div>
 <div class="notice hidden" id="status"></div><div class="hidden"><span id="progressLabel">0 / 3 次成功</span><div class="progress-fill" id="progressFill"></div><div class="track" id="track"></div></div>
 <div id="teamPanel"><h2 id="teamStageTitle">選擇出征名單</h2><p class="muted" id="teamStageText"></p></div>
-<div class="panel hidden" id="votePanel"><h2>④ 全員投票：贊成或反對</h2><div id="votes" class="votegrid"></div><div class="actions"><button class="blue" id="submitVotes">公布投票結果</button></div></div>
+<div class="panel hidden" id="votePanel"><h2>④ 全員投票：贊成或反對</h2><div id="votes" class="votegrid"></div></div>
 <div class="panel hidden" id="missionPanel"><h2>⑤ 任務玩家秘密出牌</h2><div id="missionSecret" class="secret hidden"></div><div class="actions"><button class="blue" id="missionShow">查看並出牌</button><button class="secondary hidden" id="missionHide">確認出牌並交給下一位</button></div></div>
 <div class="panel hidden" id="resultPanel"><h2>任務結果</h2><div id="resultText" class="notice"></div><div class="actions"><button class="blue" id="next">進入下一步</button></div></div>
 <div class="panel hidden" id="assassinPanel"><h2>⑥ 刺客最後指認</h2><p>好人已完成三次任務成功。請由刺客選擇一位玩家，嘗試找出梅林。</p><div id="assassinChoices" class="votegrid"></div><div class="actions"><button class="red" id="assassinate">確認刺殺目標</button></div></div>
@@ -1237,7 +1237,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.31｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.32｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1475,7 +1475,7 @@ function revealVoteCircle(yes,no,passed){
 $('submitVotes').onclick=()=>{
  const yes=voteValues.filter(Boolean).length,no=players.length-yes,passed=yes>no;
  if(!voteRevealed){voteRevealed=true;revealVoteCircle(yes,no,passed);return}
- $('votePanel').querySelector('.actions').appendChild($('submitVotes'));$('votePanel').classList.add('hidden');$('submitVotes').disabled=true;$('game').classList.remove('vote-phase');$('voteStageInfo').classList.add('hidden');$('voteActionSpace').innerHTML='';
+ $('votePanel').classList.add('hidden');$('submitVotes').disabled=true;$('game').classList.remove('vote-phase');$('voteStageInfo').classList.add('hidden');$('voteActionSpace').innerHTML='';
  if(!passed){consecutive++;leader=(leader+1)%players.length;if(consecutive>=5){end('邪惡陣營獲勝','連續 5 次組隊投票遭否決。');return}alert('隊伍遭否決：贊成 '+yes+'、反對 '+no+'。');beginRound()}
  else{consecutive=0;phase='mission';missionIndex=0;missionValues=[];$('missionPanel').classList.remove('hidden');renderMission()}
 };
@@ -1559,13 +1559,13 @@ $('restart').onclick=()=>location.reload();
 </style>
 
 <style>
-/* v0.1.31：出征確認按鈕沿用身份確認按鈕的尺寸、外觀與座位區下方定位 */
+/* v0.1.32：出征確認按鈕沿用身份確認按鈕的尺寸、外觀與座位區下方定位 */
 .player-area-button-space #finishReveal,
 .player-area-button-space #submitTeam{margin:0;max-width:100%;width:auto;}
 </style>
 
 <style>
-/* v0.1.31：出征按鈕置中，空白投票操作區不再佔位；階段訊息取消內層面板框架 */
+/* v0.1.32：出征按鈕置中，空白投票操作區不再佔位；階段訊息取消內層面板框架 */
 .player-area-button-space{justify-content:center!important;position:relative}
 .player-area-button-space #submitTeam{display:block;margin-left:auto!important;margin-right:auto!important}
 #voteActionSpace:empty{display:none!important}
