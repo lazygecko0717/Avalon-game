@@ -1140,7 +1140,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.29</div>
+  <div class="home-version">VERSION v0.1.30</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1227,7 +1227,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <div class="stage-progress-info"><div><h2 id="roundTitle">第1次任務</h2><p class="muted" id="leader"></p></div><div style="text-align:right"><span class="pill" id="voteFails">連續否決：0/5</span></div></div>
 <div class="notice game-hint hidden" id="gameHint" aria-live="polite"></div>
 <div class="notice hidden" id="status"></div><div class="hidden"><span id="progressLabel">0 / 3 次成功</span><div class="progress-fill" id="progressFill"></div><div class="track" id="track"></div></div>
-<div class="panel" id="teamPanel"><h2 id="teamStageTitle">選擇出征名單</h2><p class="muted" id="teamStageText"></p></div>
+<div id="teamPanel"><h2 id="teamStageTitle">選擇出征名單</h2><p class="muted" id="teamStageText"></p></div>
 <div class="panel hidden" id="votePanel"><h2>④ 全員投票：贊成或反對</h2><div id="votes" class="votegrid"></div><div class="actions"><button class="blue" id="submitVotes">公布投票結果</button></div></div>
 <div class="panel hidden" id="missionPanel"><h2>⑤ 任務玩家秘密出牌</h2><div id="missionSecret" class="secret hidden"></div><div class="actions"><button class="blue" id="missionShow">查看並出牌</button><button class="secondary hidden" id="missionHide">確認出牌並交給下一位</button></div></div>
 <div class="panel hidden" id="resultPanel"><h2>任務結果</h2><div id="resultText" class="notice"></div><div class="actions"><button class="blue" id="next">進入下一步</button></div></div>
@@ -1237,7 +1237,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.29｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.30｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1559,7 +1559,15 @@ $('restart').onclick=()=>location.reload();
 </style>
 
 <style>
-/* v0.1.29：出征確認按鈕沿用身份確認按鈕的尺寸、外觀與座位區下方定位 */
+/* v0.1.30：出征確認按鈕沿用身份確認按鈕的尺寸、外觀與座位區下方定位 */
 .player-area-button-space #finishReveal,
 .player-area-button-space #submitTeam{margin:0;max-width:100%;width:auto;}
+</style>
+
+<style>
+/* v0.1.30：出征按鈕置中，空白投票操作區不再佔位；階段訊息取消內層面板框架 */
+.player-area-button-space{justify-content:center!important;position:relative}
+.player-area-button-space #submitTeam{display:block;margin-left:auto!important;margin-right:auto!important}
+#voteActionSpace:empty{display:none!important}
+#game.team-selection-phase #teamPanel{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
 </style>
