@@ -1140,7 +1140,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.27</div>
+  <div class="home-version">VERSION v0.1.28</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1220,7 +1220,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <section id="game" class="hidden">
 <div class="player-area-panel">
 <div id="tableCircle" class="player-circle hidden" aria-label="玩家座位順時針排列，本輪領袖位於最下方"></div>
-<div class="player-area-button-space"><button type="button" class="blue hidden" id="submitTeam">確認出征名單</button><div id="voteActionSpace"></div></div>
+<div class="player-area-button-space"><button type="button" class="blue hidden" id="submitTeam">確認出征名單，開始投票</button><div id="voteActionSpace"></div></div>
 </div>
 <div class="stage-info-area">
 <div id="voteStageInfo" class="hidden"><h2>投票決定是否贊成隊伍出征</h2><p class="muted">玩家順時針方向輪流進行秘密投票，決定本輪隊伍是否出征。所有玩家完成投票後，公開公布各玩家投票結果。</p></div>
@@ -1237,7 +1237,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.27｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.28｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1350,7 +1350,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
  }).join('');
  if(targetId==='tableCircle'){el.insertAdjacentHTML('beforeend','<div id="roundProgressCenter" class="round-progress-center" aria-label="任務進度與連續否決進度"></div>');renderRoundProgress();}
  const teamButton=$('submitTeam');
- if(teamButton){teamButton.classList.toggle('hidden',!teamMode);teamButton.textContent=teamConfirmed?'開始投票':'確認出征名單';}
+ if(teamButton){teamButton.classList.toggle('hidden',!teamMode);teamButton.textContent='確認出征名單，開始投票';}
  if(identityMode){
   el.onclick=e=>{
    const seat=e.target.closest('.identity-seat[data-player-index]');
@@ -1447,7 +1447,7 @@ $('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`
 $('progressLabel').textContent=success+' / 3 次成功';
 $('progressFill').style.width=Math.min(100,success/3*100)+'%';}
 $('finishReveal').onclick=()=>{$('reveal').classList.add('hidden');beginRound()};
-function submitTeamSelection(){if(!teamConfirmed){team=[...document.querySelectorAll('#tableCircle .team-pick:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}teamConfirmed=true;renderPlayerCircle('tableCircle',leader,false,true);$('gameHint').classList.add('hidden');$('submitTeam').onclick=submitTeamSelection;return}$('game').classList.remove('team-selection-phase');$('game').classList.add('vote-phase');$('submitTeam').classList.add('hidden');$('voteStageInfo').classList.remove('hidden');$('voteActionSpace').innerHTML='';phase='vote';voteValues=Array(players.length).fill(null);voteIndex=leader;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()}
+function submitTeamSelection(){team=[...document.querySelectorAll('#tableCircle .team-pick:checked')].map(x=>+x.value);if(team.length!==teamSizes[count()][round]){alert(`本次任務必須選擇 ${teamSizes[count()][round]} 人。`);return}teamConfirmed=true;$('game').classList.remove('team-selection-phase');$('game').classList.add('vote-phase');$('submitTeam').classList.add('hidden');$('voteStageInfo').classList.remove('hidden');$('voteActionSpace').innerHTML='';phase='vote';voteValues=Array(players.length).fill(null);voteIndex=leader;voteRevealed=false;$('submitVotes').textContent='公布投票結果';$('submitVotes').disabled=true;$('teamPanel').classList.add('hidden');$('votePanel').classList.remove('hidden');renderVote()}
 function updateVoteTurnCircle(){
  const el=$('tableCircle'),n=players.length;if(!el)return;
  if(!el.querySelector('.vote-turn-seat')){
