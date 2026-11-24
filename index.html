@@ -118,6 +118,14 @@ button{transition:transform .16s,filter .16s,box-shadow .16s}button:hover{filter
 .vote-reveal-summary .no{background:#ffebeb;color:#a52e35}
 @media(max-width:380px){.vote-seat{width:72px;min-height:58px;padding:5px 3px}.vote-seat .seat-name{font-size:11px}.vote-seat .seat-choice{font-size:12px}.vote-reveal-center{width:32%;padding:7px 3px}}
 
+/* v0.1.40：遊戲進行中的標題列右側選單 */
+header .game-menu{position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:950}
+header .game-menu-button{width:42px;height:42px;padding:0;border:1px solid #ffffff55;border-radius:11px;background:#ffffff18;color:#fff;font-size:22px;line-height:1;box-shadow:0 3px 12px #0002}
+header .game-menu-dropdown{position:absolute;right:0;top:calc(100% + 9px);width:164px;padding:6px;border:1px solid #ffffff40;border-radius:12px;background:#14243a;box-shadow:0 10px 28px #0005;display:flex;flex-direction:column;gap:4px}
+header .game-menu-dropdown button{width:100%;text-align:left;padding:11px 12px;border-radius:8px;background:transparent;color:#fff;font-size:14px}
+header .game-menu-dropdown button:hover{background:#ffffff20}
+body.app-fullscreen header h1{padding-right:54px}
+
 /* Immersive game view after setup */
 html,body{min-height:100%}
 body.app-fullscreen{min-height:100vh;min-height:100dvh}
@@ -1160,7 +1168,16 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 
 </head>
 <body class="home-active">
-<header><h1>⚔️ 阿瓦隆 Avalon</h1></header>
+<header>
+ <h1>⚔️ 阿瓦隆 Avalon</h1>
+ <div id="gameMenu" class="game-menu hidden">
+  <button type="button" id="gameMenuButton" class="game-menu-button" aria-label="遊戲選單" aria-haspopup="true" aria-expanded="false">☰</button>
+  <div id="gameMenuDropdown" class="game-menu-dropdown hidden">
+   <button type="button" id="restartSameGame">重新開始</button>
+   <button type="button" id="newGameSetup">設定新遊戲</button>
+  </div>
+ </div>
+</header>
 <main>
 <section id="homeScreen" class="home-screen">
  <div class="home-card">
@@ -1170,7 +1187,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.39</div>
+  <div class="home-version">VERSION v0.1.40</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1301,6 +1318,7 @@ const ratios={5:[3,2],6:[4,2],7:[4,3],8:[5,3],9:[6,3],10:[6,4]};
 const teamSizes={5:[2,3,2,3,3],6:[2,3,4,3,4],7:[2,3,3,4,4],8:[3,4,4,5,5],9:[3,4,4,5,5],10:[3,4,4,5,5]};
 let players=[],roles=[],round=0,leader=0,consecutive=0,success=0,fail=0,team=[],voteIndex=0,voteValues=[],missionIndex=0,missionValues=[],phase='setup',revealIndex=0,roleCardOpen=false,assassinTarget=null;
 let voteRevealed=false,teamConfirmed=false,roleCardClosing=false;
+let savedGameSettings=null;
 function count(){return +$('count').value}
 function renderSetup(){let n=count();$('ratio').textContent='';
 $('names').innerHTML=Array.from({length:n},(_,i)=>`<div class="player name-option"><input id="p${i}" aria-label="玩家 ${i+1} 名稱" placeholder="玩家 ${i+1}" value="玩家${i+1}" maxlength="12"></div>`).join('');
@@ -1330,6 +1348,8 @@ function enterGameFullscreen(){
 }
 function start(){let n=count(),[g,e]=ratios[n],gs=chosen('goodChecks'),es=chosen('evilChecks');
 if(gs.length>g||es.length>e||gs.length===0||!gs.includes('梅林')){alert('請確認特殊角色數量沒有超過陣營人數，且保留梅林。');return}
+savedGameSettings={count:n,rule:$('rule').value,names:Array.from({length:n},(_,i)=>$('p'+i).value.trim()||`玩家${i+1}`),good:[...gs],evil:[...es]};
+$('gameMenu').classList.remove('hidden');$('gameMenuDropdown').classList.add('hidden');$('gameMenuButton').setAttribute('aria-expanded','false');
 enterGameFullscreen();
 let gr=[...gs,...Array(g-gs.length).fill('忠臣')],er=[...es,...Array(e-es.length).fill('爪牙')];
 if(!er.includes('刺客')){if(es.length===e){alert('邪惡角色名額已滿，請選擇刺客。');return}er[er.length-1]='刺客'}
@@ -1579,6 +1599,49 @@ $('next').onclick=()=>{if(fail>=3){end('邪惡陣營獲勝','邪惡陣營累積 
 $('assassinate').onclick=()=>{let t=document.querySelector('input[name=target]:checked');if(!t){alert('請選擇刺殺目標。');return}let p=players[+t.value];if(p.role==='梅林')end('邪惡陣營獲勝','刺客成功指認梅林！');else end('正義陣營獲勝',`刺客指認了 ${p.name}，但他不是梅林。`);};
 function end(title,msg){$('teamPanel').classList.add('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('endPanel').classList.remove('hidden');$('gameHint').textContent=msg;$('endTitle').textContent=title;$('endText').textContent=msg+` 最終戰績：正義任務成功 ${success} 次、失敗 ${fail} 次。`;$('roundTitle').textContent='遊戲結束';}
 $('restart').onclick=()=>location.reload();
+function closeGameMenu(){
+ $('gameMenuDropdown').classList.add('hidden');
+ $('gameMenuButton').setAttribute('aria-expanded','false');
+}
+$('gameMenuButton').onclick=()=>{
+ const opening=$('gameMenuDropdown').classList.contains('hidden');
+ $('gameMenuDropdown').classList.toggle('hidden',!opening);
+ $('gameMenuButton').setAttribute('aria-expanded',String(opening));
+};
+document.addEventListener('click',e=>{
+ if(!$('gameMenu').contains(e.target))closeGameMenu();
+});
+$('restartSameGame').onclick=()=>{
+ if(!savedGameSettings)return;
+ const cfg=savedGameSettings;
+ $('count').value=String(cfg.count);renderSetup();$('rule').value=cfg.rule;
+ cfg.names.forEach((name,i)=>{const input=$('p'+i);if(input)input.value=name});
+ ['goodChecks','evilChecks'].forEach((id,index)=>{
+  const selected=new Set(index===0?cfg.good:cfg.evil);
+  const root=$(id);
+  if(root)root.querySelectorAll('input[type="checkbox"]').forEach(input=>{input.checked=selected.has(input.value)});
+  const countLabel=root?.closest('.role-dropdown')?.querySelector('.role-count');
+  if(countLabel)countLabel.textContent='已選 '+(root?[...root.querySelectorAll('input:checked')].length:0)+' 位';
+ });
+ $('game').classList.remove('vote-phase','team-selection-phase');
+ ['teamPanel','votePanel','missionPanel','resultPanel','assassinPanel','endPanel'].forEach(id=>$(id).classList.add('hidden'));
+ $('reveal').classList.add('hidden');$('game').classList.add('hidden');$('setup').classList.remove('hidden');
+ const focus=document.querySelector('.role-focus');if(focus)focus.remove();
+ closeGameMenu();start();
+};
+$('newGameSetup').onclick=()=>{
+ closeGameMenu();
+ $('gameMenu').classList.add('hidden');
+ $('reveal').classList.add('hidden');$('game').classList.add('hidden');$('setup').classList.remove('hidden');
+ $('game').classList.remove('vote-phase','team-selection-phase');
+ ['teamPanel','votePanel','missionPanel','resultPanel','assassinPanel','endPanel'].forEach(id=>$(id).classList.add('hidden'));
+ const focus=document.querySelector('.role-focus');if(focus)focus.remove();
+ phase='setup';roleCardOpen=false;roleCardClosing=false;
+ document.body.classList.remove('app-fullscreen');
+ if(document.fullscreenElement&&document.exitFullscreen){try{document.exitFullscreen().catch(()=>{})}catch(_){}}
+ window.scrollTo(0,0);
+};
+
 
 </script></body></html>
 
