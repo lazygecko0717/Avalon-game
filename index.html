@@ -1435,6 +1435,7 @@ function showReveal(){
 }
 function animateIdentityDeal(){
  const circle=$('revealCircle');
+ circle.classList.add('dealing-cards');
  const seats=[...circle.querySelectorAll('.identity-seat[data-player-index]')].sort((a,b)=>Number(a.dataset.playerIndex)-Number(b.dataset.playerIndex));
  if(!seats.length)return;
  seats.forEach(seat=>seat.classList.add('deal-pending'));
@@ -1452,6 +1453,7 @@ function animateIdentityDeal(){
  const dealNext=index=>{
   if(index>=seats.length){
    center.remove();
+   circle.classList.remove('dealing-cards');
    seats.forEach(seat=>seat.classList.remove('deal-pending'));
    return;
   }
@@ -1915,6 +1917,7 @@ header .game-menu-dropdown button{display:flex;align-items:center;gap:10px}
 
 <style>
 /* v0.1.47：身份發牌動畫，中央牌與玩家牌使用相同尺寸 */
+#revealCircle.dealing-cards .identity-seat{pointer-events:none!important}
 #revealCircle .identity-seat.deal-pending .identity-card{opacity:0!important}
 #revealCircle .identity-seat.dealt .identity-card{opacity:1!important;transition:opacity .16s ease}
 #revealCircle .deal-center-card{position:absolute;left:50%;top:50%;z-index:15;transform:translate(-50%,-50%);pointer-events:none;margin:0;}
