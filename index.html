@@ -1197,7 +1197,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.45</div>
+  <div class="home-version">VERSION v0.1.46</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1834,5 +1834,32 @@ header .game-menu-dropdown button{display:flex;align-items:center;gap:10px}
 .stage-info-area>h2{
  font-size:26px!important;
  font-weight:900!important;
+}
+</style>
+
+
+<style>
+/* v0.1.46：玩家區下方按鈕高度統一增加一倍 */
+.player-area-button-space button{
+ box-sizing:border-box!important;
+ min-height:84px!important;
+ padding-top:22px!important;
+ padding-bottom:22px!important;
+}
+
+/* v0.1.46：階段資訊區內部全面取消次級框架，只保留外層資訊框架 */
+.stage-info-area :where(*) {
+ background:transparent!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+ outline:0!important;
+}
+.stage-info-area h2,
+.stage-info-area .stage-progress-info h2,
+.stage-info-area .panel h2{
+ font-size:20px!important;
+ font-weight:800!important;
+ line-height:1.3!important;
 }
 </style>
