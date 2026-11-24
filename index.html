@@ -1197,7 +1197,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.46</div>
+  <div class="home-version">VERSION v0.1.49</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1294,7 +1294,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.38｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.49｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1471,14 +1471,14 @@ function animateIdentityDeal(){
   const animation=flight.animate([
    {left:cx+'px',top:cy+'px',transform:'translate(-50%,-50%) scale(1)',opacity:1},
    {left:(rect.left+rect.width/2)+'px',top:(rect.top+rect.height/2)+'px',transform:'translate(-50%,-50%) scale(1)',opacity:1}
-  ],{duration:460,easing:'cubic-bezier(.2,.72,.25,1)',fill:'forwards'});
+  ],{duration:300,easing:'cubic-bezier(.2,.72,.25,1)',fill:'forwards'});
   animation.onfinish=()=>{
    flight.remove();
    seat.classList.add('dealt');
-   window.setTimeout(()=>dealNext(index+1),70);
+   window.setTimeout(()=>dealNext(index+1),40);
   };
  };
- window.setTimeout(()=>dealNext(0),160);
+ window.setTimeout(()=>dealNext(0),100);
 }
 function openRoleCard(index){
  if(index!==revealIndex||roleCardOpen||roleCardClosing)return;
@@ -1916,7 +1916,7 @@ header .game-menu-dropdown button{display:flex;align-items:center;gap:10px}
 </style>
 
 <style>
-/* v0.1.47：身份發牌動畫，中央牌與玩家牌使用相同尺寸 */
+/* v0.1.49：加快身份發牌動畫 */
 #revealCircle.dealing-cards .identity-seat{pointer-events:none!important}
 #revealCircle .identity-seat.deal-pending .identity-card{opacity:0!important}
 #revealCircle .identity-seat.dealt .identity-card{opacity:1!important;transition:opacity .16s ease}
