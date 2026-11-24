@@ -1197,7 +1197,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.44</div>
+  <div class="home-version">VERSION v0.1.45</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1792,4 +1792,47 @@ header .game-menu-dropdown button{display:flex;align-items:center;gap:10px}
 .game-menu-dropdown button{display:flex;align-items:center;gap:10px}
 .game-menu-item-symbol{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;flex:0 0 17px;color:#aeb8c5;font-family:Arial,sans-serif;font-size:19px;font-weight:600;line-height:1;opacity:.95}
 #newGameSetup .game-menu-item-symbol{font-size:17px}
+</style>
+
+
+<style>
+/* v0.1.45：玩家座位區下方按鈕預留空間高度加倍 */
+.player-area-button-space{
+ height:124px!important;
+ min-height:124px!important;
+ flex:0 0 124px!important;
+}
+
+/* v0.1.45：階段資訊區只保留外層框架，內部元素取消額外框架 */
+.stage-info-area :is(.panel,.notice,.secret,.vote,.track,.mission,.progress-rail,.progress-summary,.pill,.intel-reveal,.stage-progress-info){
+ background:transparent!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+ outline:0!important;
+}
+.stage-info-area>.panel{
+ padding:0!important;
+ margin:8px 0!important;
+}
+.stage-info-area .notice,
+.stage-info-area .secret,
+.stage-info-area .intel-reveal{
+ padding:0!important;
+ margin:8px 0!important;
+}
+.stage-info-area .stage-progress-info{
+ padding:0!important;
+ margin:0 0 8px!important;
+}
+.stage-info-area h2{
+ font-size:26px!important;
+ font-weight:900!important;
+ line-height:1.25!important;
+ margin:0 0 10px!important;
+}
+.stage-info-area>h2{
+ font-size:26px!important;
+ font-weight:900!important;
+}
 </style>
