@@ -1178,6 +1178,16 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
   </div>
  </div>
 </header>
+<div id="gameMenuConfirm" class="game-menu-confirm hidden" role="dialog" aria-modal="true" aria-labelledby="gameMenuConfirmTitle" aria-describedby="gameMenuConfirmMessage">
+ <div class="game-menu-confirm-card">
+  <h2 id="gameMenuConfirmTitle">確認操作</h2>
+  <p id="gameMenuConfirmMessage"></p>
+  <div class="game-menu-confirm-actions">
+   <button type="button" id="gameMenuConfirmCancel" class="game-menu-confirm-cancel">取消</button>
+   <button type="button" id="gameMenuConfirmAccept" class="game-menu-confirm-accept">確認</button>
+  </div>
+ </div>
+</div>
 <main>
 <section id="homeScreen" class="home-screen">
  <div class="home-card">
@@ -1187,7 +1197,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.41</div>
+  <div class="home-version">VERSION v0.1.42</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1611,7 +1621,23 @@ $('gameMenuButton').onclick=()=>{
 document.addEventListener('click',e=>{
  if(!$('gameMenu').contains(e.target))closeGameMenu();
 });
-$('restartSameGame').onclick=()=>{
+let pendingGameMenuAction=null;
+function openGameMenuConfirm(action){
+ pendingGameMenuAction=action;
+ closeGameMenu();
+ const restart=action==='restart';
+ $('gameMenuConfirmTitle').textContent=restart?'重新開始遊戲':'設定新遊戲';
+ $('gameMenuConfirmMessage').textContent=restart
+  ?'確定要重新開始遊戲嗎？目前遊戲進度將會重置，並沿用原本的遊戲設定。'
+  :'確定要設定新遊戲嗎？將返回遊戲設定畫面，重新調整遊戲內容。';
+ $('gameMenuConfirmAccept').textContent=restart?'確認重新開始':'確認設定新遊戲';
+ $('gameMenuConfirm').classList.remove('hidden');
+}
+function closeGameMenuConfirm(){
+ $('gameMenuConfirm').classList.add('hidden');
+ pendingGameMenuAction=null;
+}
+function restartWithSavedSettings(){
  if(!savedGameSettings)return;
  const cfg=savedGameSettings;
  $('count').value=String(cfg.count);renderSetup();$('rule').value=cfg.rule;
@@ -1628,9 +1654,8 @@ $('restartSameGame').onclick=()=>{
  $('reveal').classList.add('hidden');$('game').classList.add('hidden');$('setup').classList.remove('hidden');
  const focus=document.querySelector('.role-focus');if(focus)focus.remove();
  closeGameMenu();start();
-};
-$('newGameSetup').onclick=()=>{
- closeGameMenu();
+}
+function returnToNewGameSetup(){
  $('gameMenu').classList.add('hidden');
  $('reveal').classList.add('hidden');$('game').classList.add('hidden');$('setup').classList.remove('hidden');
  $('game').classList.remove('vote-phase','team-selection-phase');
@@ -1640,7 +1665,22 @@ $('newGameSetup').onclick=()=>{
  document.body.classList.remove('app-fullscreen');
  if(document.fullscreenElement&&document.exitFullscreen){try{document.exitFullscreen().catch(()=>{})}catch(_){}}
  window.scrollTo(0,0);
+}
+$('restartSameGame').onclick=()=>openGameMenuConfirm('restart');
+$('newGameSetup').onclick=()=>openGameMenuConfirm('new');
+$('gameMenuConfirmCancel').onclick=closeGameMenuConfirm;
+$('gameMenuConfirmAccept').onclick=()=>{
+ const action=pendingGameMenuAction;
+ closeGameMenuConfirm();
+ if(action==='restart')restartWithSavedSettings();
+ if(action==='new')returnToNewGameSetup();
 };
+$('gameMenuConfirm').addEventListener('click',e=>{
+ if(e.target===$('gameMenuConfirm'))closeGameMenuConfirm();
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&!$('gameMenuConfirm').classList.contains('hidden'))closeGameMenuConfirm();
+});
 
 
 </script></body></html>
@@ -1719,3 +1759,23 @@ body.app-fullscreen #gameMenuButton,
 body.app-fullscreen #gameMenuDropdown{position:relative;z-index:4101;pointer-events:auto}
 body.app-fullscreen #gameMenuDropdown{position:absolute}
 </style>
+
+<style>
+/* v0.1.42：遊戲選單操作前，於畫面中央顯示確認視窗 */
+.game-menu-confirm{
+ position:fixed;inset:0;z-index:10000;
+ display:flex;align-items:center;justify-content:center;
+ padding:20px;background:rgba(8,17,31,.68);
+}
+.game-menu-confirm-card{
+ width:min(390px,100%);padding:24px 20px 18px;
+ border:1px solid #dce3ed;border-radius:18px;
+ background:#fff;box-shadow:0 18px 60px rgba(0,0,0,.38);
+ text-align:center;color:#243247;
+}
+.game-menu-confirm-card h2{margin:0 0 12px;font-size:20px;color:#173454}
+.game-menu-confirm-card p{margin:0;line-height:1.7;font-size:15px;color:#45556b}
+.game-menu-confirm-actions{display:flex;gap:10px;margin-top:22px}
+.game-menu-confirm-actions button{flex:1;min-width:0;padding:11px 8px;border-radius:10px;font-size:14px;font-weight:750}
+.game-menu-confirm-cancel{background:#e9edf2;color:#34445b}
+.game-menu-confirm-accept{background:#173d63;color:#fff}
