@@ -1471,14 +1471,14 @@ function animateIdentityDeal(){
   const animation=flight.animate([
    {left:cx+'px',top:cy+'px',transform:'translate(-50%,-50%) scale(1)',opacity:1},
    {left:(rect.left+rect.width/2)+'px',top:(rect.top+rect.height/2)+'px',transform:'translate(-50%,-50%) scale(1)',opacity:1}
-  ],{duration:760,easing:'cubic-bezier(.2,.72,.25,1)',fill:'forwards'});
+  ],{duration:460,easing:'cubic-bezier(.2,.72,.25,1)',fill:'forwards'});
   animation.onfinish=()=>{
    flight.remove();
    seat.classList.add('dealt');
-   window.setTimeout(()=>dealNext(index+1),130);
+   window.setTimeout(()=>dealNext(index+1),70);
   };
  };
- window.setTimeout(()=>dealNext(0),280);
+ window.setTimeout(()=>dealNext(0),160);
 }
 function openRoleCard(index){
  if(index!==revealIndex||roleCardOpen||roleCardClosing)return;
