@@ -1197,7 +1197,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.50</div>
+  <div class="home-version">VERSION v0.1.51</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1294,7 +1294,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.50｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.51｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1441,20 +1441,40 @@ function animateIdentityDeal(){
  seats.forEach(seat=>seat.classList.add('deal-pending'));
  const firstCard=seats[0].querySelector('.identity-card');
  if(!firstCard)return;
+ const seal=firstCard.querySelector('.mini-seal');
+ if(seal){seal.classList.remove('is-leader');seal.textContent='✦';}
  const firstRect=firstCard.getBoundingClientRect();
  const center=document.createElement('div');
  center.className='identity-card deal-center-card';
  center.innerHTML='<span class="mini-seal">✦</span><small>AVALON</small>';
- center.style.width=(firstRect.width*.75)+'px';
- center.style.height=(firstRect.height*.75)+'px';
+ center.style.width=firstRect.width+'px';
+ center.style.height=firstRect.height+'px';
  circle.appendChild(center);
  const centerRect=center.getBoundingClientRect();
  const cx=centerRect.left+centerRect.width/2,cy=centerRect.top+centerRect.height/2;
  const dealNext=index=>{
   if(index>=seats.length){
    center.remove();
-   circle.classList.remove('dealing-cards');
    seats.forEach(seat=>seat.classList.remove('deal-pending'));
+   const crown=document.createElement('span');
+   crown.className='deal-crown';
+   crown.textContent='♛';
+   circle.appendChild(crown);
+   const cr=crown.getBoundingClientRect(), sr=seal.getBoundingClientRect();
+   const dx=sr.left+sr.width/2-cr.left-cr.width/2;
+   const dy=sr.top+sr.height/2-cr.top-cr.height/2;
+   const reveal=crown.animate([{opacity:0,transform:'translate(-50%,-50%) scale(.55)'},{opacity:1,transform:'translate(-50%,-50%) scale(1)'}],{duration:850,fill:'forwards',easing:'ease-out'});
+   reveal.onfinish=()=>{
+    const move=crown.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:'translate(calc(-50% + '+dx+'px),calc(-50% + '+dy+'px)) scale(.75)',opacity:1}],{duration:900,fill:'forwards',easing:'ease-in-out'});
+    move.onfinish=()=>{
+     seal.textContent='♛';seal.classList.add('is-leader');
+     crown.remove();
+     circle.classList.add('deal-leader-grow');
+     circle.classList.remove('dealing-cards');
+     firstCard.disabled=true;
+     window.setTimeout(()=>{circle.classList.remove('deal-leader-grow');firstCard.disabled=false;},400);
+    };
+   };
    return;
   }
   const seat=seats[index],target=seat.querySelector('.identity-card');
@@ -1481,7 +1501,7 @@ function animateIdentityDeal(){
  window.setTimeout(()=>dealNext(0),100);
 }
 function openRoleCard(index){
- if(index!==revealIndex||roleCardOpen||roleCardClosing)return;
+ if(index!==revealIndex||roleCardOpen||roleCardClosing||$('revealCircle').classList.contains('dealing-cards')||$('revealCircle').classList.contains('deal-leader-grow'))return;
  roleCardOpen=true;
  roleCardClosing=false;
  renderPlayerCircle('revealCircle',leader,true);
@@ -1924,4 +1944,11 @@ header .game-menu-dropdown button{display:flex;align-items:center;gap:10px}
 .deal-flight-card{position:fixed!important;z-index:12000!important;pointer-events:none!important;margin:0!important;}
 #revealCircle .deal-center-card.deal-center-leaving{opacity:0;transition:opacity .12s ease}
 @media(prefers-reduced-motion:reduce){#revealCircle .deal-center-card.deal-center-leaving{transition:none}}
+</style>
+
+<style>
+/* v0.1.51: deal first, then crown the leader */
+#revealCircle.dealing-cards .identity-seat.active:not(.revealed) .identity-card{transform:scale(.75)!important;animation:none!important;outline:none!important}
+#revealCircle.deal-leader-grow .identity-seat.active:not(.revealed) .identity-card{transition:transform .4s ease!important;animation:none!important;pointer-events:none!important}
+#revealCircle .deal-crown{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:50px;line-height:1;color:#ffe08a;text-shadow:0 0 12px #ffda78,0 2px 4px #0008;z-index:30;pointer-events:none}
 </style>
