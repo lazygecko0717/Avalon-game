@@ -1197,7 +1197,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.53</div>
+  <div class="home-version">VERSION v0.1.54</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1294,7 +1294,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.53｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.54｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1637,10 +1637,9 @@ $('submitVotes').onclick=()=>{
  $('voteStageInfo').classList.add('hidden');
  $('voteActionSpace').innerHTML='';
  if(!passed){
-  consecutive++;leader=(leader+1)%players.length;
+  consecutive++;
   if(consecutive>=5){end('邪惡陣營獲勝','連續 5 次組隊投票遭否決。');return}
-  alert('隊伍遭否決：贊成 '+yes+'、反對 '+no+'。');
-  beginRound();
+  animateRejectedLeaderTransfer();
  }else{
   consecutive=0;phase='mission';missionIndex=0;missionValues=[];
   $('missionPanel').classList.remove('hidden');
@@ -1648,6 +1647,40 @@ $('submitVotes').onclick=()=>{
   renderMission();
  }
 };
+function animateRejectedLeaderTransfer(){
+ const el=$('tableCircle'),oldLeader=leader,nextLeader=(leader+1)%players.length;
+ phase='leader-transfer';
+ team=[];teamConfirmed=false;
+ renderPlayerCircle('tableCircle',oldLeader,false,true);
+ $('submitTeam').classList.add('hidden');
+ el.querySelectorAll('.team-pick').forEach(x=>x.disabled=true);
+ el.style.pointerEvents='none';
+ const seats=[...el.querySelectorAll('.team-seat')];
+ const from=seats[oldLeader]?.querySelector('.mini-seal'),to=seats[nextLeader]?.querySelector('.mini-seal');
+ const finish=()=>{if(phase!=='leader-transfer')return;leader=nextLeader;el.style.pointerEvents='';beginRound();};
+ if(!from||!to){finish();return;}
+ const a=from.getBoundingClientRect(),b=to.getBoundingClientRect();
+ const crown=document.createElement('span');
+ crown.textContent='♛';
+ Object.assign(crown.style,{position:'fixed',left:(a.left+a.width/2)+'px',top:(a.top+a.height/2)+'px',transform:'translate(-50%,-50%)',fontSize:getComputedStyle(from).fontSize,lineHeight:'1',color:'#ffe08a',textShadow:'0 0 8px #ffda78',zIndex:'12000',pointerEvents:'none'});
+ document.body.appendChild(crown);
+ from.classList.remove('is-leader');from.textContent='✦';
+ const move=crown.animate([{transform:'translate(-50%,-50%)'},{transform:'translate(calc(-50% + '+(b.left+b.width/2-a.left-a.width/2)+'px),calc(-50% + '+(b.top+b.height/2-a.top-a.height/2)+'px))'}],{duration:850,easing:'ease-in-out',fill:'forwards'});
+ move.onfinish=()=>{
+  crown.remove();
+  if(phase!=='leader-transfer'){el.style.pointerEvents='';return;}
+  to.textContent='♛';to.classList.add('is-leader');
+  const n=players.length;
+  const rotations=seats.map((seat,i)=>{
+   const frames=Array.from({length:25},(_,k)=>{
+    const angle=(90+((i-oldLeader+n)%n-k/24)*360/n)*Math.PI/180;
+    return {left:(50+39*Math.cos(angle))+'%',top:(50+39*Math.sin(angle))+'%'};
+   });
+   return seat.animate(frames,{duration:720,easing:'ease-in-out',fill:'forwards'});
+  });
+  Promise.all(rotations.map(x=>x.finished)).then(finish).catch(()=>{el.style.pointerEvents='';});
+ };
+}
 function renderMission(){let p=players[team[missionIndex]];const rotating=updateMissionTurnCircle(()=>{$('missionShow').disabled=false;});$('missionShow').disabled=rotating;$('gameHint').textContent=`請交給出征玩家 ${p.name}。其他人請勿觀看。`;$('missionSecret').classList.add('hidden');$('missionShow').classList.remove('hidden');$('missionHide').classList.add('hidden');$('missionShow').textContent='查看並選擇任務牌';}
 function updateMissionTurnCircle(onComplete){
  const el=$('tableCircle'),n=players.length;if(!el)return false;
