@@ -1197,7 +1197,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.52</div>
+  <div class="home-version">VERSION v0.1.53</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1294,7 +1294,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.52｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.53｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1960,4 +1960,11 @@ header .game-menu-dropdown button{display:flex;align-items:center;gap:10px}
 #revealCircle.dealing-cards .identity-seat.active:not(.revealed) .identity-card{transform:scale(.75)!important;animation:none!important;outline:none!important}
 #revealCircle.deal-leader-grow .identity-seat.active:not(.revealed) .identity-card{transition:transform .4s ease!important;animation:none!important;pointer-events:none!important}
 #revealCircle .deal-crown{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:50px;line-height:1;color:#ffe08a;text-shadow:0 0 12px #ffda78,0 2px 4px #0008;z-index:30;pointer-events:none}
+</style>
+
+<style>
+/* v0.1.53: compensate for the closing card's final 0.25 scale */
+#reveal .identity-seat.revealed.closing .role-card-back .mini-seal{font-size:100px!important;line-height:1.1!important}
+#reveal .identity-seat.revealed.closing .role-card-back .mini-seal.is-leader{font-size:200px!important;line-height:1!important}
+#reveal .identity-seat.revealed.closing .role-card-back small{font-size:36px!important;letter-spacing:8px!important}
 </style>
