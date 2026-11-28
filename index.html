@@ -1197,7 +1197,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.55</div>
+  <div class="home-version">VERSION v0.1.56</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1277,7 +1277,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <section id="game" class="hidden">
 <div class="player-area-panel">
 <div id="tableCircle" class="player-circle hidden" aria-label="玩家座位順時針排列，本輪領袖位於最下方"></div>
-<div class="player-area-button-space"><button type="button" class="blue hidden" id="submitTeam">確認出征名單，開始投票</button><div id="voteActionSpace"></div><button type="button" class="blue hidden" id="submitVotes">公布投票結果</button></div>
+<div class="player-area-button-space"><button type="button" class="blue hidden" id="submitTeam">確認出征名單，開始投票</button><div id="voteActionSpace"></div><button type="button" class="blue hidden" id="submitVotes">公布投票結果</button><button type="button" class="blue hidden" id="missionShow">查看並選擇任務牌</button></div>
 </div>
 <div class="stage-info-area">
 <div id="voteStageInfo" class="hidden"><h2>投票決定是否贊成隊伍出征</h2><p class="muted">玩家順時針方向輪流進行秘密投票，決定本輪隊伍是否出征。所有玩家完成投票後，公開公布各玩家投票結果。</p></div>
@@ -1286,7 +1286,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 <div class="notice hidden" id="status"></div><div class="hidden"><span id="progressLabel">0 / 3 次成功</span><div class="progress-fill" id="progressFill"></div><div class="track" id="track"></div></div>
 <div id="teamPanel"><h2 id="teamStageTitle">選擇出征名單</h2><p class="muted" id="teamStageText"></p></div>
 <div class="panel hidden" id="votePanel"><h2>④ 全員投票：贊成或反對</h2><div id="votes" class="votegrid"></div></div>
-<div class="panel hidden" id="missionPanel"><h2>⑤ 任務玩家秘密出牌</h2><div id="missionSecret" class="secret hidden"></div><div class="actions"><button class="blue" id="missionShow">查看並出牌</button><button class="secondary hidden" id="missionHide">確認出牌並交給下一位</button></div></div>
+<div class="panel hidden" id="missionPanel"><h2>任務玩家秘密出牌</h2><p class="muted" id="missionStageText"></p><div id="missionSecret" class="secret hidden"></div><button class="secondary hidden" id="missionHide">確認出牌並交給下一位</button></div>
 <div class="panel hidden" id="resultPanel"><h2>任務結果</h2><div id="resultText" class="notice"></div><div class="actions"><button class="blue" id="next">進入下一步</button></div></div>
 <div class="panel hidden" id="assassinPanel"><h2>⑥ 刺客最後指認</h2><p>好人已完成三次任務成功。請由刺客選擇一位玩家，嘗試找出梅林。</p><div id="assassinChoices" class="votegrid"></div><div class="actions"><button class="red" id="assassinate">確認刺殺目標</button></div></div>
 <div class="panel hidden" id="endPanel"><h2 id="endTitle">遊戲結束</h2><div id="endText" class="notice"></div><div class="actions"><button id="restart">重新開局</button></div></div>
@@ -1294,7 +1294,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.55｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.56｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1581,7 +1581,7 @@ function renderRoundProgress(){
   '<div class="round-progress-row"><div class="round-progress-label">連續否決次數</div><div class="round-progress-cells">'+rejectCells+'</div></div>';
 }
 
-function beginRound(){phase='team';$('game').classList.remove('vote-phase');$('voteStageInfo').classList.add('hidden');$('votePanel').classList.add('hidden');$('voteActionSpace').innerHTML='';const voteButtonSpace=document.querySelector('#game .player-area-button-space');if(voteButtonSpace&&$('submitVotes').parentElement!==voteButtonSpace)voteButtonSpace.appendChild($('submitVotes'));$('submitVotes').classList.add('hidden');$('submitVotes').disabled=true;$('submitVotes').textContent='公布投票結果';$('game').classList.add('team-selection-phase');$('teamPanel').classList.remove('hidden');$('teamStageTitle').textContent=`選擇出征名單：${teamSizes[count()][round]}名玩家`;$("teamStageText").textContent=`本輪領袖：${players[leader].name}，請在上方玩家座位區點擊選擇 ${teamSizes[count()][round]} 位出征玩家。`;$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;renderRoundProgress();$('gameHint').classList.add('hidden');
+function beginRound(){phase='team';$('game').classList.remove('vote-phase');$('voteStageInfo').classList.add('hidden');$('votePanel').classList.add('hidden');$('voteActionSpace').innerHTML='';const voteButtonSpace=document.querySelector('#game .player-area-button-space');if(voteButtonSpace&&$('submitVotes').parentElement!==voteButtonSpace)voteButtonSpace.appendChild($('submitVotes'));$('submitVotes').classList.add('hidden');$('submitVotes').disabled=true;$('submitVotes').textContent='公布投票結果';$('game').classList.add('team-selection-phase');$('teamPanel').classList.remove('hidden');$('teamStageTitle').textContent=`選擇出征名單：${teamSizes[count()][round]}名玩家`;$("teamStageText").textContent=`本輪領袖：${players[leader].name}，請在上方玩家座位區點擊選擇 ${teamSizes[count()][round]} 位出征玩家。`;$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('missionShow').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('roundTitle').textContent=`第 ${round+1} 次任務`;$('leader').textContent='';$('tableCircle').innerHTML='';$('tableCircle').classList.remove('hidden');renderPlayerCircle('tableCircle',leader,false);$('voteFails').textContent=`連續否決：${consecutive}/5`;renderRoundProgress();$('gameHint').classList.add('hidden');
 team=[];teamConfirmed=false;renderPlayerCircle('tableCircle',leader,false,true);
 $('status').textContent=`任務成功 ${success} 次｜任務失敗 ${fail} 次`;$('track').innerHTML=Array.from({length:5},(_,i)=>{let state=i<success?'win':i<success+fail?'fail':'';return '<div class="mission '+state+' '+(i===round?'current':'')+'"><b>'+(i+1)+'</b>'+(state==='win'?'成功':state==='fail'?'失敗':i===round?'進行中':'待執行')+'</div>'}).join('');
 $('progressLabel').textContent=success+' / 3 次成功';
@@ -1681,7 +1681,7 @@ function animateRejectedLeaderTransfer(){
   Promise.all(rotations.map(x=>x.finished)).then(finish).catch(()=>{el.style.pointerEvents='';});
  };
 }
-function renderMission(){let p=players[team[missionIndex]];const rotating=updateMissionTurnCircle(()=>{$('missionShow').disabled=false;});$('missionShow').disabled=rotating;$('gameHint').textContent=`請交給出征玩家 ${p.name}。其他人請勿觀看。`;$('missionSecret').classList.add('hidden');$('missionShow').classList.remove('hidden');$('missionHide').classList.add('hidden');$('missionShow').textContent='查看並選擇任務牌';}
+function renderMission(){let p=players[team[missionIndex]];const rotating=updateMissionTurnCircle(()=>{$('missionShow').disabled=false;});$('missionShow').disabled=rotating;$('gameHint').classList.add('hidden');$('missionStageText').textContent=`請交給出征玩家 ${p.name}。其他人請勿觀看。`;$('missionSecret').classList.add('hidden');$('missionShow').classList.remove('hidden');$('missionHide').classList.add('hidden');$('missionShow').textContent='查看並選擇任務牌';}
 function updateMissionTurnCircle(onComplete){
  const el=$('tableCircle'),n=players.length;if(!el)return false;
  const target=team[missionIndex];
@@ -1716,11 +1716,11 @@ function updateMissionTurnCircle(onComplete){
  window.setTimeout(step,460);
  return true;
 }
-$('missionShow').onclick=()=>{let p=players[team[missionIndex]],evil=evilRoles.includes(p.role);$('gameHint').textContent=`${p.name}，請秘密選擇任務牌。其他玩家請勿觀看。`;$('missionSecret').innerHTML=`<div>${p.name}，請選擇</div><div class="actions"><button class="blue" onclick="missionCard(true)">任務成功</button>${evil?'<button class="red" onclick="missionCard(false)">任務失敗</button>':''}</div>`;$('missionSecret').classList.remove('hidden');$('missionShow').classList.add('hidden')};
-window.missionCard=v=>{missionValues.push(v);missionIndex++;if(missionIndex<team.length){renderMission()}else{$('missionPanel').classList.add('hidden');$('gameHint').textContent='所有出征玩家均已完成秘密出牌，請查看任務結果。';let fails=missionValues.filter(x=>!x).length,threshold=($('rule').value==='standard'&&count()>=7&&round===3)?2:1;let passed=fails<threshold;if(passed)success++;else fail++;$('resultPanel').classList.remove('hidden');$('gameHint').textContent='任務結果已統計，請確認後進入下一步。';$('resultText').innerHTML=`本次任務：<b>${passed?'成功':'失敗'}</b><br>失敗牌數：${fails} 張（本關需 ${threshold} 張失敗才算失敗）<br><span class="muted">任務牌已統計，不公開各玩家出的牌。</span>`;phase='result'}};
+$('missionShow').onclick=()=>{let p=players[team[missionIndex]],evil=evilRoles.includes(p.role);$('missionStageText').textContent=`${p.name}，請秘密選擇任務牌。其他玩家請勿觀看。`;$('missionSecret').innerHTML=`<div>${p.name}，請選擇</div><div class="actions"><button class="blue" onclick="missionCard(true)">任務成功</button>${evil?'<button class="red" onclick="missionCard(false)">任務失敗</button>':''}</div>`;$('missionSecret').classList.remove('hidden');$('missionShow').classList.add('hidden')};
+window.missionCard=v=>{missionValues.push(v);missionIndex++;if(missionIndex<team.length){renderMission()}else{$('missionPanel').classList.add('hidden');$('missionShow').classList.add('hidden');$('gameHint').textContent='所有出征玩家均已完成秘密出牌，請查看任務結果。';let fails=missionValues.filter(x=>!x).length,threshold=($('rule').value==='standard'&&count()>=7&&round===3)?2:1;let passed=fails<threshold;if(passed)success++;else fail++;$('resultPanel').classList.remove('hidden');$('gameHint').classList.remove('hidden');$('gameHint').textContent='任務結果已統計，請確認後進入下一步。';$('resultText').innerHTML=`本次任務：<b>${passed?'成功':'失敗'}</b><br>失敗牌數：${fails} 張（本關需 ${threshold} 張失敗才算失敗）<br><span class="muted">任務牌已統計，不公開各玩家出的牌。</span>`;phase='result'}};
 $('next').onclick=()=>{if(fail>=3){end('邪惡陣營獲勝','邪惡陣營累積 3 次任務失敗。');return}if(success>=3){let assassin=players.find(p=>p.role==='刺客');if(!assassin){end('正義陣營獲勝','正義陣營完成三次任務成功，且本局未配置刺客。');return}$('resultPanel').classList.add('hidden');$('assassinPanel').classList.remove('hidden');$('gameHint').textContent='請由刺客選擇一位玩家，嘗試找出梅林。';$('assassinChoices').innerHTML=players.map((p,i)=>`<label class="vote"><input type="radio" name="target" value="${i}" style="width:auto"> ${p.name}</label>`).join('');return}round++;leader=(leader+1)%players.length;beginRound()};
 $('assassinate').onclick=()=>{let t=document.querySelector('input[name=target]:checked');if(!t){alert('請選擇刺殺目標。');return}let p=players[+t.value];if(p.role==='梅林')end('邪惡陣營獲勝','刺客成功指認梅林！');else end('正義陣營獲勝',`刺客指認了 ${p.name}，但他不是梅林。`);};
-function end(title,msg){$('teamPanel').classList.add('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('endPanel').classList.remove('hidden');$('gameHint').textContent=msg;$('endTitle').textContent=title;$('endText').textContent=msg+` 最終戰績：正義任務成功 ${success} 次、失敗 ${fail} 次。`;$('roundTitle').textContent='遊戲結束';}
+function end(title,msg){$('teamPanel').classList.add('hidden');$('votePanel').classList.add('hidden');$('missionPanel').classList.add('hidden');$('missionShow').classList.add('hidden');$('resultPanel').classList.add('hidden');$('assassinPanel').classList.add('hidden');$('endPanel').classList.remove('hidden');$('gameHint').textContent=msg;$('endTitle').textContent=title;$('endText').textContent=msg+` 最終戰績：正義任務成功 ${success} 次、失敗 ${fail} 次。`;$('roundTitle').textContent='遊戲結束';}
 $('restart').onclick=()=>location.reload();
 function closeGameMenu(){
  $('gameMenuDropdown').classList.add('hidden');
@@ -1763,7 +1763,7 @@ function restartWithSavedSettings(){
   if(countLabel)countLabel.textContent='已選 '+(root?[...root.querySelectorAll('input:checked')].length:0)+' 位';
  });
  $('game').classList.remove('vote-phase','team-selection-phase');
- ['teamPanel','votePanel','missionPanel','resultPanel','assassinPanel','endPanel'].forEach(id=>$(id).classList.add('hidden'));
+ ['teamPanel','votePanel','missionPanel','missionShow','resultPanel','assassinPanel','endPanel'].forEach(id=>$(id).classList.add('hidden'));
  $('reveal').classList.add('hidden');$('game').classList.add('hidden');$('setup').classList.remove('hidden');
  const focus=document.querySelector('.role-focus');if(focus)focus.remove();
  closeGameMenu();start();
@@ -1772,7 +1772,7 @@ function returnToNewGameSetup(){
  $('gameMenu').classList.add('hidden');
  $('reveal').classList.add('hidden');$('game').classList.add('hidden');$('setup').classList.remove('hidden');
  $('game').classList.remove('vote-phase','team-selection-phase');
- ['teamPanel','votePanel','missionPanel','resultPanel','assassinPanel','endPanel'].forEach(id=>$(id).classList.add('hidden'));
+ ['teamPanel','votePanel','missionPanel','missionShow','resultPanel','assassinPanel','endPanel'].forEach(id=>$(id).classList.add('hidden'));
  const focus=document.querySelector('.role-focus');if(focus)focus.remove();
  phase='setup';roleCardOpen=false;roleCardClosing=false;
  document.body.classList.remove('app-fullscreen');
@@ -2013,4 +2013,14 @@ header .game-menu-dropdown button{display:flex;align-items:center;gap:10px}
  aspect-ratio:1 / 1!important;
  flex-shrink:0;
 }
+</style>
+
+<style>
+/* v0.1.56: mission stage title and dedicated player-area action */
+#missionPanel h2:before{content:none!important}
+#game #missionPanel h2{font-size:20px!important;font-weight:800!important}
+#missionStageText{margin:0;line-height:1.6;color:#fff!important}
+#game:has(#missionPanel:not(.hidden)) .stage-progress-info,
+#game:has(#missionPanel:not(.hidden)) #gameHint{display:none!important}
+#game .player-area-button-space #missionShow{margin:0;max-width:100%;width:auto}
 </style>
