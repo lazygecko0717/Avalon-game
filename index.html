@@ -1197,7 +1197,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
    <button type="button" class="home-enter" id="enterGame">進入遊戲</button>
    <button type="button" class="home-install" id="installApp">＋ 加入主畫面</button>
   </div>
-  <div class="home-version">VERSION v0.1.56</div>
+  <div class="home-version">VERSION v0.1.57</div>
  </div>
 </section>
 <div id="gameApp" class="hidden">
@@ -1294,7 +1294,7 @@ body:not(.home-active)>header h1{text-align:left;margin:0 !important;line-height
 </section>
 
 </div>
-</main><footer>阿瓦隆派對桌遊｜v0.1.56｜本機遊戲，不會上傳玩家資料</footer>
+</main><footer>阿瓦隆派對桌遊｜v0.1.57｜本機遊戲，不會上傳玩家資料</footer>
 <div id="installHelp" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
  <div class="install-dialog">
   <h2 id="installHelpTitle">📲 加入主畫面</h2>
@@ -1405,7 +1405,7 @@ function renderPlayerCircle(targetId,leaderIndex,identityMode=false,teamMode=fal
     '<span class="identity-card team-pick-card"><span class="mini-seal '+(i===leaderIndex?'is-leader':'')+'">'+(i===leaderIndex?'♛':'✦')+'</span><small>AVALON</small><input class="team-pick" type="checkbox" value="'+i+'" aria-label="選擇 '+escapeHTML(p.name)+' 出征"></span>'+
     '<span class="identity-name">'+escapeHTML(p.name)+'</span>'+'</label>';
   }
-  if(voteMode){const v=voteValues[i],delay=order*.48;return '<div class="identity-seat vote-result-seat '+(team.includes(i)?'mission-team-highlight ':'')+(v?'approve':'reject')+'" data-player-index="'+i+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><div class="vote-flip-inner" style="animation-delay:'+delay.toFixed(2)+'s"><div class="vote-result-back"></div><div class="vote-result-front"><span class="vote-result-choice">'+(v?'○ 贊成':'× 反對')+'</span></div></div><span class="identity-name">'+escapeHTML(p.name)+'</span></div>';}
+  if(voteMode){const v=voteValues[i],delay=order*.48;return '<div class="identity-seat vote-result-seat '+(team.includes(i)?'mission-team-highlight ':'')+(v?'approve':'reject')+'" data-player-index="'+i+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><div class="vote-flip-inner" style="animation-delay:'+delay.toFixed(2)+'s"><div class="vote-result-back"></div><div class="vote-result-front"><span class="vote-result-choice"><span class="vote-result-symbol">'+(v?'○':'×')+'</span><span class="vote-result-label">'+(v?'贊成':'反對')+'</span></span></div></div><span class="identity-name">'+escapeHTML(p.name)+'</span></div>';}
   return '<div class="identity-seat" data-player-index="'+i+'" style="left:'+left.toFixed(2)+'%;top:'+top.toFixed(2)+'%"><div class="identity-card"><span class="mini-seal '+(i===leaderIndex?'is-leader':'')+'">'+(i===leaderIndex?'♛':'♟')+'</span></div><span class="identity-name">'+escapeHTML(p.name)+'</span></div>';
  }).join('');
  if(targetId==='tableCircle'){el.insertAdjacentHTML('beforeend','<div id="roundProgressCenter" class="round-progress-center" aria-label="任務進度與連續否決進度"></div>');renderRoundProgress();}
@@ -1621,7 +1621,11 @@ function revealVoteCircle(yes,no,passed){
  const revealDuration=Math.max(0,(players.length-1)*480+520+150);
  window.setTimeout(()=>{
   const outcome=$('tableCircle').querySelector('.vote-outcome-center');
-  if(outcome)outcome.classList.remove('hidden');
+  if(outcome){
+   const progress=$('tableCircle').querySelector('.round-progress-center');
+   if(progress){const rect=progress.getBoundingClientRect();outcome.style.width=rect.width+'px';outcome.style.height=rect.height+'px';}
+   outcome.classList.remove('hidden');
+  }
   $('submitVotes').disabled=false;
  },revealDuration);
 }
@@ -2023,4 +2027,16 @@ header .game-menu-dropdown button{display:flex;align-items:center;gap:10px}
 #game:has(#missionPanel:not(.hidden)) .stage-progress-info,
 #game:has(#missionPanel:not(.hidden)) #gameHint{display:none!important}
 #game .player-area-button-space #missionShow{margin:0;max-width:100%;width:auto}
+</style>
+
+<style>
+/* v0.1.57: stacked vote faces and matching center result panel */
+.vote-result-seat .vote-result-choice{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1}
+.vote-result-symbol{font-size:24px;font-weight:900;line-height:1}
+.vote-result-label{font-size:inherit;line-height:1.2}
+.vote-outcome-center{box-sizing:border-box;width:48%;max-width:250px;min-width:0;background:rgba(255,255,255,.90)!important;padding:7px 5px;gap:4px}
+.vote-outcome-title{box-sizing:border-box;color:#fff!important;border:0!important;padding:4px 5px}
+.vote-outcome-title.passed{background:#16834f!important}
+.vote-outcome-title.rejected{background:#c73535!important}
+@media(max-width:390px){.vote-result-symbol{font-size:21px}.vote-outcome-center{width:49%;min-width:0;padding:5px;gap:3px}}
 </style>
